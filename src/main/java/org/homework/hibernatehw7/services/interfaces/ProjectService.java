@@ -7,9 +7,9 @@ import java.util.List;
 
 public interface ProjectService extends IService<Project, Long> {
 
-    Project createNewProject(String name, Long cost,Long companyId, Long customerId);
+    Project createNewProject(String name, Long cost,Long companyId);
 
-    void update(Long id, String name, Long cost);
+    void update(Long id, String name, Long cost,Long companyId,Long customerId,Long developerId);
 
     List<String> getListProjectsWithDate();
 }

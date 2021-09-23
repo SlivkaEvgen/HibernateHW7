@@ -10,7 +10,7 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(exclude = {"company", "customer", "developers"})
-@ToString(exclude = {"company", "developers"})
+@ToString(exclude = {"company","developers", "customer"})// {"customer","company","developers"}
 @Entity
 @Table(name = "projects")
 public class Project implements BaseModel<Long> {
@@ -32,7 +32,7 @@ public class Project implements BaseModel<Long> {
     private String firstDate;
 
     @ManyToOne
-    @JoinColumn(name = "company_id", insertable = false)
+    @JoinColumn(name = "company_id")
     private Company company;
 
     @ManyToOne

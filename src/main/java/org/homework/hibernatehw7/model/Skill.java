@@ -9,7 +9,7 @@ import java.util.Set;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-//@EqualsAndHashCode(exclude = "developers")
+@EqualsAndHashCode(exclude = "developers")
 @ToString(exclude = "developers")
 @Entity
 @Table(name = "skills")
@@ -22,12 +22,12 @@ public class Skill implements BaseModel<Long> {
     @Column(name = "id", unique = true)
     private Long id;
 
-    @Column(name = "activities", length = 30)
-    private String activities;
-
     @Column(name = "level", length = 30)
     private String level;
 
-    @ManyToMany(mappedBy = "skills", cascade = CascadeType.REFRESH, fetch = FetchType.EAGER)
+    @Column(name = "activity", length = 30)
+    private String activity;
+
+    @ManyToMany(mappedBy = "skills", cascade = CascadeType.REFRESH, fetch = FetchType.LAZY)
     private Set<Developer> developers;
 }

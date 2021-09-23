@@ -18,14 +18,13 @@ public class CreateDeveloperCommand implements Controller {
     public void create() {
         final String name = enterName();
         final String age = enterAge();
-        final String companyId = enterCompanyId();
-        final String projectId = enterProjectId();
-        final String skillId = enterSkillId();
+//        final String companyId = enterCompanyId();
+//        final String projectId = enterProjectId();
         final String gender = enterGender();
         final String email = enterEmail();
-//        final String numberPhone = enterNumberPhone();
-        final String salary = enterSalary();//Long.valueOf(companyId)
-        new DeveloperServiceImpl().createNewDeveloper(name, Long.valueOf(age), gender, email, Long.valueOf(salary),Long.valueOf(companyId),Long.valueOf(projectId), Long.valueOf(skillId));
+        final String salary = enterSalary();//Long.valueOf(companyId)/Long.valueOf(companyId),Long.valueOf(projectId)
+        final String skillId = enterSkillId();
+        new DeveloperServiceImpl().createNewDeveloper(name, Long.valueOf(age), gender, email, Long.valueOf(salary), Long.valueOf(skillId));
         System.out.println(" ✅ You create \uD83D\uDC49   new Developer  \n");
     }
 

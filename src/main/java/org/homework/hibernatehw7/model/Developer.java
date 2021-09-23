@@ -1,7 +1,6 @@
 package org.homework.hibernatehw7.model;
 
 import lombok.*;
-
 import javax.persistence.*;
 import java.util.Set;
 
@@ -10,7 +9,7 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(exclude = {"projects", "company", "skills"})
-@ToString(exclude = {"company", "skills"})
+@ToString(exclude = "projects")
 @Entity
 @Table(name = "developers")
 public class Developer implements BaseModel<Long> {
@@ -41,7 +40,7 @@ public class Developer implements BaseModel<Long> {
     @JoinColumn(name = "company_id")
     private Company company;
 
-    @ManyToMany(cascade = CascadeType.REFRESH, fetch = FetchType.LAZY)
+    @ManyToMany(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER)
     @JoinTable(
             name = "developers_skills",
             joinColumns = {@JoinColumn(name = "developer_id")},

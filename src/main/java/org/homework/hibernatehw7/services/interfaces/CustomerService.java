@@ -7,5 +7,5 @@ public interface CustomerService extends IService<Customer, Long> {
 
     Customer createNewCustomer(String name,String city, Long budget,Long projectId);
 
-    void update(Long id, String name,String city, Long budget,Long projectId);
+    void update(Long id, String name,String city, Long budget,Long companyId,Long projectId);
 }

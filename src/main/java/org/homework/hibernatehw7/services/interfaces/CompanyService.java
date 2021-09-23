@@ -5,7 +5,7 @@ import org.homework.hibernatehw7.model.Company;
 
 public interface CompanyService extends IService<Company, Long> {
 
-    Company createNewCompany(String name, String city,Long projectId);
+    Company createNewCompany(String name, String city,Long developerId);//Long projectId
 
-    void update(Long id, String name, String city,Long projectId);
+    void update(Long id, String name, String city,Long customerId,Long projectId,Long developerId);
 }

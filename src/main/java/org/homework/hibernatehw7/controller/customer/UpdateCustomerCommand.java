@@ -4,6 +4,7 @@ import org.homework.hibernatehw7.config.ScannerConsole;
 import org.homework.hibernatehw7.controller.interfaces.Controller;
 import org.homework.hibernatehw7.services.CompanyServiceImpl;
 import org.homework.hibernatehw7.services.CustomerServiceImpl;
+import org.homework.hibernatehw7.services.ProjectServiceImpl;
 import org.homework.hibernatehw7.utils.Validator;
 
 import java.util.Scanner;
@@ -18,9 +19,9 @@ public class UpdateCustomerCommand implements Controller {
         final String name = enterName();
         final String city = enterCity();
         final String budget = enterBudget();
-//        final String companyId = enterCompanyId();
+        final String companyId = enterCompanyId();
         final String projectId = enterProjectId();
-        CUSTOMER_SERVICE.update(Long.valueOf(id), name,city, Long.valueOf(budget),Long.valueOf(projectId));
+        CUSTOMER_SERVICE.update(Long.valueOf(id), name,city, Long.valueOf(budget),Long.valueOf(companyId),Long.valueOf(projectId));
         System.out.println(" ✅ You updated \uD83D\uDC49 " + CUSTOMER_SERVICE.getById(Long.valueOf(id)).get() + "\n");
     }
 
@@ -79,17 +80,17 @@ public class UpdateCustomerCommand implements Controller {
     }
 
     private String enterProjectId() {
-        System.out.print(" ENTER COMPANY-ID \n\uD83D\uDC49 ");
+        System.out.print(" ENTER PROJECT-ID \n\uD83D\uDC49 ");
         String projectId = scanner.next();
-//        try {
-//            if (!Validator.validNumber(projectId) | new ProjectServiceImpl().getById(Long.valueOf(projectId)).get().getId() == null) {
-//                System.out.println("Try again");
-//                return enterProjectId();
-//            }
-//        } catch (NumberFormatException r) {
-//            System.out.println("Try again");
-//            return enterProjectId();
-//        }
+        try {
+            if (!Validator.validNumber(projectId) | new ProjectServiceImpl().getById(Long.valueOf(projectId)).get().getId() == null) {
+                System.out.println("Try again");
+                return enterProjectId();
+            }
+        } catch (NumberFormatException r) {
+            System.out.println("Try again");
+            return enterProjectId();
+        }
         return projectId;
     }
 

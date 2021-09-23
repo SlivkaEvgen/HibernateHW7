@@ -1,10 +1,9 @@
 package org.homework.hibernatehw7.services;
 
+import org.homework.hibernatehw7.model.Company;
 import org.homework.hibernatehw7.model.Customer;
 import org.homework.hibernatehw7.model.Project;
 import org.homework.hibernatehw7.repository.CrudRepositoryHibernateImpl;
-import org.homework.hibernatehw7.repository.RepositoryFactory;
-import org.homework.hibernatehw7.repository.interfaces.CrudRepositoryJDBC;
 import org.homework.hibernatehw7.services.interfaces.CustomerService;
 
 import java.util.HashSet;
@@ -27,23 +26,21 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public void update(Long id, String name, String city, Long budget, Long projectId) {
+    public void update(Long id, String name, String city, Long budget, Long companyId, Long projectId) {
         Set<Project> projectSet = new HashSet<>();
-        ProjectServiceImpl projectService = new ProjectServiceImpl();
-        Optional<Project> optionalProject = projectService.getById(projectId);
-        Project project = optionalProject.get();
-        System.out.println(project);
+        CrudRepositoryHibernateImpl<Project, Long> repositoryHibernate = new CrudRepositoryHibernateImpl<>(Project.class);
+        Project project = repositoryHibernate.findById(1L).get();
         projectSet.add(project);
-//        CrudRepositoryHibernateImpl crudRepositoryHibernate = new CrudRepositoryHibernateImpl(Project.class);
-//        CrudRepositoryJDBC<Project, Long> repositoryJDBC = RepositoryFactory.of(Project.class);
-//        Project project = repositoryJDBC.findById(projectId).get();
-//        projectSet.add(project);
+
+        CrudRepositoryHibernateImpl<Company, Long> repositoryHibernate2 = new CrudRepositoryHibernateImpl<>(Company.class);
+        Company company = repositoryHibernate2.findById(companyId).get();
+
         Customer customer = CRUD_REPOSITORY_CUSTOMER.findById(id).get();
         customer.setBudget(budget);
         customer.setCity(city);
         customer.setName(name);
+        customer.setCompany(company);
         customer.setProjects(projectSet);
-        System.out.println(customer);
         CRUD_REPOSITORY_CUSTOMER.update(id, customer);
     }
 
@@ -53,15 +50,19 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public Customer createNewCustomer(String name, String city, Long budget,Long projectId) {
+    public Customer createNewCustomer(String name, String city, Long budget, Long projectId) {//Long projectId
         Set<Project> projectSet = new HashSet<>();
-        ProjectServiceImpl projectService = new ProjectServiceImpl();
-        Optional<Project> optionalProject = projectService.getById(projectId);
-        projectSet.add(optionalProject.get());
+        CrudRepositoryHibernateImpl<Project, Long> repositoryHibernate = new CrudRepositoryHibernateImpl<>(Project.class);
+        Project project = repositoryHibernate.findById(1L).get();
+        projectSet.add(project);
+//        CrudRepositoryHibernateImpl<Company, Long> repositoryHibernate = new CrudRepositoryHibernateImpl<>(Company.class);
+//        Company company = repositoryHibernate.findById(companyId).get();
+
         Customer customer = Customer.builder()
                 .city(city)
                 .name(name)
                 .budget(budget)
+//                .company(company)
                 .projects(projectSet)
                 .build();
         return CRUD_REPOSITORY_CUSTOMER.create(customer);

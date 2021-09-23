@@ -3,6 +3,7 @@ package org.homework.hibernatehw7.controller.skill;
 
 import org.homework.hibernatehw7.config.ScannerConsole;
 import org.homework.hibernatehw7.controller.interfaces.Controller;
+import org.homework.hibernatehw7.services.DeveloperServiceImpl;
 import org.homework.hibernatehw7.services.SkillServiceImpl;
 import org.homework.hibernatehw7.utils.Validator;
 
@@ -17,7 +18,8 @@ public class UpdateSkillCommand implements Controller {
         final String id = enterId();
         final String activity = enterActivity();
         final String level = enterLevel();
-        SKILL_SERVICE.update(Long.valueOf(id), activity, level);
+        final String developerId = enterDeveloperId();
+        SKILL_SERVICE.update(Long.valueOf(id), activity, level,Long.valueOf(developerId));
         System.out.println(" ✅ You updated \uD83D\uDC49 " + SKILL_SERVICE.getById(Long.valueOf(id)).get() + "\n");
     }
 
@@ -43,6 +45,16 @@ public class UpdateSkillCommand implements Controller {
             return enterActivity();
         }
         return activity;
+    }
+
+    private String enterDeveloperId() {
+        System.out.print(" ENTER DEVELOPER-ID \n\uD83D\uDC49 ");
+        String developerId = scanner.next();
+        if (!Validator.validNumber(developerId) || new DeveloperServiceImpl().getById(Long.valueOf(developerId)).get().getId() == null) {
+            System.out.println("Try again");
+            return enterDeveloperId();
+        }
+        return developerId;
     }
 
     private String enterLevel() {

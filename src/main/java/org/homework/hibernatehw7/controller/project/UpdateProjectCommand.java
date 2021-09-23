@@ -4,6 +4,9 @@ package org.homework.hibernatehw7.controller.project;
 
 import org.homework.hibernatehw7.config.ScannerConsole;
 import org.homework.hibernatehw7.controller.interfaces.Controller;
+import org.homework.hibernatehw7.services.CompanyServiceImpl;
+import org.homework.hibernatehw7.services.CustomerServiceImpl;
+import org.homework.hibernatehw7.services.DeveloperServiceImpl;
 import org.homework.hibernatehw7.services.ProjectServiceImpl;
 import org.homework.hibernatehw7.utils.Validator;
 
@@ -18,9 +21,10 @@ public class UpdateProjectCommand implements Controller {
         final String id = enterId();
         final String name = enterName();
         final String cost = enterCost();
-//        final String companyId = enterCompanyId();
-//        final String customerId = enterCustomerId();
-        PROJECT_SERVICE.update(Long.valueOf(id), name, Long.valueOf(cost));
+        final String companyId = enterCompanyId();
+        final String customerId = enterCustomerId();
+        final String developerId = enterDeveloperId();
+        PROJECT_SERVICE.update(Long.valueOf(id), name, Long.valueOf(cost),Long.valueOf(companyId),Long.valueOf(customerId),Long.valueOf(developerId));
         System.out.println(" ✅ You updated \uD83D\uDC49 " + PROJECT_SERVICE.getById(Long.valueOf(id)).get() + "\n");
     }
 
@@ -54,35 +58,50 @@ public class UpdateProjectCommand implements Controller {
         return cost;
     }
 
-//    private String enterCompanyId() {
-//        System.out.print(" ENTER COMPANY-ID \n\uD83D\uDC49 ");
-//        String companyId = scanner.next();
-//        try {
-//            if (!Validator.validNumber(companyId) | new CompanyServiceImpl().getById(Long.valueOf(companyId)).get().getId() == null) {
-//                System.out.println("Try again");
-//                return enterCompanyId();
-//            }
-//        } catch (NumberFormatException r) {
-//            System.out.println("Try again");
-//            return enterCompanyId();
-//        }
-//        return companyId;
-//    }
+    private String enterCompanyId() {
+        System.out.print(" ENTER COMPANY-ID \n\uD83D\uDC49 ");
+        String companyId = scanner.next();
+        try {
+            if (!Validator.validNumber(companyId) | new CompanyServiceImpl().getById(Long.valueOf(companyId)).get().getId() == null) {
+                System.out.println("Try again");
+                return enterCompanyId();
+            }
+        } catch (NumberFormatException r) {
+            System.out.println("Try again");
+            return enterCompanyId();
+        }
+        return companyId;
+    }
 
-//    private String enterCustomerId() {
-//        System.out.print(" ENTER CUSTOMER-ID \n\uD83D\uDC49 ");
-//        String customerId = scanner.next();
-//        try {
-//            if (!Validator.validNumber(customerId) | new CustomerServiceImpl().getById(Long.valueOf(customerId)).get().getId() == null) {
-//                System.out.println("Try again");
-//                return enterCustomerId();
-//            }
-//        } catch (NumberFormatException r) {
-//            System.out.println("Try again");
-//            return enterCustomerId();
-//        }
-//        return customerId;
-//    }
+    private String enterDeveloperId() {
+        System.out.print(" ENTER DEVELOPER-ID \n\uD83D\uDC49 ");
+        String developerId = scanner.next();
+        try {
+            if (!Validator.validNumber(developerId) | new DeveloperServiceImpl().getById(Long.valueOf(developerId)).get().getId() == null) {
+                System.out.println("Try again");
+                return enterDeveloperId();
+            }
+        } catch (NumberFormatException r) {
+            System.out.println("Try again");
+            return enterDeveloperId();
+        }
+        return developerId;
+    }
+
+    private String enterCustomerId() {
+        System.out.print(" ENTER CUSTOMER-ID \n\uD83D\uDC49 ");
+        String customerId = scanner.next();
+        try {
+            if (!Validator.validNumber(customerId) | new CustomerServiceImpl().getById(Long.valueOf(customerId)).get().getId() == null) {
+                System.out.println("Try again");
+                return enterCustomerId();
+            }
+        } catch (NumberFormatException r) {
+            System.out.println("Try again");
+            return enterCustomerId();
+        }
+        return customerId;
+    }
 
     @Override
     public void start() {

@@ -5,6 +5,7 @@ import org.homework.hibernatehw7.config.ScannerConsole;
 import org.homework.hibernatehw7.controller.interfaces.Controller;
 import org.homework.hibernatehw7.services.CompanyServiceImpl;
 import org.homework.hibernatehw7.services.CustomerServiceImpl;
+import org.homework.hibernatehw7.services.DeveloperServiceImpl;
 import org.homework.hibernatehw7.services.ProjectServiceImpl;
 import org.homework.hibernatehw7.utils.Validator;
 
@@ -18,8 +19,9 @@ public class CreateProjectCommand implements Controller {
         final String name = enterName();
         final String cost = enterCost();
         final String companyId = enterCompanyId();
-        final String customerId = enterCustomerId();
-        new ProjectServiceImpl().createNewProject(name, Long.valueOf(cost),Long.valueOf(companyId),Long.valueOf(customerId));
+//        final String customerId = enterCustomerId();
+//        final String developerId = enterDeveloperId();
+        new ProjectServiceImpl().createNewProject(name, Long.valueOf(cost),Long.valueOf(companyId));
         System.out.println(" ✅ You created \uD83D\uDC49 " + "new Project" + "\n");
     }
 
@@ -56,6 +58,21 @@ public class CreateProjectCommand implements Controller {
             return enterCompanyId();
         }
         return companyId;
+    }
+
+    private String enterDeveloperId() {
+        System.out.print(" ENTER DEVELOPER-ID \n\uD83D\uDC49 ");
+        String developerId = scanner.next();
+        try {
+            if (!Validator.validNumber(developerId) | new DeveloperServiceImpl().getById(Long.valueOf(developerId)).get().getId() == null) {
+                System.out.println("Try again");
+                return enterDeveloperId();
+            }
+        } catch (NumberFormatException r) {
+            System.out.println("Try again");
+            return enterDeveloperId();
+        }
+        return developerId;
     }
 
     private String enterCustomerId() {

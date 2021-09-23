@@ -4,6 +4,7 @@ import org.homework.hibernatehw7.config.ScannerConsole;
 import org.homework.hibernatehw7.controller.interfaces.Controller;
 import org.homework.hibernatehw7.services.CompanyServiceImpl;
 import org.homework.hibernatehw7.services.CustomerServiceImpl;
+import org.homework.hibernatehw7.services.ProjectServiceImpl;
 import org.homework.hibernatehw7.utils.Validator;
 
 import java.util.Scanner;
@@ -16,8 +17,9 @@ public class CreateCustomerCommand implements Controller {
         final String name = enterName();
         final String city = enterCity();
         final String budget = enterBudget();
-        final String projectId = enterProjectId();
-        new CustomerServiceImpl().createNewCustomer(name,city, Long.valueOf(budget), Long.valueOf(projectId));
+        final String projectId = enterProjectId(); //Long.valueOf(projectId)
+//        final String companyId = enterCompanyId();
+        new CustomerServiceImpl().createNewCustomer(name,city, Long.valueOf(budget),Long.valueOf(projectId));
         System.out.println(" ✅ You created \uD83D\uDC49 " + "new Customer" + "\n");
     }
 
@@ -54,16 +56,31 @@ public class CreateCustomerCommand implements Controller {
     private String enterProjectId() {
         System.out.print(" ENTER PROJECT-ID \n\uD83D\uDC49 ");
         String projectId = scanner.next();
-//        try {
-//            if (!Validator.validNumber(projectId) | new ProjectServiceImpl().getById(Long.valueOf(projectId)).get().getId() == null) {
-//                System.out.println("Try again");
-//                return enterProjectId();
-//            }
-//        } catch (NumberFormatException r) {
-//            System.out.println("Try again");
-//            return enterProjectId();
-//        }
+        try {
+            if (!Validator.validNumber(projectId) | new ProjectServiceImpl().getById(Long.valueOf(projectId)).get().getId() == null) {
+                System.out.println("Try again");
+                return enterProjectId();
+            }
+        } catch (NumberFormatException r) {
+            System.out.println("Try again");
+            return enterProjectId();
+        }
         return projectId;
+    }
+
+    private String enterCompanyId() {
+        System.out.print(" ENTER COMPANY-ID \n\uD83D\uDC49 ");
+        String companyId = scanner.next();
+        try {
+            if (!Validator.validNumber(companyId) | new ProjectServiceImpl().getById(Long.valueOf(companyId)).get().getId() == null) {
+                System.out.println("Try again");
+                return enterCompanyId();
+            }
+        } catch (NumberFormatException r) {
+            System.out.println("Try again");
+            return enterCompanyId();
+        }
+        return companyId;
     }
 
     @Override

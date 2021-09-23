@@ -35,7 +35,7 @@ public class CompanyServiceImpl implements CompanyService {
 //
         Set<Developer> developerSet = new HashSet<>();
         CrudRepositoryHibernateImpl<Developer, Long> crudRepositoryHibernate = new CrudRepositoryHibernateImpl<>(Developer.class);
-        Developer developer = crudRepositoryHibernate.findById(1L).get();
+        Developer developer = crudRepositoryHibernate.findById(developerId).get();
         developerSet.add(developer);
 
 //        Set<Customer> customerSet = new HashSet<>();

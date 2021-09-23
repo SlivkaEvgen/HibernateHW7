@@ -36,7 +36,7 @@ public class Project implements BaseModel<Long> {
     private Company company;
 
     @ManyToOne
-    @JoinColumn(name = "customer_id")
+    @JoinColumn(name = "customer_id",updatable = false)
     private Customer customer;
 
     @ManyToMany(mappedBy = "projects", cascade = CascadeType.REFRESH, fetch = FetchType.LAZY)

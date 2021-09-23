@@ -53,18 +53,24 @@ public class CustomerServiceImpl implements CustomerService {
     public Customer createNewCustomer(String name, String city, Long budget, Long projectId) {//Long projectId
         Set<Project> projectSet = new HashSet<>();
         CrudRepositoryHibernateImpl<Project, Long> repositoryHibernate = new CrudRepositoryHibernateImpl<>(Project.class);
-        Project project = repositoryHibernate.findById(1L).get();
+        Project project = repositoryHibernate.findById(projectId).get();
         projectSet.add(project);
-//        CrudRepositoryHibernateImpl<Company, Long> repositoryHibernate = new CrudRepositoryHibernateImpl<>(Company.class);
-//        Company company = repositoryHibernate.findById(companyId).get();
+        Company company = project.getCompany();
+        System.out.println(company);
+        CrudRepositoryHibernateImpl<Company, Long> companyLongCrudRepositoryHibernate = new CrudRepositoryHibernateImpl<>(Company.class);
+        Company company1 = companyLongCrudRepositoryHibernate.findById(1L).get();
+        System.out.println(company1);
+//        CrudRepositoryHibernateImpl<Project, Long> repositoryHibernate2 = new CrudRepositoryHibernateImpl<>(Project.class);
+//        repositoryHibernate2.findById()
 
         Customer customer = Customer.builder()
                 .city(city)
                 .name(name)
                 .budget(budget)
-//                .company(company)
+                .company(company)
                 .projects(projectSet)
                 .build();
+        System.out.println(customer);
         return CRUD_REPOSITORY_CUSTOMER.create(customer);
     }
 }

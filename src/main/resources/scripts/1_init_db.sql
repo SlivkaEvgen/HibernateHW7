@@ -27,7 +27,7 @@ CREATE TABLE IF NOT EXISTS developers
     email      VARCHAR(30)            NOT NULL,
     salary     BIGINT(10)             NOT NULL,
     company_id INT,
-    FOREIGN KEY (company_id) REFERENCES companies (id) ON DELETE CASCADE
+    FOREIGN KEY (company_id) REFERENCES companies (id) ON UPDATE CASCADE ON DELETE CASCADE
 
 );
 

@@ -32,7 +32,7 @@ public class Customer implements BaseModel<Long> {
     private Long budget;
 
     @ManyToOne
-    @JoinColumn(name = "company_id",insertable = false,updatable = false)
+    @JoinColumn(name = "company_id",updatable = false)
     private Company company;
 
     @OneToMany(mappedBy = "customer", cascade = CascadeType.REFRESH, fetch = FetchType.LAZY)

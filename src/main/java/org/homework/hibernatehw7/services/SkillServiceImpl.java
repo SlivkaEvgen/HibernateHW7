@@ -34,9 +34,9 @@ public class SkillServiceImpl implements SkillService {
     }
 
     @Override
-    public void update(Long id, String activity, String level,Long developerId) {
-        Set<Developer>developerSet = new HashSet<>();
-        CrudRepositoryHibernateImpl<Developer,Long> crudRepositoryHibernate = new CrudRepositoryHibernateImpl<>(Developer.class);
+    public void update(Long id, String activity, String level, Long developerId) {
+        Set<Developer> developerSet = new HashSet<>();
+        CrudRepositoryHibernateImpl<Developer, Long> crudRepositoryHibernate = new CrudRepositoryHibernateImpl<>(Developer.class);
         Developer developer = crudRepositoryHibernate.findById(developerId).get();
         developerSet.add(developer);
 

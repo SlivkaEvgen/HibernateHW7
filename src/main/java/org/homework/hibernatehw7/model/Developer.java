@@ -9,7 +9,7 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(exclude = {"projects", "company", "skills"})
-@ToString(exclude = "projects")
+@ToString(exclude = {"projects","company"})
 @Entity
 @Table(name = "developers")
 public class Developer implements BaseModel<Long> {
@@ -37,7 +37,7 @@ public class Developer implements BaseModel<Long> {
     private Long salary;
 
     @ManyToOne
-    @JoinColumn(name = "company_id")
+    @JoinColumn(name = "company_id",updatable = false)
     private Company company;
 
     @ManyToMany(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER)

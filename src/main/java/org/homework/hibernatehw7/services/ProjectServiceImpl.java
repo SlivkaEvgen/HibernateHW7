@@ -31,7 +31,9 @@ public class ProjectServiceImpl implements ProjectService {
 //        developerSet.add(developer);
 
         Company company = new CompanyServiceImpl().getById(companyId).get();
-//
+//        Set<Customer> customers = company.getCustomers();
+        Set<Developer> developers = company.getDevelopers();
+//        Set<Customer> customers = company.getCustomers();
 //        Customer customer = new CustomerServiceImpl().getById(customerId).get();
 
         Project project =new Project();
@@ -39,7 +41,7 @@ public class ProjectServiceImpl implements ProjectService {
         project.setCost(cost);
         project.setCompany(company);
 //        project.setCustomer(customer);
-//        project.setDevelopers(developerSet);
+        project.setDevelopers(developers);
         return CRUD_REPOSITORY_PROJECT.create(project);
     }
 

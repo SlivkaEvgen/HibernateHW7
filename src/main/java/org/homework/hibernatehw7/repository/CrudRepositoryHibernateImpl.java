@@ -93,15 +93,6 @@ public class CrudRepositoryHibernateImpl<T extends BaseModel<ID>, ID> implements
         getById(id, session).ifPresent(session::remove);
         closeSession(session);
     }
-//    public  <T> List<T> findAllWithJpql(Class<T>type,Session session,Long projectId){
-//        return session.createQuery("SELECT id ,sum(developers.salary) AS SUM FROM Project WHERE id="+projectId,type).getResultList();
-//    }
-//
-//    public List<T> sum(Long projectId){
-//        Session session = createSession();
-//        List<Developer> allWithJpql = findAllWithJpql(Developer.class, session, projectId);
-//        return (List<T>) allWithJpql;
-//    }
 
     public Set<T> createSet(){
         CrudRepositoryHibernateImpl<T, ID> repositoryHibernate = new CrudRepositoryHibernateImpl<>(modelClass);

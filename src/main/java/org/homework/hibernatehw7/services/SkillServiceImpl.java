@@ -2,7 +2,8 @@ package org.homework.hibernatehw7.services;
 
 import org.homework.hibernatehw7.model.Developer;
 import org.homework.hibernatehw7.model.Skill;
-import org.homework.hibernatehw7.repository.CrudRepositoryHibernateImpl;
+import org.homework.hibernatehw7.repository.RepositoryFactory;
+import org.homework.hibernatehw7.repository.interfaces.CrudRepositoryJDBC;
 import org.homework.hibernatehw7.services.interfaces.SkillService;
 
 import java.util.HashSet;
@@ -12,7 +13,7 @@ import java.util.Set;
 
 public class SkillServiceImpl implements SkillService {
 
-    private final CrudRepositoryHibernateImpl<Skill, Long> CRUD_REPOSITORY_SKILL = new CrudRepositoryHibernateImpl<>(Skill.class);
+    private final CrudRepositoryJDBC<Skill, Long> CRUD_REPOSITORY_SKILL = RepositoryFactory.of(Skill.class);
     private static SkillServiceImpl skillService;
 
     public static SkillServiceImpl getInstance() {
@@ -38,11 +39,10 @@ public class SkillServiceImpl implements SkillService {
 
     @Override
     public Skill createNewSkill(String activity, String level) {
-        Skill skill = Skill.builder()
+        return skillService.CRUD_REPOSITORY_SKILL.create(Skill.builder()
                 .activity(activity)
                 .level(level)
-                .build();
-        return skillService.CRUD_REPOSITORY_SKILL.create(skill);
+                .build());
     }
 
     @Override

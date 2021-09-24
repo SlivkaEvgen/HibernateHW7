@@ -1,17 +1,21 @@
 package org.homework.hibernatehw7.services;
 
-import org.homework.hibernatehw7.model.Company;
-import org.homework.hibernatehw7.model.Customer;
 import org.homework.hibernatehw7.model.Developer;
 import org.homework.hibernatehw7.model.Project;
-import org.homework.hibernatehw7.repository.CrudRepositoryHibernateImpl;
+import org.homework.hibernatehw7.repository.RepositoryFactory;
+import org.homework.hibernatehw7.repository.interfaces.CrudRepositoryJDBC;
 import org.homework.hibernatehw7.services.interfaces.ProjectService;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class ProjectServiceImpl implements ProjectService {
 
-    private final CrudRepositoryHibernateImpl<Project, Long> CRUD_REPOSITORY_PROJECT = new CrudRepositoryHibernateImpl<>(Project.class);
+    private final CrudRepositoryJDBC<Project, Long> CRUD_REPOSITORY_PROJECT = RepositoryFactory.of(Project.class);
     private static ProjectServiceImpl projectService;
 
     public static ProjectServiceImpl getInstance() {
@@ -39,30 +43,26 @@ public class ProjectServiceImpl implements ProjectService {
     public Project createNewProject(String name, Long cost, Long companyId, Long customerId, Long developerId) {
         Set<Developer> developers = new HashSet<>();
         developers.add(DeveloperServiceImpl.getInstance().getById(developerId).get());
-        Customer customer = CustomerServiceImpl.getInstance().getById(customerId).get();
-        Company company = CompanyServiceImpl.getInstance().getById(companyId).get();
 
-        Project project = new Project();
-        project.setName(name);
-        project.setCost(cost);
-        project.setCompany(company);
-        project.setCustomer(customer);
-        project.setDevelopers(developers);
-        return projectService.CRUD_REPOSITORY_PROJECT.create(project);
+        return projectService.CRUD_REPOSITORY_PROJECT.create(Project.builder()
+                .name(name)
+                .cost(cost)
+                .company(CompanyServiceImpl.getInstance().getById(companyId).get())
+                .customer(CustomerServiceImpl.getInstance().getById(customerId).get())
+                .developers(developers)
+                .build());
     }
 
     @Override
     public void update(Long id, String name, Long cost, Long companyId, Long customerId, Long developerId) {
         Set<Developer> developerSet = new HashSet<>();
         developerSet.add(DeveloperServiceImpl.getInstance().getById(developerId).get());
-        Customer customer = CustomerServiceImpl.getInstance().getById(customerId).get();
-        Company company = CompanyServiceImpl.getInstance().getById(companyId).get();
 
         Project project = projectService.CRUD_REPOSITORY_PROJECT.findById(id).get();
         project.setName(name);
         project.setCost(cost);
-        project.setCompany(company);
-        project.setCustomer(customer);
+        project.setCompany(CompanyServiceImpl.getInstance().getById(companyId).get());
+        project.setCustomer(CustomerServiceImpl.getInstance().getById(customerId).get());
         project.setDevelopers(developerSet);
         projectService.CRUD_REPOSITORY_PROJECT.update(id, project);
     }
@@ -74,17 +74,9 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public List<String> getListProjectsWithDate() {
-        List<Project> projects = projectService.CRUD_REPOSITORY_PROJECT.findAll();
-        List<String> listProjects = new ArrayList<>();
-        for (int i = 0; i < projects.size(); i++) {
-            Project project = projects.get(i);
-            int count = countDevelopers(i + 1);
-            String name = project.getName();
-            String firstDate = project.getFirstDate();
-            String listWithDate = "In project " + name + " - " + count + " developers, signs - " + firstDate;
-            listProjects.add(listWithDate);
-        }
-        return listProjects;
+        return IntStream.range(0, getAll().size())
+                .mapToObj(i -> "In project " + getAll().get(i).getName() + " - " + countDevelopers(i + 1) + " developers, signs - " + getAll().get(i).getFirstDate())
+                .collect(Collectors.toList());
     }
 
     private int countDevelopers(int projectId) {

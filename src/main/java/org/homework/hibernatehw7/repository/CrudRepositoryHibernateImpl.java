@@ -4,16 +4,12 @@ import lombok.SneakyThrows;
 import org.hibernate.Session;
 import org.hibernate.query.criteria.JpaCriteriaQuery;
 import org.homework.hibernatehw7.model.BaseModel;
-import org.homework.hibernatehw7.model.Developer;
-import org.homework.hibernatehw7.model.Skill;
 import org.homework.hibernatehw7.repository.interfaces.CrudRepositoryJDBC;
 import org.homework.hibernatehw7.utils.HibernateSessionFactory;
 
 import java.io.Closeable;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -25,25 +21,8 @@ public class CrudRepositoryHibernateImpl<T extends BaseModel<ID>, ID> implements
         this.modelClass = modelClass;
     }
 
-    public Session createSession() {
-        Session session = HibernateSessionFactory.getSessionFactory().openSession();
-        session.beginTransaction();
-        return session;
-    }
-
-    public void closeSession(Session session) {
-        session.getTransaction().commit();
-        session.close();
-    }
-
     private Optional<T> getById(ID id, Session session) {
         return Optional.ofNullable(session.get(modelClass, id));
-    }
-
-    @SneakyThrows
-    @Override
-    public void close() {
-        HibernateSessionFactory.close();
     }
 
     @Override
@@ -63,7 +42,7 @@ public class CrudRepositoryHibernateImpl<T extends BaseModel<ID>, ID> implements
         return resultList;
     }
 
-    private List<T> saveAll(Iterable<T> itbl) {
+    private List<T> createAll(Iterable<T> itbl) {
         return StreamSupport.stream(itbl.spliterator(), false)
                 .map(entity -> create(entity)).collect(Collectors.toList());
     }
@@ -93,6 +72,23 @@ public class CrudRepositoryHibernateImpl<T extends BaseModel<ID>, ID> implements
         getById(id, session).ifPresent(session::remove);
         closeSession(session);
     }
+
+    public Session createSession() {
+        Session session = HibernateSessionFactory.getSessionFactory().openSession();
+        session.beginTransaction();
+        return session;
+    }
+
+    public void closeSession(Session session) {
+        session.getTransaction().commit();
+        session.close();
+    }
+
+    @SneakyThrows
+    @Override
+    public void close() {
+        HibernateSessionFactory.close();
+    }
 //    public  <T> List<T> findAllWithJpql(Class<T>type,Session session,Long projectId){
 //        return session.createQuery("SELECT id ,sum(developers.salary) AS SUM FROM Project WHERE id="+projectId,type).getResultList();
 //    }
@@ -103,8 +99,8 @@ public class CrudRepositoryHibernateImpl<T extends BaseModel<ID>, ID> implements
 //        return (List<T>) allWithJpql;
 //    }
 
-    public Set<T> createSet(){
-        CrudRepositoryHibernateImpl<T, ID> repositoryHibernate = new CrudRepositoryHibernateImpl<>(modelClass);
-        return new HashSet<>(repositoryHibernate.findAll());
-    }
+//    public Set<T> createSet(){
+//        CrudRepositoryHibernateImpl<T, ID> repositoryHibernate = new CrudRepositoryHibernateImpl<>(modelClass);
+//        return new HashSet<>(repositoryHibernate.findAll());
+//    }
 }

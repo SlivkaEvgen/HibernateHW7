@@ -3,9 +3,9 @@ package org.homework.hibernatehw7.services;
 import org.homework.hibernatehw7.model.Company;
 import org.homework.hibernatehw7.model.Developer;
 import org.homework.hibernatehw7.model.Project;
-import org.homework.hibernatehw7.repository.CrudRepositoryHibernateImpl;
+import org.homework.hibernatehw7.repository.RepositoryFactory;
+import org.homework.hibernatehw7.repository.interfaces.CrudRepositoryJDBC;
 import org.homework.hibernatehw7.services.interfaces.CompanyService;
-
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -13,7 +13,7 @@ import java.util.Set;
 
 public class CompanyServiceImpl implements CompanyService {
 
-    private final CrudRepositoryHibernateImpl<Company, Long> CRUD_REPOSITORY_COMPANY = new CrudRepositoryHibernateImpl<>(Company.class);
+    private final CrudRepositoryJDBC<Company, Long> CRUD_REPOSITORY_COMPANY = RepositoryFactory.of(Company.class);
     private static CompanyServiceImpl companyService;
 
     public static CompanyServiceImpl getInstance() {
@@ -40,24 +40,23 @@ public class CompanyServiceImpl implements CompanyService {
     @Override
     public Company createNewCompany(String name, String city, Long projectId, Long developerId) {
         Set<Project> projectSet = new HashSet<>();
-        projectSet.add(ProjectServiceImpl.getInstance().getById(projectId).get());
         Set<Developer> developerSet = new HashSet<>();
+        projectSet.add(ProjectServiceImpl.getInstance().getById(projectId).get());
         developerSet.add(DeveloperServiceImpl.getInstance().getById(developerId).get());
 
-        Company company = Company.builder()
+        return companyService.CRUD_REPOSITORY_COMPANY.create(Company.builder()
                 .name(name)
                 .city(city)
                 .projects(projectSet)
                 .developers(developerSet)
-                .build();
-        return companyService.CRUD_REPOSITORY_COMPANY.create(company);
+                .build());
     }
 
     @Override
     public void update(Long id, String name, String city, Long projectId, Long developerId) {
         Set<Project> projectSet = new HashSet<>();
-        projectSet.add(ProjectServiceImpl.getInstance().getById(projectId).get());
         Set<Developer> developerSet = new HashSet<>();
+        projectSet.add(ProjectServiceImpl.getInstance().getById(projectId).get());
         developerSet.add(DeveloperServiceImpl.getInstance().getById(developerId).get());
 
         Company company = companyService.CRUD_REPOSITORY_COMPANY.findById(id).get();

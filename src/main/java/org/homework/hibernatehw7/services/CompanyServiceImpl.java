@@ -29,7 +29,7 @@ public class CompanyServiceImpl implements CompanyService {
 
     @Override
     public Optional<Company> getById(Long id) {
-       return companyService.CRUD_REPOSITORY_COMPANY.findById(id);
+        return companyService.CRUD_REPOSITORY_COMPANY.findById(id);
     }
 
     @Override
@@ -38,13 +38,10 @@ public class CompanyServiceImpl implements CompanyService {
     }
 
     @Override
-    public Company createNewCompany(String name, String city, Long projectId, Long developerId) {//Long projectId
+    public Company createNewCompany(String name, String city, Long projectId, Long developerId) {
         Set<Project> projectSet = new HashSet<>();
-//        Project project = ProjectServiceImpl.getInstance().getById(projectId).get();
         projectSet.add(ProjectServiceImpl.getInstance().getById(projectId).get());
-
         Set<Developer> developerSet = new HashSet<>();
-//        Developer developer = DeveloperServiceImpl.getInstance().getById(developerId).get();
         developerSet.add(DeveloperServiceImpl.getInstance().getById(developerId).get());
 
         Company company = Company.builder()
@@ -59,11 +56,8 @@ public class CompanyServiceImpl implements CompanyService {
     @Override
     public void update(Long id, String name, String city, Long projectId, Long developerId) {
         Set<Project> projectSet = new HashSet<>();
-//        Project project = ProjectServiceImpl.getInstance().getById(projectId).get();
         projectSet.add(ProjectServiceImpl.getInstance().getById(projectId).get());
-
         Set<Developer> developerSet = new HashSet<>();
-//        Developer developer = DeveloperServiceImpl.getInstance().getById(developerId).get();
         developerSet.add(DeveloperServiceImpl.getInstance().getById(developerId).get());
 
         Company company = companyService.CRUD_REPOSITORY_COMPANY.findById(id).get();

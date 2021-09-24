@@ -13,7 +13,6 @@ import java.util.Set;
 public class CustomerServiceImpl implements CustomerService {
 
     private final CrudRepositoryHibernateImpl<Customer, Long> CRUD_REPOSITORY_CUSTOMER = new CrudRepositoryHibernateImpl<>(Customer.class);
-//    private final ProjectServiceImpl projectService = ProjectServiceImpl.getInstance();
     private static CustomerServiceImpl customerService;
 
     public static CustomerServiceImpl getInstance() {
@@ -40,7 +39,6 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public void update(Long id, String name, String city, Long budget, Long companyId, Long projectId) {
         Set<Project> projectSet = new HashSet<>();
-//        Project project = ProjectServiceImpl.getInstance().getById(projectId).get();
         projectSet.add(ProjectServiceImpl.getInstance().getById(projectId).get());
 
         Customer customer = customerService.CRUD_REPOSITORY_CUSTOMER.findById(id).get();
@@ -59,7 +57,6 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public Customer createNewCustomer(String name, String city, Long budget, Long projectId) {
         Set<Project> projectSet = new HashSet<>();
-//        Project project = ProjectServiceImpl.getInstance().getById(projectId).get();
         projectSet.add(ProjectServiceImpl.getInstance().getById(projectId).get());
 
         Customer customer = Customer.builder()

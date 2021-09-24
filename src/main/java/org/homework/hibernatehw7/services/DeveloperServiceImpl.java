@@ -38,11 +38,8 @@ public class DeveloperServiceImpl implements DeveloperService {
     @Override
     public Developer createNewDeveloper(String name, Long age, String gender, String email, Long salary, Long skillId, Long companyId, Long projectId) { // Long companyId, Long projectId,
         Set<Skill> skillSet1 = new HashSet<>();
-//        Skill skill = SkillServiceImpl.getInstance().getById(skillId).get();
         skillSet1.add(SkillServiceImpl.getInstance().getById(skillId).get());
-
         Set<Project> projectSet = new HashSet<>();
-//        Project project = ProjectServiceImpl.getInstance().getById(projectId).get();
         projectSet.add(ProjectServiceImpl.getInstance().getById(projectId).get());
         Company company = CompanyServiceImpl.getInstance().getById(companyId).get();
 
@@ -62,13 +59,9 @@ public class DeveloperServiceImpl implements DeveloperService {
     @Override
     public void update(Long id, String name, Long age, String gender, String email, Long salary, Long skillId, Long companyId, Long projectId) {
         Set<Skill> skillSet = new HashSet<>();
-//        Skill skill = SkillServiceImpl.getInstance().getById(skillId).get();
         skillSet.add(SkillServiceImpl.getInstance().getById(skillId).get());
-
         Company company = CompanyServiceImpl.getInstance().getById(companyId).get();
-
         Set<Project> projectSet = new HashSet<>();
-//        Project project = ProjectServiceImpl.getInstance().getById(projectId).get();
         projectSet.add(ProjectServiceImpl.getInstance().getById(projectId).get());
 
         Developer developer = developerService.CRUD_REPOSITORY_DEVELOPER.findById(id).get();

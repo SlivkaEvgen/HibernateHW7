@@ -12,9 +12,6 @@ import java.util.*;
 public class ProjectServiceImpl implements ProjectService {
 
     private final CrudRepositoryHibernateImpl<Project, Long> CRUD_REPOSITORY_PROJECT = new CrudRepositoryHibernateImpl<>(Project.class);
-//    private final DeveloperServiceImpl developerService = DeveloperServiceImpl.getInstance();
-//    private final CompanyServiceImpl companyService = CompanyServiceImpl.getInstance();
-//    private final CustomerServiceImpl customerService = CustomerServiceImpl.getInstance();
     private static ProjectServiceImpl projectService;
 
     public static ProjectServiceImpl getInstance() {
@@ -27,6 +24,7 @@ public class ProjectServiceImpl implements ProjectService {
         }
         return projectService;
     }
+
     @Override
     public Optional<Project> getById(Long id) {
         return projectService.CRUD_REPOSITORY_PROJECT.findById(id);
@@ -39,13 +37,6 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public Project createNewProject(String name, Long cost, Long companyId, Long customerId, Long developerId) {
-//        CrudRepositoryHibernateImpl<Developer, Long> repositoryHibernate = new CrudRepositoryHibernateImpl<>(Developer.class);
-//        Developer developer = repositoryHibernate.findById(developerId).get();
-//        CrudRepositoryHibernateImpl<Company, Long> repositoryHibernate2 = new CrudRepositoryHibernateImpl<>(Company.class);
-//        Company company = repositoryHibernate2.findById(companyId).get();
-//        CrudRepositoryHibernateImpl<Customer, Long> repositoryHibernate3 = new CrudRepositoryHibernateImpl<>(Customer.class);
-//        Customer customer = repositoryHibernate3.findById(customerId).get();
-//        Developer developer = DeveloperServiceImpl.getInstance().getById(developerId).get();
         Set<Developer> developers = new HashSet<>();
         developers.add(DeveloperServiceImpl.getInstance().getById(developerId).get());
         Customer customer = CustomerServiceImpl.getInstance().getById(customerId).get();
@@ -62,12 +53,8 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public void update(Long id, String name, Long cost, Long companyId, Long customerId, Long developerId) {
-//        CrudRepositoryHibernateImpl<Developer, Long> repositoryHibernate = new CrudRepositoryHibernateImpl<>(Developer.class);
-//        Developer developer = repositoryHibernate.findById(developerId).get();
         Set<Developer> developerSet = new HashSet<>();
-//        Developer developer = DeveloperServiceImpl.getInstance().getById(developerId).get();
         developerSet.add(DeveloperServiceImpl.getInstance().getById(developerId).get());
-
         Customer customer = CustomerServiceImpl.getInstance().getById(customerId).get();
         Company company = CompanyServiceImpl.getInstance().getById(companyId).get();
 

@@ -48,7 +48,6 @@ public class SkillServiceImpl implements SkillService {
     @Override
     public void update(Long id, String activity, String level, Long developerId) {
         Set<Developer> developerSet = new HashSet<>();
-//        Developer developer = DeveloperServiceImpl.getInstance().getById(developerId).get();
         developerSet.add(DeveloperServiceImpl.getInstance().getById(developerId).get());
 
         Skill skill = skillService.CRUD_REPOSITORY_SKILL.findById(id).get();

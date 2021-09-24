@@ -1,7 +1,6 @@
 package org.homework.hibernatehw7.services;
 
 import org.homework.hibernatehw7.model.Company;
-import org.homework.hibernatehw7.model.Customer;
 import org.homework.hibernatehw7.model.Developer;
 import org.homework.hibernatehw7.model.Project;
 import org.homework.hibernatehw7.repository.CrudRepositoryHibernateImpl;
@@ -15,72 +14,68 @@ import java.util.Set;
 public class CompanyServiceImpl implements CompanyService {
 
     private final CrudRepositoryHibernateImpl<Company, Long> CRUD_REPOSITORY_COMPANY = new CrudRepositoryHibernateImpl<>(Company.class);
+    private static CompanyServiceImpl companyService;
+
+    public static CompanyServiceImpl getInstance() {
+        if (companyService == null) {
+            synchronized (CompanyServiceImpl.class) {
+                if (companyService == null) {
+                    companyService = new CompanyServiceImpl();
+                }
+            }
+        }
+        return companyService;
+    }
 
     @Override
     public Optional<Company> getById(Long id) {
-        return CRUD_REPOSITORY_COMPANY.findById(id);
+       return companyService.CRUD_REPOSITORY_COMPANY.findById(id);
     }
 
     @Override
     public List<Company> getAll() {
-        return CRUD_REPOSITORY_COMPANY.findAll();
+        return companyService.CRUD_REPOSITORY_COMPANY.findAll();
     }
 
     @Override
-    public Company createNewCompany(String name, String city,Long developerId) {//Long projectId
-//        Set<Project> projectSet = new HashSet<>();
-//        CrudRepositoryHibernateImpl<Project, Long> repositoryHibernate = new CrudRepositoryHibernateImpl<>(Project.class);
-//        Project project = repositoryHibernate.findById(1L).get();
-//        projectSet.add(project);
-//
-        Set<Developer> developerSet = new HashSet<>();
-        CrudRepositoryHibernateImpl<Developer, Long> crudRepositoryHibernate = new CrudRepositoryHibernateImpl<>(Developer.class);
-        Developer developer = crudRepositoryHibernate.findById(developerId).get();
-        developerSet.add(developer);
+    public Company createNewCompany(String name, String city, Long projectId, Long developerId) {//Long projectId
+        Set<Project> projectSet = new HashSet<>();
+//        Project project = ProjectServiceImpl.getInstance().getById(projectId).get();
+        projectSet.add(ProjectServiceImpl.getInstance().getById(projectId).get());
 
-//        Set<Customer> customerSet = new HashSet<>();
-//        CrudRepositoryHibernateImpl<Customer, Long> crudRepositoryHibernate = new CrudRepositoryHibernateImpl<>(Customer.class);
-//        Customer customer = crudRepositoryHibernate.findById(customerId).get();
-//        customerSet.add(customer);
+        Set<Developer> developerSet = new HashSet<>();
+//        Developer developer = DeveloperServiceImpl.getInstance().getById(developerId).get();
+        developerSet.add(DeveloperServiceImpl.getInstance().getById(developerId).get());
 
         Company company = Company.builder()
                 .name(name)
                 .city(city)
-//                .customers(customerSet)
-//                .projects(projectSet)
+                .projects(projectSet)
                 .developers(developerSet)
                 .build();
-        return CRUD_REPOSITORY_COMPANY.create(company);
+        return companyService.CRUD_REPOSITORY_COMPANY.create(company);
     }
 
     @Override
-    public void update(Long id, String name, String city,Long customerId,Long projectId,Long developerId) {
+    public void update(Long id, String name, String city, Long projectId, Long developerId) {
         Set<Project> projectSet = new HashSet<>();
-        CrudRepositoryHibernateImpl<Project, Long> repositoryHibernate = new CrudRepositoryHibernateImpl<>(Project.class);
-        Project project = repositoryHibernate.findById(projectId).get();
-        projectSet.add(project);
+//        Project project = ProjectServiceImpl.getInstance().getById(projectId).get();
+        projectSet.add(ProjectServiceImpl.getInstance().getById(projectId).get());
 
         Set<Developer> developerSet = new HashSet<>();
-        CrudRepositoryHibernateImpl<Developer, Long> crudRepositoryHibernate = new CrudRepositoryHibernateImpl<>(Developer.class);
-        Developer developer = crudRepositoryHibernate.findById(developerId).get();
-        developerSet.add(developer);
+//        Developer developer = DeveloperServiceImpl.getInstance().getById(developerId).get();
+        developerSet.add(DeveloperServiceImpl.getInstance().getById(developerId).get());
 
-        Set<Customer> customerSet = new HashSet<>();
-        CrudRepositoryHibernateImpl<Customer, Long> crudRepositoryHibernate2 = new CrudRepositoryHibernateImpl<>(Customer.class);
-        Customer customer = crudRepositoryHibernate2.findById(customerId).get();
-        customerSet.add(customer);
-
-        Company company = CRUD_REPOSITORY_COMPANY.findById(id).get();
+        Company company = companyService.CRUD_REPOSITORY_COMPANY.findById(id).get();
         company.setCity(city);
         company.setName(name);
         company.setProjects(projectSet);
         company.setDevelopers(developerSet);
-        company.setCustomers(customerSet);
-        CRUD_REPOSITORY_COMPANY.update(id,company);
+        companyService.CRUD_REPOSITORY_COMPANY.update(id, company);
     }
 
     @Override
     public void delete(Long id) {
-        CRUD_REPOSITORY_COMPANY.delete(id);
+        companyService.CRUD_REPOSITORY_COMPANY.delete(id);
     }
 }

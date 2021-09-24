@@ -3,15 +3,17 @@ package org.homework.hibernatehw7.controller.developer;
 
 
 import org.homework.hibernatehw7.config.ScannerConsole;
+import org.homework.hibernatehw7.model.Developer;
 import org.homework.hibernatehw7.services.DeveloperServiceImpl;
 import org.homework.hibernatehw7.utils.Validator;
 
 import java.io.Closeable;
+import java.util.List;
 import java.util.Scanner;
 
 public class GetDeveloperCommand implements Closeable {
 
-    private final DeveloperServiceImpl DEVELOPER_SERVICE = new DeveloperServiceImpl();
+    private final DeveloperServiceImpl DEVELOPER_SERVICE =  DeveloperServiceImpl.getInstance();
     private final Scanner scanner = ScannerConsole.getInstance();
 
     public void all() {
@@ -41,8 +43,9 @@ public class GetDeveloperCommand implements Closeable {
         System.out.print(" ENTER PROJECT-ID \n\uD83D\uDC49 ");
         String next = scanner.next();
         if (Validator.validNumber(next)) {
-            if (!DEVELOPER_SERVICE.getDevelopersFromOneProject(Long.valueOf(next)).isEmpty()) {
-                System.out.println(DEVELOPER_SERVICE.getDevelopersFromOneProject(Long.valueOf(next)) + "\n");
+            List<Developer> fromOneProject = DEVELOPER_SERVICE.getDevelopersFromOneProject(Long.valueOf(next));
+            if (!fromOneProject.isEmpty()) {
+                System.out.println(fromOneProject + "\n");
             } else {
                 System.out.println("not found, try again ");
                 getByProjectID();

@@ -14,19 +14,20 @@ public class CreateCommandSkill implements Controller {
     private final Scanner scanner = ScannerConsole.getInstance();
     private static CreateCommandSkill createCommandSkill;
 
-    private CreateCommandSkill(){
-    }
+    private CreateCommandSkill(){}
+
     public static CreateCommandSkill getInstance(){
         if(createCommandSkill == null){
             createCommandSkill= new CreateCommandSkill();
         }
         return createCommandSkill;
     }
+
     private void create() {
         final String activity = enterActivity();
         final String level = enterLevel();
 //        final String developerId = enterDeveloperId();
-        new SkillServiceImpl().createNewSkill(activity, level);
+         SkillServiceImpl.getInstance().createNewSkill(activity, level);
         System.out.println(" ✅ You created \uD83D\uDC49 " + "new Skill" + "\n");
     }
 
@@ -61,7 +62,7 @@ public class CreateCommandSkill implements Controller {
         System.out.print(" ENTER DEVELOPER-ID \n\uD83D\uDC49 ");
         String developerId = scanner.next();
         try {
-            if (!Validator.validNumber(developerId) | new DeveloperServiceImpl().getById(Long.valueOf(developerId)).get().getId() == null) {
+            if (!Validator.validNumber(developerId) |  DeveloperServiceImpl.getInstance().getById(Long.valueOf(developerId)).get().getId() == null) {
                 System.out.println("Try again");
                 return enterDeveloperId();
             }

@@ -15,7 +15,7 @@ public class DeleteProjectCommand extends ProjectCommandImpl {
     private final Scanner scanner = ScannerConsole.getInstance();
 
     public void delete(String id) {
-        final ProjectServiceImpl projectService = new ProjectServiceImpl();
+        final ProjectServiceImpl projectService =  ProjectServiceImpl.getInstance();
         if (Validator.validNumber(id)) {
             final Optional<Project> serviceById = projectService.getById(Long.valueOf(id));
             if (serviceById.get().getId() != null) {

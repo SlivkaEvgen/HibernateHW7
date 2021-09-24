@@ -9,8 +9,8 @@ import java.util.Set;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@EqualsAndHashCode(exclude = {"projects", "developers","customers"})
-@ToString(exclude = {"projects","developers","customers"})
+@EqualsAndHashCode(exclude = {"projects", "developers"})
+@ToString(exclude = {"projects", "developers"})
 @Entity
 @Table(name = "companies")
 public class Company implements BaseModel<Long> {
@@ -33,7 +33,4 @@ public class Company implements BaseModel<Long> {
 
     @OneToMany(mappedBy = "company", cascade = CascadeType.REFRESH, fetch = FetchType.LAZY)
     private Set<Developer> developers;
-
-    @OneToMany(mappedBy = "company", cascade = CascadeType.REFRESH, fetch = FetchType.LAZY)
-    private Set<Customer> customers;
 }

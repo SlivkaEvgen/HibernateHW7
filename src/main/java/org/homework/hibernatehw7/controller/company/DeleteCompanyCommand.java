@@ -17,12 +17,12 @@ public class DeleteCompanyCommand extends CompanyCommandImpl {
     private final Scanner scanner = ScannerConsole.getInstance();
 
     public void delete(String id) {
-        final CompanyServiceImpl companyService = new CompanyServiceImpl();
+        final CompanyServiceImpl companyService =  CompanyServiceImpl.getInstance();
         if (Validator.validNumber(id)) {
             final Company company = companyService.getById(Long.valueOf(id)).get();
             if (company.getId() != null) {
                 System.out.println("\n\n" +
-                                   "‼️ All \uD83D\uDED1PROJECTS, \uD83D\uDED1DEVELOPERS and \uD83D\uDED1CUSTOMERS \n" +
+                                   "‼️ All \uD83D\uDED1PROJECTS and \uD83D\uDED1DEVELOPERS  \n" +
                                    "will be ❗DELETED❗ together with the company!\n" +
                                    "‼️ Are you sure you want to delete the company❓❓❓  \n" + company+"\n");
                 System.out.print("Yes \uD83D\uDC49 Y\nNo  \uD83D\uDC49 N\n\uD83D\uDC49 ");

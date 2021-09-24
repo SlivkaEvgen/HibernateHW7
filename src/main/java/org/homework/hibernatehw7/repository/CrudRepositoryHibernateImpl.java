@@ -5,12 +5,15 @@ import org.hibernate.Session;
 import org.hibernate.query.criteria.JpaCriteriaQuery;
 import org.homework.hibernatehw7.model.BaseModel;
 import org.homework.hibernatehw7.model.Developer;
+import org.homework.hibernatehw7.model.Skill;
 import org.homework.hibernatehw7.repository.interfaces.CrudRepositoryJDBC;
 import org.homework.hibernatehw7.utils.HibernateSessionFactory;
 
 import java.io.Closeable;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -99,4 +102,9 @@ public class CrudRepositoryHibernateImpl<T extends BaseModel<ID>, ID> implements
 //        List<Developer> allWithJpql = findAllWithJpql(Developer.class, session, projectId);
 //        return (List<T>) allWithJpql;
 //    }
+
+    public Set<T> createSet(){
+        CrudRepositoryHibernateImpl<T, ID> repositoryHibernate = new CrudRepositoryHibernateImpl<>(modelClass);
+        return new HashSet<>(repositoryHibernate.findAll());
+    }
 }

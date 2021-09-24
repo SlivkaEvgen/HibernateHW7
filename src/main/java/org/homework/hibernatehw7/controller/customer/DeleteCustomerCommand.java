@@ -14,11 +14,14 @@ public class DeleteCustomerCommand extends CustomerCommandImpl {
     private final Scanner scanner = ScannerConsole.getInstance();
 
     public void delete(String id) {
-        final CustomerServiceImpl customerService = new CustomerServiceImpl();
+        final CustomerServiceImpl customerService =  CustomerServiceImpl.getInstance();
         if (Validator.validNumber(id)) {
-            final Optional<Customer> serviceById = customerService.getById(Long.valueOf(id));
-            if (serviceById.get().getId() != null) {
-                System.out.println("\nAre you sure ?  \n" + serviceById);
+            final Customer customer = customerService.getById(Long.valueOf(id)).get();
+            if (customer.getId() != null) {
+                System.out.println("\n\n" +
+                                   "‼️ All \uD83D\uDED1PROJECTS \n" +
+                                   "will be ❗DELETED❗ together with the customer!\n" +
+                                   "‼️ Are you sure you want to delete the customer❓❓❓  \n" + customer+"\n");
                 System.out.print("Yes \uD83D\uDC49 Y\nNo  \uD83D\uDC49 N\n\uD83D\uDC49 ");
                 final String yesNo = scanner.next();
                 if (yesNo.equalsIgnoreCase("y")) {

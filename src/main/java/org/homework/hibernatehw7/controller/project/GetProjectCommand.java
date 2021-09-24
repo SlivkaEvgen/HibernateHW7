@@ -11,7 +11,7 @@ import java.util.Scanner;
 
 public class GetProjectCommand implements Closeable {
 
-    private final ProjectServiceImpl PROJECT_SERVICE = new ProjectServiceImpl();
+    private final ProjectServiceImpl PROJECT_SERVICE =  ProjectServiceImpl.getInstance();
     private final Scanner scanner = ScannerConsole.getInstance();
 
     public void all() {

@@ -19,7 +19,7 @@ public class CreateCustomerCommand implements Controller {
         final String budget = enterBudget();
         final String projectId = enterProjectId(); //Long.valueOf(projectId)
 //        final String companyId = enterCompanyId();
-        new CustomerServiceImpl().createNewCustomer(name,city, Long.valueOf(budget),Long.valueOf(projectId));
+         CustomerServiceImpl.getInstance().createNewCustomer(name,city, Long.valueOf(budget),Long.valueOf(projectId));
         System.out.println(" ✅ You created \uD83D\uDC49 " + "new Customer" + "\n");
     }
 
@@ -57,7 +57,7 @@ public class CreateCustomerCommand implements Controller {
         System.out.print(" ENTER PROJECT-ID \n\uD83D\uDC49 ");
         String projectId = scanner.next();
         try {
-            if (!Validator.validNumber(projectId) | new ProjectServiceImpl().getById(Long.valueOf(projectId)).get().getId() == null) {
+            if (!Validator.validNumber(projectId) |  ProjectServiceImpl.getInstance().getById(Long.valueOf(projectId)).get().getId() == null) {
                 System.out.println("Try again");
                 return enterProjectId();
             }
@@ -72,7 +72,7 @@ public class CreateCustomerCommand implements Controller {
         System.out.print(" ENTER COMPANY-ID \n\uD83D\uDC49 ");
         String companyId = scanner.next();
         try {
-            if (!Validator.validNumber(companyId) | new ProjectServiceImpl().getById(Long.valueOf(companyId)).get().getId() == null) {
+            if (!Validator.validNumber(companyId) |  ProjectServiceImpl.getInstance().getById(Long.valueOf(companyId)).get().getId() == null) {
                 System.out.println("Try again");
                 return enterCompanyId();
             }

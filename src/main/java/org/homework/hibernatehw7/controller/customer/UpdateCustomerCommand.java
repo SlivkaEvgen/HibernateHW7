@@ -11,7 +11,7 @@ import java.util.Scanner;
 
 public class UpdateCustomerCommand implements Controller {
 
-    private final CustomerServiceImpl CUSTOMER_SERVICE = new CustomerServiceImpl();
+    private final CustomerServiceImpl CUSTOMER_SERVICE =  CustomerServiceImpl.getInstance();
     private final Scanner scanner = ScannerConsole.getInstance();
 
     private void update() {
@@ -68,7 +68,7 @@ public class UpdateCustomerCommand implements Controller {
         System.out.print(" ENTER COMPANY-ID \n\uD83D\uDC49 ");
         String companyId = scanner.next();
         try {
-            if (!Validator.validNumber(companyId) | new CompanyServiceImpl().getById(Long.valueOf(companyId)).get().getId() == null) {
+            if (!Validator.validNumber(companyId) |  CompanyServiceImpl.getInstance().getById(Long.valueOf(companyId)).get().getId() == null) {
                 System.out.println("Try again");
                 return enterCompanyId();
             }
@@ -83,7 +83,7 @@ public class UpdateCustomerCommand implements Controller {
         System.out.print(" ENTER PROJECT-ID \n\uD83D\uDC49 ");
         String projectId = scanner.next();
         try {
-            if (!Validator.validNumber(projectId) | new ProjectServiceImpl().getById(Long.valueOf(projectId)).get().getId() == null) {
+            if (!Validator.validNumber(projectId) |  ProjectServiceImpl.getInstance().getById(Long.valueOf(projectId)).get().getId() == null) {
                 System.out.println("Try again");
                 return enterProjectId();
             }

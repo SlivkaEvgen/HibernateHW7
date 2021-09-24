@@ -11,7 +11,7 @@ import java.util.Scanner;
 
 public class GetCompanyCommand implements Closeable {
 
-    private final CompanyServiceImpl COMPANY_SERVICE = new CompanyServiceImpl();
+    private final CompanyServiceImpl COMPANY_SERVICE =  CompanyServiceImpl.getInstance();
     private final Scanner scanner = ScannerConsole.getInstance();
 
     public void all() {

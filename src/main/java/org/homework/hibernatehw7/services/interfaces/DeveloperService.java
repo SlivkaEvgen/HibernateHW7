@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface DeveloperService extends IService<Developer, Long> {
 
-    Developer createNewDeveloper(String name, Long age, String gender, String email, Long salary, Long skillId);
+    Developer createNewDeveloper(String name, Long age, String gender, String email, Long salary, Long skillId,Long companyId,Long projectId);
 
     void update(Long id, String name, Long age, String gender, String email, Long salary,Long skillId, Long companyId, Long projectId);
 

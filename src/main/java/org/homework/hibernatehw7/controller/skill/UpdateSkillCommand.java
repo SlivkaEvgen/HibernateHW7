@@ -11,7 +11,7 @@ import java.util.Scanner;
 
 public class UpdateSkillCommand implements Controller {
 
-    private final SkillServiceImpl SKILL_SERVICE = new SkillServiceImpl();
+    private final SkillServiceImpl SKILL_SERVICE =  SkillServiceImpl.getInstance();
     private final Scanner scanner = ScannerConsole.getInstance();
 
     private void update() {
@@ -50,7 +50,7 @@ public class UpdateSkillCommand implements Controller {
     private String enterDeveloperId() {
         System.out.print(" ENTER DEVELOPER-ID \n\uD83D\uDC49 ");
         String developerId = scanner.next();
-        if (!Validator.validNumber(developerId) || new DeveloperServiceImpl().getById(Long.valueOf(developerId)).get().getId() == null) {
+        if (!Validator.validNumber(developerId) ||  DeveloperServiceImpl.getInstance().getById(Long.valueOf(developerId)).get().getId() == null) {
             System.out.println("Try again");
             return enterDeveloperId();
         }

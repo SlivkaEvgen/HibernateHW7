@@ -3,13 +3,16 @@ package org.homework.hibernatehw7.controller.developer;
 
 import org.homework.hibernatehw7.config.ScannerConsole;
 import org.homework.hibernatehw7.controller.interfaces.Controller;
+import org.homework.hibernatehw7.model.Developer;
 import org.homework.hibernatehw7.services.CompanyServiceImpl;
 import org.homework.hibernatehw7.services.DeveloperServiceImpl;
 import org.homework.hibernatehw7.services.ProjectServiceImpl;
 import org.homework.hibernatehw7.services.SkillServiceImpl;
 import org.homework.hibernatehw7.utils.Validator;
 
+import java.util.HashSet;
 import java.util.Scanner;
+import java.util.Set;
 
 public class CreateDeveloperCommand implements Controller {
 
@@ -18,13 +21,13 @@ public class CreateDeveloperCommand implements Controller {
     public void create() {
         final String name = enterName();
         final String age = enterAge();
-//        final String companyId = enterCompanyId();
-//        final String projectId = enterProjectId();
+        final String companyId = enterCompanyId();
+        final String projectId = enterProjectId();
         final String gender = enterGender();
         final String email = enterEmail();
         final String salary = enterSalary();//Long.valueOf(companyId)/Long.valueOf(companyId),Long.valueOf(projectId)
         final String skillId = enterSkillId();
-        new DeveloperServiceImpl().createNewDeveloper(name, Long.valueOf(age), gender, email, Long.valueOf(salary), Long.valueOf(skillId));
+         DeveloperServiceImpl.getInstance().createNewDeveloper(name, Long.valueOf(age), gender, email, Long.valueOf(salary), Long.valueOf(skillId), Long.valueOf(companyId), Long.valueOf(projectId));
         System.out.println(" ✅ You create \uD83D\uDC49   new Developer  \n");
     }
 
@@ -52,7 +55,7 @@ public class CreateDeveloperCommand implements Controller {
         System.out.print(" ENTER COMPANY-ID \n\uD83D\uDC49 ");
         String companyId = scanner.next();
         try {
-            if (!Validator.validNumber(companyId) | new CompanyServiceImpl().getById(Long.valueOf(companyId)).get().getId() == null) {
+            if (!Validator.validNumber(companyId) |  CompanyServiceImpl.getInstance().getById(Long.valueOf(companyId)).get().getId() == null) {
                 System.out.println("Try again");
                 return enterCompanyId();
             }
@@ -67,7 +70,7 @@ public class CreateDeveloperCommand implements Controller {
         System.out.print(" ENTER Project-ID \n\uD83D\uDC49 ");
         String projectId = scanner.next();
         try {
-            if (!Validator.validNumber(projectId) | new ProjectServiceImpl().getById(Long.valueOf(projectId)).get().getId() == null) {
+            if (!Validator.validNumber(projectId) |  ProjectServiceImpl.getInstance().getById(Long.valueOf(projectId)).get().getId() == null) {
                 System.out.println("Try again");
                 return enterProjectId();
             }
@@ -82,7 +85,7 @@ public class CreateDeveloperCommand implements Controller {
         System.out.print(" ENTER Skill-ID \n\uD83D\uDC49 ");
         String skillId = scanner.next();
         try {
-            if (!Validator.validNumber(skillId) | new SkillServiceImpl().getById(Long.valueOf(skillId)).get().getId() == null) {
+            if (!Validator.validNumber(skillId) |  SkillServiceImpl.getInstance().getById(Long.valueOf(skillId)).get().getId() == null) {
                 System.out.println("Try again");
                 return enterSkillId();
             }
@@ -142,6 +145,5 @@ public class CreateDeveloperCommand implements Controller {
     @Override
     public void close() {
         System.exit(0);
-        scanner.close();
     }
 }

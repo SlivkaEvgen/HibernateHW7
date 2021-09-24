@@ -12,31 +12,39 @@ import java.util.*;
 public class DeveloperServiceImpl implements DeveloperService {
 
     private final CrudRepositoryHibernateImpl<Developer, Long> CRUD_REPOSITORY_DEVELOPER = new CrudRepositoryHibernateImpl<>(Developer.class);
+    private static DeveloperServiceImpl developerService;
+
+    public static DeveloperServiceImpl getInstance() {
+        if (developerService == null) {
+            synchronized (DeveloperServiceImpl.class) {
+                if (developerService == null) {
+                    developerService = new DeveloperServiceImpl();
+                }
+            }
+        }
+        return developerService;
+    }
 
     @Override
     public Optional<Developer> getById(Long id) {
-        return CRUD_REPOSITORY_DEVELOPER.findById(id);
+        return developerService.CRUD_REPOSITORY_DEVELOPER.findById(id);
     }
 
     @Override
     public List<Developer> getAll() {
-        return CRUD_REPOSITORY_DEVELOPER.findAll();
+        return developerService.CRUD_REPOSITORY_DEVELOPER.findAll();
     }
 
     @Override
-    public Developer createNewDeveloper(String name, Long age, String gender, String email, Long salary, Long skillId) { // Long companyId, Long projectId,
+    public Developer createNewDeveloper(String name, Long age, String gender, String email, Long salary, Long skillId, Long companyId, Long projectId) { // Long companyId, Long projectId,
         Set<Skill> skillSet1 = new HashSet<>();
-        CrudRepositoryHibernateImpl<Skill, Long> repositoryHibernate = new CrudRepositoryHibernateImpl<>(Skill.class);
-        Skill skill = repositoryHibernate.findById(skillId).get();
-        skillSet1.add(skill);
+//        Skill skill = SkillServiceImpl.getInstance().getById(skillId).get();
+        skillSet1.add(SkillServiceImpl.getInstance().getById(skillId).get());
 
-//        Set<Project> projectSet = new HashSet<>();
-//        CrudRepositoryHibernateImpl<Project, Long> repositoryHibernate1 = new CrudRepositoryHibernateImpl<>(Project.class);
-//        Project project = repositoryHibernate1.findById(projectId).get();
-//        projectSet.add(project);
-//
-//        CrudRepositoryHibernateImpl<Company, Long> repositoryHibernate2 = new CrudRepositoryHibernateImpl<>(Company.class);
-//        Company company = repositoryHibernate2.findById(companyId).get();
+        Set<Project> projectSet = new HashSet<>();
+//        Project project = ProjectServiceImpl.getInstance().getById(projectId).get();
+        projectSet.add(ProjectServiceImpl.getInstance().getById(projectId).get());
+        Company company = CompanyServiceImpl.getInstance().getById(companyId).get();
 
         Developer developer = Developer.builder()
                 .name(name)
@@ -45,28 +53,25 @@ public class DeveloperServiceImpl implements DeveloperService {
                 .email(email)
                 .salary(salary)
                 .skills(skillSet1)
-//                .company(company)
-//                .projects(projectSet)
+                .company(company)
+                .projects(projectSet)
                 .build();
-        return CRUD_REPOSITORY_DEVELOPER.create(developer);
+        return developerService.CRUD_REPOSITORY_DEVELOPER.create(developer);
     }
 
     @Override
-    public void update(Long id, String name, Long age, String gender, String email, Long salary,Long skillId, Long companyId, Long projectId) {
+    public void update(Long id, String name, Long age, String gender, String email, Long salary, Long skillId, Long companyId, Long projectId) {
         Set<Skill> skillSet = new HashSet<>();
-        CrudRepositoryHibernateImpl<Skill, Long> repositoryHibernate = new CrudRepositoryHibernateImpl<>(Skill.class);
-        Skill skill = repositoryHibernate.findById(skillId).get();
-        skillSet.add(skill);
+//        Skill skill = SkillServiceImpl.getInstance().getById(skillId).get();
+        skillSet.add(SkillServiceImpl.getInstance().getById(skillId).get());
 
-        CrudRepositoryHibernateImpl<Company, Long> repositoryHibernate1 = new CrudRepositoryHibernateImpl<>(Company.class);
-        Company company = repositoryHibernate1.findById(companyId).get();
+        Company company = CompanyServiceImpl.getInstance().getById(companyId).get();
 
         Set<Project> projectSet = new HashSet<>();
-        CrudRepositoryHibernateImpl<Project, Long> repositoryHibernate2 = new CrudRepositoryHibernateImpl<>(Project.class);
-        Project project = repositoryHibernate2.findById(projectId).get();
-        projectSet.add(project);
+//        Project project = ProjectServiceImpl.getInstance().getById(projectId).get();
+        projectSet.add(ProjectServiceImpl.getInstance().getById(projectId).get());
 
-        Developer developer = CRUD_REPOSITORY_DEVELOPER.findById(id).get();
+        Developer developer = developerService.CRUD_REPOSITORY_DEVELOPER.findById(id).get();
         developer.setName(name);
         developer.setAge(age);
         developer.setGender(gender);
@@ -75,12 +80,12 @@ public class DeveloperServiceImpl implements DeveloperService {
         developer.setCompany(company);
         developer.setSkills(skillSet);
         developer.setProjects(projectSet);
-        CRUD_REPOSITORY_DEVELOPER.update(id, developer);
+        developerService.CRUD_REPOSITORY_DEVELOPER.update(id, developer);
     }
 
     @Override
     public void delete(Long id) {
-        CRUD_REPOSITORY_DEVELOPER.delete(id);
+        developerService.CRUD_REPOSITORY_DEVELOPER.delete(id);
     }
 
     @Override
@@ -120,7 +125,7 @@ public class DeveloperServiceImpl implements DeveloperService {
             for (Skill skill : skills) {
                 String activities = skill.getActivity();
                 if (activities.equalsIgnoreCase(nameActivity)) {
-                    if (developersActivity.contains(developer)){
+                    if (developersActivity.contains(developer)) {
                         continue;
                     }
                     developersActivity.add(developer);
@@ -132,7 +137,7 @@ public class DeveloperServiceImpl implements DeveloperService {
 
     @Override
     public List<Developer> getDevelopersByLevel(String nameLevel) {
-        List<Developer> developers = CRUD_REPOSITORY_DEVELOPER.findAll();
+        List<Developer> developers = developerService.CRUD_REPOSITORY_DEVELOPER.findAll();
         List<Developer> developersActivity = new ArrayList<>();
         for (Developer developer : developers) {
             Set<Skill> skillSet = developer.getSkills();
@@ -140,7 +145,7 @@ public class DeveloperServiceImpl implements DeveloperService {
             for (Skill skill : skills) {
                 String level = skill.getLevel();
                 if (level.equalsIgnoreCase(nameLevel)) {
-                    if (developersActivity.contains(developer)){
+                    if (developersActivity.contains(developer)) {
                         continue;
                     }
                     developersActivity.add(developer);

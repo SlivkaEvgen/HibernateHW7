@@ -12,70 +12,86 @@ import java.util.*;
 public class ProjectServiceImpl implements ProjectService {
 
     private final CrudRepositoryHibernateImpl<Project, Long> CRUD_REPOSITORY_PROJECT = new CrudRepositoryHibernateImpl<>(Project.class);
+//    private final DeveloperServiceImpl developerService = DeveloperServiceImpl.getInstance();
+//    private final CompanyServiceImpl companyService = CompanyServiceImpl.getInstance();
+//    private final CustomerServiceImpl customerService = CustomerServiceImpl.getInstance();
+    private static ProjectServiceImpl projectService;
 
+    public static ProjectServiceImpl getInstance() {
+        if (projectService == null) {
+            synchronized (ProjectServiceImpl.class) {
+                if (projectService == null) {
+                    projectService = new ProjectServiceImpl();
+                }
+            }
+        }
+        return projectService;
+    }
     @Override
     public Optional<Project> getById(Long id) {
-        return CRUD_REPOSITORY_PROJECT.findById(id);
+        return projectService.CRUD_REPOSITORY_PROJECT.findById(id);
     }
 
     @Override
     public List<Project> getAll() {
-        return CRUD_REPOSITORY_PROJECT.findAll();
+        return projectService.CRUD_REPOSITORY_PROJECT.findAll();
     }
 
     @Override
-    public Project createNewProject(String name, Long cost,Long companyId) {
-//        Set<Developer>developerSet = new HashSet<>();
+    public Project createNewProject(String name, Long cost, Long companyId, Long customerId, Long developerId) {
 //        CrudRepositoryHibernateImpl<Developer, Long> repositoryHibernate = new CrudRepositoryHibernateImpl<>(Developer.class);
 //        Developer developer = repositoryHibernate.findById(developerId).get();
-//        developerSet.add(developer);
+//        CrudRepositoryHibernateImpl<Company, Long> repositoryHibernate2 = new CrudRepositoryHibernateImpl<>(Company.class);
+//        Company company = repositoryHibernate2.findById(companyId).get();
+//        CrudRepositoryHibernateImpl<Customer, Long> repositoryHibernate3 = new CrudRepositoryHibernateImpl<>(Customer.class);
+//        Customer customer = repositoryHibernate3.findById(customerId).get();
+//        Developer developer = DeveloperServiceImpl.getInstance().getById(developerId).get();
+        Set<Developer> developers = new HashSet<>();
+        developers.add(DeveloperServiceImpl.getInstance().getById(developerId).get());
+        Customer customer = CustomerServiceImpl.getInstance().getById(customerId).get();
+        Company company = CompanyServiceImpl.getInstance().getById(companyId).get();
 
-        Company company = new CompanyServiceImpl().getById(companyId).get();
-//        Set<Customer> customers = company.getCustomers();
-        Set<Developer> developers = company.getDevelopers();
-//        Set<Customer> customers = company.getCustomers();
-//        Customer customer = new CustomerServiceImpl().getById(customerId).get();
-
-        Project project =new Project();
+        Project project = new Project();
         project.setName(name);
         project.setCost(cost);
         project.setCompany(company);
-//        project.setCustomer(customer);
+        project.setCustomer(customer);
         project.setDevelopers(developers);
-        return CRUD_REPOSITORY_PROJECT.create(project);
+        return projectService.CRUD_REPOSITORY_PROJECT.create(project);
     }
 
     @Override
-    public void update(Long id, String name, Long cost,Long companyId,Long customerId,Long developerId) {
-        Set<Developer>developerSet = new HashSet<>();
-        CrudRepositoryHibernateImpl<Developer, Long> repositoryHibernate = new CrudRepositoryHibernateImpl<>(Developer.class);
-        Developer developer = repositoryHibernate.findById(developerId).get();
-        developerSet.add(developer);
+    public void update(Long id, String name, Long cost, Long companyId, Long customerId, Long developerId) {
+//        CrudRepositoryHibernateImpl<Developer, Long> repositoryHibernate = new CrudRepositoryHibernateImpl<>(Developer.class);
+//        Developer developer = repositoryHibernate.findById(developerId).get();
+        Set<Developer> developerSet = new HashSet<>();
+//        Developer developer = DeveloperServiceImpl.getInstance().getById(developerId).get();
+        developerSet.add(DeveloperServiceImpl.getInstance().getById(developerId).get());
 
-        Company company = new CompanyServiceImpl().getById(companyId).get();
-        Customer customer = new CustomerServiceImpl().getById(customerId).get();
+        Customer customer = CustomerServiceImpl.getInstance().getById(customerId).get();
+        Company company = CompanyServiceImpl.getInstance().getById(companyId).get();
 
-        Project project = CRUD_REPOSITORY_PROJECT.findById(id).get();
+        Project project = projectService.CRUD_REPOSITORY_PROJECT.findById(id).get();
         project.setName(name);
         project.setCost(cost);
         project.setCompany(company);
         project.setCustomer(customer);
         project.setDevelopers(developerSet);
-        CRUD_REPOSITORY_PROJECT.update(id, project);
+        projectService.CRUD_REPOSITORY_PROJECT.update(id, project);
     }
 
     @Override
     public void delete(Long id) {
-        CRUD_REPOSITORY_PROJECT.delete(id);
+        projectService.CRUD_REPOSITORY_PROJECT.delete(id);
     }
 
     @Override
     public List<String> getListProjectsWithDate() {
-        List<Project> projects = CRUD_REPOSITORY_PROJECT.findAll();
+        List<Project> projects = projectService.CRUD_REPOSITORY_PROJECT.findAll();
         List<String> listProjects = new ArrayList<>();
-        for (int i = 0; i< projects.size(); i++) {
+        for (int i = 0; i < projects.size(); i++) {
             Project project = projects.get(i);
-            int count = countDevelopers(i);
+            int count = countDevelopers(i + 1);
             String name = project.getName();
             String firstDate = project.getFirstDate();
             String listWithDate = "In project " + name + " - " + count + " developers, signs - " + firstDate;
@@ -85,7 +101,6 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     private int countDevelopers(int projectId) {
-        DeveloperServiceImpl developerService = new DeveloperServiceImpl();
-        return developerService.getDevelopersFromOneProject((long) projectId).size();
+        return DeveloperServiceImpl.getInstance().getDevelopersFromOneProject((long) projectId).size();
     }
 }

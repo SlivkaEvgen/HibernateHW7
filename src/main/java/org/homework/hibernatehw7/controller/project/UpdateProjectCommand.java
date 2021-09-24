@@ -14,7 +14,7 @@ import java.util.Scanner;
 
 public class UpdateProjectCommand implements Controller {
 
-    private final ProjectServiceImpl PROJECT_SERVICE = new ProjectServiceImpl();
+    private final ProjectServiceImpl PROJECT_SERVICE =  ProjectServiceImpl.getInstance();
     private final Scanner scanner = ScannerConsole.getInstance();
 
     private void update() {
@@ -62,7 +62,7 @@ public class UpdateProjectCommand implements Controller {
         System.out.print(" ENTER COMPANY-ID \n\uD83D\uDC49 ");
         String companyId = scanner.next();
         try {
-            if (!Validator.validNumber(companyId) | new CompanyServiceImpl().getById(Long.valueOf(companyId)).get().getId() == null) {
+            if (!Validator.validNumber(companyId) |  CompanyServiceImpl.getInstance().getById(Long.valueOf(companyId)).get().getId() == null) {
                 System.out.println("Try again");
                 return enterCompanyId();
             }
@@ -77,7 +77,7 @@ public class UpdateProjectCommand implements Controller {
         System.out.print(" ENTER DEVELOPER-ID \n\uD83D\uDC49 ");
         String developerId = scanner.next();
         try {
-            if (!Validator.validNumber(developerId) | new DeveloperServiceImpl().getById(Long.valueOf(developerId)).get().getId() == null) {
+            if (!Validator.validNumber(developerId) |  DeveloperServiceImpl.getInstance().getById(Long.valueOf(developerId)).get().getId() == null) {
                 System.out.println("Try again");
                 return enterDeveloperId();
             }
@@ -92,7 +92,7 @@ public class UpdateProjectCommand implements Controller {
         System.out.print(" ENTER CUSTOMER-ID \n\uD83D\uDC49 ");
         String customerId = scanner.next();
         try {
-            if (!Validator.validNumber(customerId) | new CustomerServiceImpl().getById(Long.valueOf(customerId)).get().getId() == null) {
+            if (!Validator.validNumber(customerId) |  CustomerServiceImpl.getInstance().getById(Long.valueOf(customerId)).get().getId() == null) {
                 System.out.println("Try again");
                 return enterCustomerId();
             }

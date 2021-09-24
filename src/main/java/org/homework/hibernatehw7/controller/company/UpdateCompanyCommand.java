@@ -14,7 +14,7 @@ import java.util.Scanner;
 
 public class UpdateCompanyCommand implements Controller {
 
-    private final CompanyServiceImpl COMPANY_SERVICE = new CompanyServiceImpl();
+    private final CompanyServiceImpl COMPANY_SERVICE =  CompanyServiceImpl.getInstance();
     private final Scanner scanner = ScannerConsole.getInstance();
 
     private void update() {
@@ -23,8 +23,8 @@ public class UpdateCompanyCommand implements Controller {
         final String city = enterCity();
         final String projectId = enterProjectId();
         final String developerId = enterDeveloperId();
-        final String customerId = enterCustomerId();
-        COMPANY_SERVICE.update(Long.valueOf(id), name, city,Long.valueOf(customerId),Long.valueOf(projectId),Long.valueOf(developerId));
+//        final String customerId = enterCustomerId();
+        COMPANY_SERVICE.update(Long.valueOf(id), name, city,Long.valueOf(projectId),Long.valueOf(developerId));
         System.out.println(" ✅ You updated \uD83D\uDC49 " + COMPANY_SERVICE.getById(Long.valueOf(id)).get() + "\n");
     }
 
@@ -41,7 +41,7 @@ public class UpdateCompanyCommand implements Controller {
     private String enterProjectId() {
         System.out.print(" ENTER PROJECT-ID \n\uD83D\uDC49 ");
         String projectId = scanner.next();
-        if (!Validator.validNumber(projectId) || new ProjectServiceImpl().getById(Long.valueOf(projectId)).get().getId() == null) {
+        if (!Validator.validNumber(projectId) ||  ProjectServiceImpl.getInstance().getById(Long.valueOf(projectId)).get().getId() == null) {
             System.out.println("Try again");
             return enterProjectId();
         }
@@ -51,21 +51,21 @@ public class UpdateCompanyCommand implements Controller {
     private String enterDeveloperId() {
         System.out.print(" ENTER DEVELOPER-ID \n\uD83D\uDC49 ");
         String developerId = scanner.next();
-        if (!Validator.validNumber(developerId) || new DeveloperServiceImpl().getById(Long.valueOf(developerId)).get().getId() == null) {
+        if (!Validator.validNumber(developerId) ||  DeveloperServiceImpl.getInstance().getById(Long.valueOf(developerId)).get().getId() == null) {
             System.out.println("Try again");
             return enterDeveloperId();
         }
         return developerId;
     }
-    private String enterCustomerId() {
-        System.out.print(" ENTER CUSTOMER-ID \n\uD83D\uDC49 ");
-        String customerId = scanner.next();
-        if (!Validator.validNumber(customerId) || new CustomerServiceImpl().getById(Long.valueOf(customerId)).get().getId() == null) {
-            System.out.println("Try again");
-            return enterCustomerId();
-        }
-        return customerId;
-    }
+//    private String enterCustomerId() {
+//        System.out.print(" ENTER CUSTOMER-ID \n\uD83D\uDC49 ");
+//        String customerId = scanner.next();
+//        if (!Validator.validNumber(customerId) || new CustomerServiceImpl().getById(Long.valueOf(customerId)).get().getId() == null) {
+//            System.out.println("Try again");
+//            return enterCustomerId();
+//        }
+//        return customerId;
+//    }
 
     private String enterName() {
         System.out.print(" ENTER NAME \n\uD83D\uDC49 ");

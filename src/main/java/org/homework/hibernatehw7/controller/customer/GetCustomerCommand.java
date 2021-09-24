@@ -13,7 +13,7 @@ import java.util.Scanner;
 
 public class GetCustomerCommand implements Closeable {
 
-    private final CustomerServiceImpl CUSTOMER_SERVICE = new CustomerServiceImpl();
+    private final CustomerServiceImpl CUSTOMER_SERVICE =  CustomerServiceImpl.getInstance();
     private final Scanner scanner = ScannerConsole.getInstance();
 
     public void all() {

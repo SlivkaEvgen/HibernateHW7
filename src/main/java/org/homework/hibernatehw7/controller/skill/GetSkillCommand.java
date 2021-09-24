@@ -10,7 +10,7 @@ import java.util.Scanner;
 
 public class GetSkillCommand implements Closeable {
 
-    private final SkillServiceImpl SKILL_SERVICE = new SkillServiceImpl();
+    private final SkillServiceImpl SKILL_SERVICE =  SkillServiceImpl.getInstance();
     private final Scanner scanner = ScannerConsole.getInstance();
 
     public void all() {

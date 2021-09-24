@@ -15,7 +15,7 @@ public class DeleteDeveloperCommand extends DeveloperCommandImpl {
     private final Scanner scanner = ScannerConsole.getInstance();
 
     public void delete(String id) {
-        final DeveloperServiceImpl developerService = new DeveloperServiceImpl();
+        final DeveloperServiceImpl developerService =  DeveloperServiceImpl.getInstance();
         if (Validator.validNumber(id)) {
             final Optional<Developer> serviceById = developerService.getById(Long.valueOf(id));
             if (serviceById.get().getId() != null) {

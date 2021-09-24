@@ -14,7 +14,7 @@ public class DeleteSkillCommand extends SkillCommandImpl {
     private final Scanner scanner = ScannerConsole.getInstance();
 
     public void delete(String id) {
-        final SkillServiceImpl skillService = new SkillServiceImpl();
+        final SkillServiceImpl skillService =  SkillServiceImpl.getInstance();
         if (Validator.validNumber(id)) {
             final Optional<Skill> serviceById = skillService.getById(Long.valueOf(id));
             if (serviceById.get().getId() != null) {

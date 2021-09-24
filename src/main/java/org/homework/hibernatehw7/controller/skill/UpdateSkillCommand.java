@@ -1,6 +1,5 @@
 package org.homework.hibernatehw7.controller.skill;
 
-
 import org.homework.hibernatehw7.config.ScannerConsole;
 import org.homework.hibernatehw7.controller.interfaces.Controller;
 import org.homework.hibernatehw7.services.DeveloperServiceImpl;
@@ -11,15 +10,28 @@ import java.util.Scanner;
 
 public class UpdateSkillCommand implements Controller {
 
-    private final SkillServiceImpl SKILL_SERVICE =  SkillServiceImpl.getInstance();
+    private final SkillServiceImpl SKILL_SERVICE = SkillServiceImpl.getInstance();
     private final Scanner scanner = ScannerConsole.getInstance();
+    private static UpdateSkillCommand updateSkillCommand;
+
+    public static UpdateSkillCommand getInstance() {
+        if (updateSkillCommand == null) {
+            updateSkillCommand = new UpdateSkillCommand();
+        }
+        return updateSkillCommand;
+    }
+
+    @Override
+    public void start() {
+        update();
+    }
 
     private void update() {
         final String id = enterId();
         final String activity = enterActivity();
         final String level = enterLevel();
         final String developerId = enterDeveloperId();
-        SKILL_SERVICE.update(Long.valueOf(id), activity, level,Long.valueOf(developerId));
+        SKILL_SERVICE.update(Long.valueOf(id), activity, level, Long.valueOf(developerId));
         System.out.println(" ✅ You updated \uD83D\uDC49 " + SKILL_SERVICE.getById(Long.valueOf(id)).get() + "\n");
     }
 
@@ -50,7 +62,7 @@ public class UpdateSkillCommand implements Controller {
     private String enterDeveloperId() {
         System.out.print(" ENTER DEVELOPER-ID \n\uD83D\uDC49 ");
         String developerId = scanner.next();
-        if (!Validator.validNumber(developerId) ||  DeveloperServiceImpl.getInstance().getById(Long.valueOf(developerId)).get().getId() == null) {
+        if (!Validator.validNumber(developerId) || DeveloperServiceImpl.getInstance().getById(Long.valueOf(developerId)).get().getId() == null) {
             System.out.println("Try again");
             return enterDeveloperId();
         }
@@ -71,13 +83,7 @@ public class UpdateSkillCommand implements Controller {
     }
 
     @Override
-    public void start() {
-        update();
-    }
-
-    @Override
     public void close() {
         System.exit(0);
-        scanner.close();
     }
 }

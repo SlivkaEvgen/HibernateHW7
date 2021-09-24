@@ -15,6 +15,19 @@ public class UpdateDeveloperCommand implements Controller {
 
     private final DeveloperServiceImpl DEVELOPER_SERVICE = new DeveloperServiceImpl();
     private final Scanner scanner = ScannerConsole.getInstance();
+    private static UpdateDeveloperCommand updateDeveloperCommand;
+
+    public static UpdateDeveloperCommand getInstance() {
+        if (updateDeveloperCommand == null) {
+            updateDeveloperCommand = new UpdateDeveloperCommand();
+        }
+        return updateDeveloperCommand;
+    }
+
+    @Override
+    public void start() {
+        update();
+    }
 
     private void update() {
         final String id = enterId();
@@ -26,7 +39,7 @@ public class UpdateDeveloperCommand implements Controller {
         final String skillId = enterSkillId();
         final String companyId = enterCompanyId();
         final String projectId = enterProjectId();
-        DEVELOPER_SERVICE.update(Long.valueOf(id), name, Long.valueOf(age), gender, email, Long.valueOf(salary),Long.valueOf(skillId),Long.valueOf(companyId),Long.valueOf(projectId));
+        DEVELOPER_SERVICE.update(Long.valueOf(id), name, Long.valueOf(age), gender, email, Long.valueOf(salary), Long.valueOf(skillId), Long.valueOf(companyId), Long.valueOf(projectId));
         System.out.println(" ✅ You updated \uD83D\uDC49 " + DEVELOPER_SERVICE.getById(Long.valueOf(id)).get() + "\n");
     }
 
@@ -147,13 +160,7 @@ public class UpdateDeveloperCommand implements Controller {
     }
 
     @Override
-    public void start() {
-        update();
-    }
-
-    @Override
     public void close() {
         System.exit(0);
-        scanner.close();
     }
 }

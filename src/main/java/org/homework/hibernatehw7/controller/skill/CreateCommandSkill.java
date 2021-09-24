@@ -1,9 +1,7 @@
 package org.homework.hibernatehw7.controller.skill;
 
-
 import org.homework.hibernatehw7.config.ScannerConsole;
 import org.homework.hibernatehw7.controller.interfaces.Controller;
-import org.homework.hibernatehw7.services.DeveloperServiceImpl;
 import org.homework.hibernatehw7.services.SkillServiceImpl;
 import org.homework.hibernatehw7.utils.Validator;
 
@@ -14,20 +12,23 @@ public class CreateCommandSkill implements Controller {
     private final Scanner scanner = ScannerConsole.getInstance();
     private static CreateCommandSkill createCommandSkill;
 
-    private CreateCommandSkill(){}
-
-    public static CreateCommandSkill getInstance(){
-        if(createCommandSkill == null){
-            createCommandSkill= new CreateCommandSkill();
+    public static CreateCommandSkill getInstance() {
+        if (createCommandSkill == null) {
+            createCommandSkill = new CreateCommandSkill();
         }
         return createCommandSkill;
+    }
+
+    @Override
+    public void start() {
+        create();
     }
 
     private void create() {
         final String activity = enterActivity();
         final String level = enterLevel();
 //        final String developerId = enterDeveloperId();
-         SkillServiceImpl.getInstance().createNewSkill(activity, level);
+        SkillServiceImpl.getInstance().createNewSkill(activity, level);
         System.out.println(" ✅ You created \uD83D\uDC49 " + "new Skill" + "\n");
     }
 
@@ -58,29 +59,23 @@ public class CreateCommandSkill implements Controller {
         return level;
     }
 
-    private String enterDeveloperId() {
-        System.out.print(" ENTER DEVELOPER-ID \n\uD83D\uDC49 ");
-        String developerId = scanner.next();
-        try {
-            if (!Validator.validNumber(developerId) |  DeveloperServiceImpl.getInstance().getById(Long.valueOf(developerId)).get().getId() == null) {
-                System.out.println("Try again");
-                return enterDeveloperId();
-            }
-        } catch (NumberFormatException r) {
-            System.out.println("Try again");
-            return enterDeveloperId();
-        }
-        return developerId;
-    }
-
-    @Override
-    public void start() {
-        create();
-    }
+//    private String enterDeveloperId() {
+//        System.out.print(" ENTER DEVELOPER-ID \n\uD83D\uDC49 ");
+//        String developerId = scanner.next();
+//        try {
+//            if (!Validator.validNumber(developerId) |  DeveloperServiceImpl.getInstance().getById(Long.valueOf(developerId)).get().getId() == null) {
+//                System.out.println("Try again");
+//                return enterDeveloperId();
+//            }
+//        } catch (NumberFormatException r) {
+//            System.out.println("Try again");
+//            return enterDeveloperId();
+//        }
+//        return developerId;
+//    }
 
     @Override
     public void close() {
         System.exit(0);
-        scanner.close();
     }
 }

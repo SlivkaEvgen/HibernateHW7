@@ -3,13 +3,20 @@ package org.homework.hibernatehw7.controller.customer;
 import org.homework.hibernatehw7.config.ScannerConsole;
 import org.homework.hibernatehw7.controller.ControllerImpl;
 import org.homework.hibernatehw7.controller.interfaces.Command;
-
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class CustomerCommandImpl implements Command {
 
     private final Scanner scanner = ScannerConsole.getInstance();
+    private static CustomerCommandImpl customerCommand;
+
+    public static CustomerCommandImpl getInstance() {
+        if (customerCommand == null) {
+            customerCommand = new CustomerCommandImpl();
+        }
+        return customerCommand;
+    }
 
     @Override
     public void start() {
@@ -18,15 +25,19 @@ public class CustomerCommandImpl implements Command {
         try {
             if (console.equalsIgnoreCase("GET")) {
                 getCommand();
+                start();
             }
             if (console.equalsIgnoreCase("CREATE")) {
                 createCommand();
+                start();
             }
             if (console.equalsIgnoreCase("UPDATE")) {
                 updateCommand();
+                start();
             }
             if (console.equalsIgnoreCase("DELETE")) {
                 deleteCommand();
+                start();
             }
             if (console.equalsIgnoreCase("BACK")) {
                 new ControllerImpl().start();
@@ -41,55 +52,31 @@ public class CustomerCommandImpl implements Command {
             System.out.print("        ⛔WRONG⛔\n\uD83D\uDCACPlease, enter again \n");
             start();
         }
+        start();
     }
 
     @Override
     public void getCommand() {
-        final GetCustomerCommand getCustomerCommand = new GetCustomerCommand();
-        System.out.print("\n \uD83D\uDC49 ByID\n \uD83D\uDC49 All\n   \uD83D\uDC49 BACK\n   \uD83D\uDC49 STOP\n\uD83D\uDC49 ");
-        final String console = scanner.next();
-        if (console.equalsIgnoreCase("ByID")) {
-            getCustomerCommand.byId();
-            getCommand();
-        }
-        if (console.equalsIgnoreCase("ALL")) {
-            getCustomerCommand.all();
-            getCommand();
-        }
-        if (console.equalsIgnoreCase("BACK")) {
-            start();
-        }
-        if (console.equalsIgnoreCase("STOP")) {
-            close();
-        } else {
-            System.out.print("        ⛔WRONG⛔\n\uD83D\uDCACPlease, enter again \n");
-            getCommand();
-        }
-        getCommand();
+        GetCustomerCommand.getInstance().start();
     }
 
     @Override
     public void createCommand() {
-        new CreateCustomerCommand().start();
-        start();
+        CreateCustomerCommand.getInstance().start();
     }
 
     @Override
     public void updateCommand() {
-        new UpdateCustomerCommand().start();
-        start();
+        UpdateCustomerCommand.getInstance().start();
     }
 
     @Override
     public void deleteCommand() {
-        System.out.print("\n ENTER ID \n\uD83D\uDC49 ");
-        new DeleteCustomerCommand().delete(scanner.next());
-        start();
+        DeleteCustomerCommand.getInstance().start();
     }
 
     @Override
     public void close() {
         System.exit(0);
-        scanner.close();
     }
 }

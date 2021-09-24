@@ -1,8 +1,7 @@
 package org.homework.hibernatehw7.controller.project;
 
-
-
 import org.homework.hibernatehw7.config.ScannerConsole;
+import org.homework.hibernatehw7.controller.interfaces.Controller;
 import org.homework.hibernatehw7.model.Project;
 import org.homework.hibernatehw7.services.ProjectServiceImpl;
 import org.homework.hibernatehw7.utils.Validator;
@@ -10,12 +9,27 @@ import org.homework.hibernatehw7.utils.Validator;
 import java.util.Optional;
 import java.util.Scanner;
 
-public class DeleteProjectCommand extends ProjectCommandImpl {
+public class DeleteProjectCommand implements Controller {
 
     private final Scanner scanner = ScannerConsole.getInstance();
+    private static DeleteProjectCommand deleteProjectCommand;
 
-    public void delete(String id) {
-        final ProjectServiceImpl projectService =  ProjectServiceImpl.getInstance();
+    public static DeleteProjectCommand getInstance() {
+        if (deleteProjectCommand == null) {
+            deleteProjectCommand = new DeleteProjectCommand();
+        }
+        return deleteProjectCommand;
+    }
+
+    @Override
+    public void start() {
+        delete();
+    }
+
+    private void delete() {
+        System.out.print("\n ENTER ID \n\uD83D\uDC49 ");
+        String id = scanner.next();
+        final ProjectServiceImpl projectService = ProjectServiceImpl.getInstance();
         if (Validator.validNumber(id)) {
             final Optional<Project> serviceById = projectService.getById(Long.valueOf(id));
             if (serviceById.get().getId() != null) {
@@ -28,11 +42,16 @@ public class DeleteProjectCommand extends ProjectCommandImpl {
                 }
             } else {
                 System.out.print("\nNot found, try again ... ");
-                deleteCommand();
+                delete();
             }
         } else {
             System.out.print("\nNot found, try again ... ");
-            deleteCommand();
+            delete();
         }
+    }
+
+    @Override
+    public void close() {
+        System.exit(0);
     }
 }

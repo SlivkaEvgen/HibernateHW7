@@ -1,45 +1,89 @@
 package org.homework.hibernatehw7.controller.developer;
 
 
-
 import org.homework.hibernatehw7.config.ScannerConsole;
+import org.homework.hibernatehw7.controller.interfaces.Controller;
 import org.homework.hibernatehw7.model.Developer;
 import org.homework.hibernatehw7.services.DeveloperServiceImpl;
 import org.homework.hibernatehw7.utils.Validator;
 
-import java.io.Closeable;
 import java.util.List;
 import java.util.Scanner;
 
-public class GetDeveloperCommand implements Closeable {
+public class GetDeveloperCommand implements Controller {
 
-    private final DeveloperServiceImpl DEVELOPER_SERVICE =  DeveloperServiceImpl.getInstance();
+    private final DeveloperServiceImpl DEVELOPER_SERVICE = DeveloperServiceImpl.getInstance();
     private final Scanner scanner = ScannerConsole.getInstance();
+    private static GetDeveloperCommand getDeveloperCommand;
 
-    public void all() {
+    public static GetDeveloperCommand getInstance() {
+        if (getDeveloperCommand == null) {
+            getDeveloperCommand = new GetDeveloperCommand();
+        }
+        return getDeveloperCommand;
+    }
+
+    @Override
+    public void start() {
+        System.out.print("\n \uD83D\uDC49 ByID\n \uD83D\uDC49 All\n \uD83D\uDC49 ByProjectID\n \uD83D\uDC49 ByActivity\n \uD83D\uDC49 ByLevel\n \uD83D\uDC49 SumSalaries\n   \uD83D\uDC49 BACK\n   \uD83D\uDC49 STOP\n\uD83D\uDC49 ");
+        final String console = scanner.next();
+        if (console.equalsIgnoreCase("ByID")) {
+            getById();
+            start();
+        }
+        if (console.equalsIgnoreCase("ALL")) {
+            getAll();
+            start();
+        }
+        if (console.equalsIgnoreCase("ByProjectID")) {
+            getByProjectID();
+            start();
+        }
+        if (console.equalsIgnoreCase("ByActivity")) {
+            getByActivity();
+            start();
+        }
+        if (console.equalsIgnoreCase("ByLevel")) {
+            getByLevel();
+            start();
+        }
+        if (console.equalsIgnoreCase("SumSalaries")) {
+            getSumSalaries();
+            start();
+        }
+        if (console.equalsIgnoreCase("BACK")) {
+            DeveloperCommandImpl.getInstance().start();
+        }
+        if (console.equalsIgnoreCase("STOP")) {
+            close();
+        } else {
+            System.out.print("        ⛔WRONG⛔\n\uD83D\uDCACPlease, enter again \n\n");
+            start();
+        }
+        start();
+    }
+
+    private void getAll() {
         System.out.println(DEVELOPER_SERVICE.getAll());
     }
 
-    public void byId() {
+    private void getById() {
         System.out.print("\n ENTER ID \n\uD83D\uDC49 ");
-        getById(scanner.next());
-    }
-
-    private void getById(String next) {
+        String next = scanner.next();
         if (Validator.validNumber(next)) {
             if (DEVELOPER_SERVICE.getById(Long.valueOf(next)).get().getId() != null) {
                 System.out.println(DEVELOPER_SERVICE.getById(Long.valueOf(next)));
             } else {
                 System.out.print("\nNot found, try again ... ");
-                byId();
+                getById();
             }
         } else {
             System.out.print("\nNot found, try again ... ");
-            byId();
+            getById();
         }
     }
 
-    public void getByProjectID() {
+    private void getByProjectID() {
         System.out.print(" ENTER PROJECT-ID \n\uD83D\uDC49 ");
         String next = scanner.next();
         if (Validator.validNumber(next)) {
@@ -56,7 +100,7 @@ public class GetDeveloperCommand implements Closeable {
         }
     }
 
-    public void getByActivity() {
+    private void getByActivity() {
         System.out.print(" ENTER ACTIVITY \n ✅examples : Java, JS, C++, C# \n\uD83D\uDC49 ");
         String activity = scanner.next();
         if (Validator.validString(activity)) {
@@ -84,7 +128,7 @@ public class GetDeveloperCommand implements Closeable {
         }
     }
 
-    public void getByLevel() {
+    private void getByLevel() {
         System.out.print(" ENTER LEVEL \n ✅examples : Junior, Middle, Senior \n\uD83D\uDC49 ");
         String level = scanner.next();
         if (Validator.validString(level)) {
@@ -108,7 +152,7 @@ public class GetDeveloperCommand implements Closeable {
         }
     }
 
-    public void getSumSalaries() {
+    private void getSumSalaries() {
         System.out.print(" ENTER PROJECT-ID \n\uD83D\uDC49 ");
         String next = scanner.next();
         if (Validator.validNumber(next)) {
@@ -138,6 +182,5 @@ public class GetDeveloperCommand implements Closeable {
     @Override
     public void close() {
         System.exit(0);
-        scanner.close();
     }
 }

@@ -1,8 +1,7 @@
 package org.homework.hibernatehw7.controller.developer;
 
-
-
 import org.homework.hibernatehw7.config.ScannerConsole;
+import org.homework.hibernatehw7.controller.interfaces.Controller;
 import org.homework.hibernatehw7.model.Developer;
 import org.homework.hibernatehw7.services.DeveloperServiceImpl;
 import org.homework.hibernatehw7.utils.Validator;
@@ -10,12 +9,27 @@ import org.homework.hibernatehw7.utils.Validator;
 import java.util.Optional;
 import java.util.Scanner;
 
-public class DeleteDeveloperCommand extends DeveloperCommandImpl {
+public class DeleteDeveloperCommand implements Controller {
 
     private final Scanner scanner = ScannerConsole.getInstance();
+    private static DeleteDeveloperCommand deleteDeveloperCommand;
 
-    public void delete(String id) {
-        final DeveloperServiceImpl developerService =  DeveloperServiceImpl.getInstance();
+    public static DeleteDeveloperCommand getInstance() {
+        if (deleteDeveloperCommand == null) {
+            deleteDeveloperCommand = new DeleteDeveloperCommand();
+        }
+        return deleteDeveloperCommand;
+    }
+
+    @Override
+    public void start() {
+        delete();
+    }
+
+    private void delete() {
+        System.out.print("\n ENTER ID \n\uD83D\uDC49 ");
+        String id = scanner.next();
+        final DeveloperServiceImpl developerService = DeveloperServiceImpl.getInstance();
         if (Validator.validNumber(id)) {
             final Optional<Developer> serviceById = developerService.getById(Long.valueOf(id));
             if (serviceById.get().getId() != null) {
@@ -28,11 +42,16 @@ public class DeleteDeveloperCommand extends DeveloperCommandImpl {
                 }
             } else {
                 System.out.print("\nNot found, try again ... ");
-                deleteCommand();
+                delete();
             }
         } else {
             System.out.print("\nNot found, try again ... ");
-            deleteCommand();
+            delete();
         }
+    }
+
+    @Override
+    public void close() {
+        System.exit(0);
     }
 }

@@ -1,7 +1,5 @@
 package org.homework.hibernatehw7.controller.skill;
 
-
-
 import org.homework.hibernatehw7.config.ScannerConsole;
 import org.homework.hibernatehw7.controller.ControllerImpl;
 import org.homework.hibernatehw7.controller.interfaces.Command;
@@ -12,6 +10,14 @@ import java.util.Scanner;
 public class SkillCommandImpl implements Command {
 
     private final Scanner scanner = ScannerConsole.getInstance();
+    private static SkillCommandImpl skillCommand;
+
+    public static SkillCommandImpl getInstance() {
+        if (skillCommand == null) {
+            skillCommand = new SkillCommandImpl();
+        }
+        return skillCommand;
+    }
 
     @Override
     public void start() {
@@ -20,15 +26,19 @@ public class SkillCommandImpl implements Command {
         try {
             if (console.equalsIgnoreCase("GET")) {
                 getCommand();
+                start();
             }
             if (console.equalsIgnoreCase("CREATE")) {
                 createCommand();
+                start();
             }
             if (console.equalsIgnoreCase("UPDATE")) {
                 updateCommand();
+                start();
             }
             if (console.equalsIgnoreCase("DELETE")) {
                 deleteCommand();
+                start();
             }
             if (console.equalsIgnoreCase("BACK")) {
                 new ControllerImpl().start();
@@ -43,56 +53,31 @@ public class SkillCommandImpl implements Command {
             System.out.print("        ⛔WRONG⛔\n\uD83D\uDCACPlease, enter again \n");
             start();
         }
+        start();
     }
 
     @Override
     public void getCommand() {
-        final GetSkillCommand getSkillCommand = new GetSkillCommand();
-        System.out.print("\n \uD83D\uDC49 ByID\n \uD83D\uDC49 All\n   \uD83D\uDC49 BACK\n   \uD83D\uDC49 STOP\n\uD83D\uDC49 ");
-        String console = scanner.next();
-        if (console.equalsIgnoreCase("ByID")) {
-            getSkillCommand.byId();
-            getCommand();
-        }
-        if (console.equalsIgnoreCase("ALL")) {
-            getSkillCommand.all();
-            getCommand();
-        }
-        if (console.equalsIgnoreCase("BACK")) {
-            start();
-        }
-        if (console.equalsIgnoreCase("STOP")) {
-            close();
-        } else {
-            System.out.print("        ⛔WRONG⛔\n\uD83D\uDCACPlease, enter again \n");
-            getCommand();
-        }
-        getCommand();
+        GetSkillCommand.getInstance().start();
     }
 
     @Override
     public void createCommand() {
-         CreateCommandSkill.getInstance().start();
-        start();
+        CreateCommandSkill.getInstance().start();
     }
 
     @Override
     public void updateCommand() {
-        new UpdateSkillCommand().start();
-        start();
+        UpdateSkillCommand.getInstance().start();
     }
 
     @Override
     public void deleteCommand() {
-        System.out.print("\n ENTER ID \n\uD83D\uDC49 ");
-        String id = scanner.next();
-        new DeleteSkillCommand().delete(id);
-        start();
+        DeleteSkillCommand.getInstance().start();
     }
 
     @Override
     public void close() {
         System.exit(0);
-        scanner.close();
     }
 }

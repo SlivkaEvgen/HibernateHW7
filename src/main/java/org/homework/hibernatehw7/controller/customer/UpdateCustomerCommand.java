@@ -11,8 +11,21 @@ import java.util.Scanner;
 
 public class UpdateCustomerCommand implements Controller {
 
-    private final CustomerServiceImpl CUSTOMER_SERVICE =  CustomerServiceImpl.getInstance();
+    private final CustomerServiceImpl CUSTOMER_SERVICE = CustomerServiceImpl.getInstance();
     private final Scanner scanner = ScannerConsole.getInstance();
+    private static UpdateCustomerCommand updateCustomerCommand;
+
+    public static UpdateCustomerCommand getInstance() {
+        if (updateCustomerCommand == null) {
+            updateCustomerCommand = new UpdateCustomerCommand();
+        }
+        return updateCustomerCommand;
+    }
+
+    @Override
+    public void start() {
+        update();
+    }
 
     private void update() {
         final String id = enterId();
@@ -21,7 +34,7 @@ public class UpdateCustomerCommand implements Controller {
         final String budget = enterBudget();
         final String companyId = enterCompanyId();
         final String projectId = enterProjectId();
-        CUSTOMER_SERVICE.update(Long.valueOf(id), name,city, Long.valueOf(budget),Long.valueOf(companyId),Long.valueOf(projectId));
+        CUSTOMER_SERVICE.update(Long.valueOf(id), name, city, Long.valueOf(budget), Long.valueOf(companyId), Long.valueOf(projectId));
         System.out.println(" ✅ You updated \uD83D\uDC49 " + CUSTOMER_SERVICE.getById(Long.valueOf(id)).get() + "\n");
     }
 
@@ -44,6 +57,7 @@ public class UpdateCustomerCommand implements Controller {
         }
         return name;
     }
+
     private String enterCity() {
         System.out.print(" ENTER CITY \n\uD83D\uDC49 ");
         String city = scanner.next();
@@ -68,7 +82,7 @@ public class UpdateCustomerCommand implements Controller {
         System.out.print(" ENTER COMPANY-ID \n\uD83D\uDC49 ");
         String companyId = scanner.next();
         try {
-            if (!Validator.validNumber(companyId) |  CompanyServiceImpl.getInstance().getById(Long.valueOf(companyId)).get().getId() == null) {
+            if (!Validator.validNumber(companyId) | CompanyServiceImpl.getInstance().getById(Long.valueOf(companyId)).get().getId() == null) {
                 System.out.println("Try again");
                 return enterCompanyId();
             }
@@ -83,7 +97,7 @@ public class UpdateCustomerCommand implements Controller {
         System.out.print(" ENTER PROJECT-ID \n\uD83D\uDC49 ");
         String projectId = scanner.next();
         try {
-            if (!Validator.validNumber(projectId) |  ProjectServiceImpl.getInstance().getById(Long.valueOf(projectId)).get().getId() == null) {
+            if (!Validator.validNumber(projectId) | ProjectServiceImpl.getInstance().getById(Long.valueOf(projectId)).get().getId() == null) {
                 System.out.println("Try again");
                 return enterProjectId();
             }
@@ -95,13 +109,7 @@ public class UpdateCustomerCommand implements Controller {
     }
 
     @Override
-    public void start() {
-        update();
-    }
-
-    @Override
     public void close() {
         System.exit(0);
-        scanner.close();
     }
 }

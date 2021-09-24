@@ -1,16 +1,22 @@
 package org.homework.hibernatehw7.controller.project;
 
-
 import org.homework.hibernatehw7.config.ScannerConsole;
 import org.homework.hibernatehw7.controller.ControllerImpl;
 import org.homework.hibernatehw7.controller.interfaces.Command;
-
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class ProjectCommandImpl implements Command {
 
     private final Scanner scanner = ScannerConsole.getInstance();
+    private static ProjectCommandImpl projectCommand;
+
+    public static ProjectCommandImpl getInstance() {
+        if (projectCommand == null) {
+            projectCommand = new ProjectCommandImpl();
+        }
+        return projectCommand;
+    }
 
     @Override
     public void start() {
@@ -19,15 +25,19 @@ public class ProjectCommandImpl implements Command {
         try {
             if (console.equalsIgnoreCase("GET")) {
                 getCommand();
+                start();
             }
             if (console.equalsIgnoreCase("CREATE")) {
                 createCommand();
+                start();
             }
             if (console.equalsIgnoreCase("UPDATE")) {
                 updateCommand();
+                start();
             }
             if (console.equalsIgnoreCase("DELETE")) {
                 deleteCommand();
+                start();
             }
             if (console.equalsIgnoreCase("BACK")) {
                 new ControllerImpl().start();
@@ -42,59 +52,31 @@ public class ProjectCommandImpl implements Command {
             System.out.print("        ⛔WRONG⛔\n\uD83D\uDCACPlease, enter again \n");
             start();
         }
+        start();
     }
 
     @Override
     public void getCommand() {
-        final GetProjectCommand getProjectCommand = new GetProjectCommand();
-        System.out.print("\n \uD83D\uDC49 ById \n \uD83D\uDC49 All \n \uD83D\uDC49 ListProjectsWithDate \n \uD83D\uDC49 BACK \n \uD83D\uDC49 STOP\n\uD83D\uDC49");
-        final String console = scanner.next();
-        if (console.equalsIgnoreCase("ByID")) {
-            getProjectCommand.byId();
-            getCommand();
-        }
-        if (console.equalsIgnoreCase("ALL")) {
-            getProjectCommand.all();
-            getCommand();
-        }
-        if (console.equalsIgnoreCase("ListProjectsWithDate")) {
-            getProjectCommand.getListProjectsWithDate();
-            getCommand();
-        }
-        if (console.equalsIgnoreCase("BACK")) {
-            start();
-        }
-        if (console.equalsIgnoreCase("STOP")) {
-            close();
-        } else {
-            System.out.print("        ⛔WRONG⛔\n\uD83D\uDCACPlease, enter again \n");
-            getCommand();
-        }
-        getCommand();
+        GetProjectCommand.getInstance().start();
     }
 
     @Override
     public void createCommand() {
-        new CreateProjectCommand().start();
-        start();
+        CreateProjectCommand.getInstance().start();
     }
 
     @Override
     public void updateCommand() {
-        new UpdateProjectCommand().start();
-        start();
+        UpdateProjectCommand.getInstance().start();
     }
 
     @Override
     public void deleteCommand() {
-        System.out.print("\n ENTER ID \n\uD83D\uDC49 ");
-        new DeleteProjectCommand().delete(scanner.next());
-        start();
+        DeleteProjectCommand.getInstance().start();
     }
 
     @Override
     public void close() {
         System.exit(0);
-        scanner.close();
     }
 }

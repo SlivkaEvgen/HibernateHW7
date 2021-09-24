@@ -1,9 +1,7 @@
 package org.homework.hibernatehw7.controller;
 
-
 import org.homework.hibernatehw7.config.ScannerConsole;
 import org.homework.hibernatehw7.controller.interfaces.Controller;
-
 import java.util.Scanner;
 
 public class CommandImpl implements Controller {
@@ -27,10 +25,10 @@ public class CommandImpl implements Controller {
             System.out.print("        ⛔WRONG⛔\n\uD83D\uDCACPlease, enter again \n");
             startConsole();
         }
+        startConsole();
     }
 
     public void close() {
         System.exit(0);
-        scanner.close();
     }
 }

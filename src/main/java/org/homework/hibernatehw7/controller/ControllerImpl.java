@@ -1,6 +1,5 @@
 package org.homework.hibernatehw7.controller;
 
-
 import org.homework.hibernatehw7.config.ScannerConsole;
 import org.homework.hibernatehw7.controller.company.CompanyCommandImpl;
 import org.homework.hibernatehw7.controller.customer.CustomerCommandImpl;
@@ -19,23 +18,23 @@ public class ControllerImpl implements Controller {
     public void start() {
         System.out.print("\n \uD83D\uDC49 DEVELOPER\n \uD83D\uDC49 PROJECT\n \uD83D\uDC49 COMPANY\n \uD83D\uDC49 CUSTOMER\n \uD83D\uDC49 SKILL\n   \uD83D\uDC49 BACK\n   \uD83D\uDC49 STOP\n\uD83D\uDC49 ");
         final String controller = scanner.next();
-        if (controller.isEmpty()) {
-            close();
-        }
+//        if (controller.isEmpty()) {
+//            close();
+//        }
         if (controller.equalsIgnoreCase("DEVELOPER")) {
-            new DeveloperCommandImpl().start();
+            DeveloperCommandImpl.getInstance().start();
         }
         if (controller.equalsIgnoreCase("PROJECT")) {
-            new ProjectCommandImpl().start();
+            ProjectCommandImpl.getInstance().start();
         }
         if (controller.equalsIgnoreCase("COMPANY")) {
-            new CompanyCommandImpl().start();
+            CompanyCommandImpl.getInstance().start();
         }
         if (controller.equalsIgnoreCase("CUSTOMER")) {
-            new CustomerCommandImpl().start();
+            CustomerCommandImpl.getInstance().start();
         }
         if (controller.equalsIgnoreCase("SKILL")) {
-            new SkillCommandImpl().start();
+            SkillCommandImpl.getInstance().start();
         }
         if (controller.equalsIgnoreCase("BACK")) {
             new CommandImpl().start();
@@ -46,11 +45,11 @@ public class ControllerImpl implements Controller {
             System.out.print("        ⛔WRONG⛔\n\uD83D\uDCACPlease, enter again \n");
             start();
         }
+        start();
     }
 
     @Override
     public void close() {
         System.exit(0);
-        scanner.close();
     }
 }

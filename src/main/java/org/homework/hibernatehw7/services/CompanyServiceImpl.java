@@ -12,6 +12,19 @@ import java.util.Set;
 
 public class CompanyServiceImpl implements CompanyService {
 
+    private static CompanyServiceImpl companyService;
+
+    public static CompanyServiceImpl getInstance() {
+        if (companyService == null) {
+            synchronized (CompanyServiceImpl.class) {
+                if (companyService == null) {
+                    companyService = new CompanyServiceImpl();
+                }
+            }
+        }
+        return companyService;
+    }
+
     @Override
     public Optional<Company> findById(Long id) {
         return ServiceFactory.of(Company.class).findById(id);
@@ -46,8 +59,8 @@ public class CompanyServiceImpl implements CompanyService {
     public Company createNewCompany(String name, String city, Long projectId, Long developerId) {
         Set<Project> projectSet = new HashSet<>();
         Set<Developer> developerSet = new HashSet<>();
-        projectSet.add(ServiceFactory.of(Project.class).findById(projectId).get());
-        developerSet.add(ServiceFactory.of(Developer.class).findById(developerId).get());
+        projectSet.add(ProjectServiceImpl.getInstance().findById(projectId).get());
+        developerSet.add(DeveloperServiceImpl.getInstance().findById(developerId).get());
 
         return create(Company.builder()
                 .name(name)
@@ -61,8 +74,8 @@ public class CompanyServiceImpl implements CompanyService {
     public void updateCompany(Long id, String name, String city, Long projectId, Long developerId) {
         Set<Project> projectSet = new HashSet<>();
         Set<Developer> developerSet = new HashSet<>();
-        projectSet.add(ServiceFactory.of(Project.class).findById(projectId).get());
-        developerSet.add(ServiceFactory.of(Developer.class).findById(developerId).get());
+        projectSet.add(ProjectServiceImpl.getInstance().findById(projectId).get());
+        developerSet.add(DeveloperServiceImpl.getInstance().findById(developerId).get());
 
         Company company = findById(id).get();
         company.setCity(city);

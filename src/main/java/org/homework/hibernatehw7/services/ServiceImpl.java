@@ -11,7 +11,6 @@ import java.util.Optional;
 public class ServiceImpl<T extends BaseModel<ID>, ID> implements Closeable, Service<T, ID> {
 
     private final Class<T> modelClass;
-
     private static ServiceImpl service;
 
     public static ServiceImpl getInstance(Class modelClass) {

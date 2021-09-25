@@ -84,7 +84,6 @@ public class GetDeveloperCommand implements Controller {
             System.out.print("\nNot found, try again ... ");
             getById();
         }
-        getById();
     }
 
     private void getByProjectID() {
@@ -102,16 +101,15 @@ public class GetDeveloperCommand implements Controller {
             System.out.println("not found, try again ");
             getByProjectID();
         }
-        getByProjectID();
     }
 
     private void getByActivity() {
-        System.out.print(" ENTER ACTIVITY \n ✅examples : Java, JS, C++, C# \n\uD83D\uDC49 ");
+        System.out.print(" ENTER ACTIVITY \n ✅examples : Java, JS, C+, C# \n\uD83D\uDC49 ");
         String activity = scanner.next();
         if (Validator.validString(activity)) {
             if (!activity.equalsIgnoreCase("js")) {
                 if (!activity.equalsIgnoreCase("java")) {
-                    if (!activity.equalsIgnoreCase("C++")) {
+                    if (!activity.equalsIgnoreCase("C+")) {
                         if (!activity.equalsIgnoreCase("C#")) {
                             System.out.println("not found, try again ");
                             getByActivity();
@@ -131,7 +129,6 @@ public class GetDeveloperCommand implements Controller {
             System.out.println("not found, try again ");
             getByActivity();
         }
-        getByActivity();
     }
 
     private void getByLevel() {
@@ -156,7 +153,6 @@ public class GetDeveloperCommand implements Controller {
             System.out.print("\n not found, try again \n");
             getByLevel();
         }
-        getByLevel();
     }
 
     private void getSumSalaries() {
@@ -184,7 +180,7 @@ public class GetDeveloperCommand implements Controller {
             System.out.print("\nnot found, try again \n");
             getSumSalaries();
         }
-        getSumSalaries();
+
     }
 
     @Override

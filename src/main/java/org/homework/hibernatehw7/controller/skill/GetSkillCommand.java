@@ -4,7 +4,9 @@ import org.homework.hibernatehw7.config.ScannerConsole;
 import org.homework.hibernatehw7.controller.interfaces.Controller;
 import org.homework.hibernatehw7.model.Skill;
 import org.homework.hibernatehw7.services.ServiceFactory;
+import org.homework.hibernatehw7.services.SkillServiceImpl;
 import org.homework.hibernatehw7.services.interfaces.Service;
+import org.homework.hibernatehw7.services.interfaces.SkillService;
 import org.homework.hibernatehw7.utils.Validator;
 
 import java.util.Optional;
@@ -12,7 +14,7 @@ import java.util.Scanner;
 
 public class GetSkillCommand implements Controller {
 
-    private final Service<Skill, Long> SKILL_SERVICE = ServiceFactory.of(Skill.class);
+    private final SkillService SKILL_SERVICE = new SkillServiceImpl();
     private final Scanner scanner = ScannerConsole.getInstance();
     private static GetSkillCommand getSkillCommand;
 
@@ -62,7 +64,6 @@ public class GetSkillCommand implements Controller {
             System.out.print("\nNot found, try again ... ");
             getById();
         }
-        getById();
     }
 
     private void getAll() {

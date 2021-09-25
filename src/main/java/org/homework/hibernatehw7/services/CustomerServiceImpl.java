@@ -11,10 +11,23 @@ import java.util.Set;
 
 public class CustomerServiceImpl implements CustomerService {
 
+    private static CustomerServiceImpl customerService;
+
+    public static CustomerServiceImpl getInstance() {
+        if (customerService == null) {
+            synchronized (CustomerServiceImpl.class) {
+                if (customerService == null) {
+                    customerService = new CustomerServiceImpl();
+                }
+            }
+        }
+        return customerService;
+    }
+
     @Override
     public Customer createNewCustomer(String name, String city, Long budget, Long projectId) {
         Set<Project> projectSet = new HashSet<>();
-        projectSet.add(ServiceFactory.of(Project.class).findById(projectId).get());
+        projectSet.add(ProjectServiceImpl.getInstance().findById(projectId).get());
 
         return create(Customer.builder()
                 .city(city)
@@ -27,7 +40,7 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public void updateCustomer(Long id, String name, String city, Long budget, Long companyId, Long projectId) {
         Set<Project> projectSet = new HashSet<>();
-        projectSet.add(ServiceFactory.of(Project.class).findById(projectId).get());
+        projectSet.add(ProjectServiceImpl.getInstance().findById(projectId).get());
 
         Customer customer = findById(id).get();
         customer.setBudget(budget);

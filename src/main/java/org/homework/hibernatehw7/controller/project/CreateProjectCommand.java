@@ -6,8 +6,7 @@ import org.homework.hibernatehw7.model.Company;
 import org.homework.hibernatehw7.model.Customer;
 import org.homework.hibernatehw7.model.Developer;
 import org.homework.hibernatehw7.model.Project;
-import org.homework.hibernatehw7.services.ProjectServiceImpl;
-import org.homework.hibernatehw7.services.ServiceFactory;
+import org.homework.hibernatehw7.services.*;
 import org.homework.hibernatehw7.services.interfaces.ProjectService;
 import org.homework.hibernatehw7.services.interfaces.Service;
 import org.homework.hibernatehw7.utils.Validator;
@@ -66,7 +65,7 @@ public class CreateProjectCommand implements Controller {
         System.out.print(" ENTER COMPANY-ID \n\uD83D\uDC49 ");
         String companyId = scanner.next();
         try {
-            if (!Validator.validNumber(companyId) | ServiceFactory.of(Company.class).findById(Long.valueOf(companyId)).get().getId() == null) {
+            if (!Validator.validNumber(companyId) || !CompanyServiceImpl.getInstance().findById(Long.valueOf(companyId)).isPresent()) {
                 System.out.println("Try again");
                 return enterCompanyId();
             }
@@ -81,7 +80,7 @@ public class CreateProjectCommand implements Controller {
         System.out.print(" ENTER DEVELOPER-ID \n\uD83D\uDC49 ");
         String developerId = scanner.next();
         try {
-            if (!Validator.validNumber(developerId) | ServiceFactory.of(Developer.class).findById(Long.valueOf(developerId)).get().getId() == null) {
+            if (!Validator.validNumber(developerId) || !DeveloperServiceImpl.getInstance().findById(Long.valueOf(developerId)).isPresent()) {
                 System.out.println("Try again");
                 return enterDeveloperId();
             }
@@ -96,7 +95,7 @@ public class CreateProjectCommand implements Controller {
         System.out.print(" ENTER CUSTOMER-ID \n\uD83D\uDC49 ");
         String customerId = scanner.next();
         try {
-            if (!Validator.validNumber(customerId) | ServiceFactory.of(Customer.class).findById(Long.valueOf(customerId)).get().getId() == null) {
+            if (!Validator.validNumber(customerId) || !CustomerServiceImpl.getInstance().findById(Long.valueOf(customerId)).isPresent()) {
                 System.out.println("Try again");
                 return enterCustomerId();
             }

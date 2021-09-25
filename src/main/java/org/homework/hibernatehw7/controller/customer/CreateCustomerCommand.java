@@ -5,6 +5,7 @@ import org.homework.hibernatehw7.controller.interfaces.Controller;
 import org.homework.hibernatehw7.model.Customer;
 import org.homework.hibernatehw7.model.Project;
 import org.homework.hibernatehw7.services.CustomerServiceImpl;
+import org.homework.hibernatehw7.services.ProjectServiceImpl;
 import org.homework.hibernatehw7.services.ServiceFactory;
 import org.homework.hibernatehw7.services.interfaces.CustomerService;
 import org.homework.hibernatehw7.services.interfaces.Service;
@@ -73,7 +74,7 @@ public class CreateCustomerCommand implements Controller {
         System.out.print(" ENTER PROJECT-ID \n\uD83D\uDC49 ");
         String projectId = scanner.next();
         try {
-            if (!Validator.validNumber(projectId) | ServiceFactory.of(Project.class).findById(Long.valueOf(projectId)).get().getId() == null) {
+            if (!Validator.validNumber(projectId) || !ProjectServiceImpl.getInstance().findById(Long.valueOf(projectId)).isPresent()) {
                 System.out.println("Try again");
                 return enterProjectId();
             }

@@ -4,6 +4,7 @@ import org.homework.hibernatehw7.config.ScannerConsole;
 import org.homework.hibernatehw7.controller.interfaces.Controller;
 import org.homework.hibernatehw7.model.Developer;
 import org.homework.hibernatehw7.model.Skill;
+import org.homework.hibernatehw7.services.DeveloperServiceImpl;
 import org.homework.hibernatehw7.services.ServiceFactory;
 import org.homework.hibernatehw7.services.SkillServiceImpl;
 import org.homework.hibernatehw7.services.interfaces.Service;
@@ -42,7 +43,7 @@ public class UpdateSkillCommand implements Controller {
     private String enterId() {
         System.out.print(" ENTER ID \n\uD83D\uDC49 ");
         String id = scanner.next();
-        if (!Validator.validNumber(id) || SKILL_SERVICE.findById(Long.valueOf(id)).get().getId() == null) {
+        if (!Validator.validNumber(id) || !SKILL_SERVICE.findById(Long.valueOf(id)).isPresent()) {
             System.out.println("Try again");
             return enterId();
         }
@@ -51,11 +52,11 @@ public class UpdateSkillCommand implements Controller {
 
     private String enterActivity() {
         System.out.print(" ENTER ACTIVITY \n\uD83D\uDC49 ");
-        System.out.println(" Example: Java, C++, JS, C# ");
+        System.out.println(" Example: Java, C+, JS, C# ");
         String activity = scanner.next();
         if (!Validator.validString(activity) | !activity.equalsIgnoreCase("java")
                                                & !activity.equalsIgnoreCase("js")
-                                               & !activity.equalsIgnoreCase("c++")
+                                               & !activity.equalsIgnoreCase("c+")
                                                & !activity.equalsIgnoreCase("c#")) {
             System.out.println("Try again");
             return enterActivity();
@@ -66,7 +67,7 @@ public class UpdateSkillCommand implements Controller {
     private String enterDeveloperId() {
         System.out.print(" ENTER DEVELOPER-ID \n\uD83D\uDC49 ");
         String developerId = scanner.next();
-        if (!Validator.validNumber(developerId) || ServiceFactory.of(Developer.class).findById(Long.valueOf(developerId)).get().getId() == null) {
+        if (!Validator.validNumber(developerId) || !DeveloperServiceImpl.getInstance().findById(Long.valueOf(developerId)).isPresent()) {
             System.out.println("Try again");
             return enterDeveloperId();
         }

@@ -1,21 +1,35 @@
 package org.homework.hibernatehw7.services;
 
-import org.homework.hibernatehw7.model.Company;
 import org.homework.hibernatehw7.model.Developer;
 import org.homework.hibernatehw7.model.Project;
 import org.homework.hibernatehw7.model.Skill;
+import org.homework.hibernatehw7.repository.DeveloperCrudRepositoryImpl;
 import org.homework.hibernatehw7.services.interfaces.DeveloperService;
 
 import java.util.*;
 
 public class DeveloperServiceImpl implements DeveloperService {
 
+    private final DeveloperCrudRepositoryImpl developerCrudRepository = new DeveloperCrudRepositoryImpl();
+    private static DeveloperServiceImpl developerService;
+
+    public static DeveloperServiceImpl getInstance() {
+        if (developerService == null) {
+            synchronized (DeveloperServiceImpl.class) {
+                if (developerService == null) {
+                    developerService = new DeveloperServiceImpl();
+                }
+            }
+        }
+        return developerService;
+    }
+
     @Override
     public Developer createNewDeveloper(String name, Long age, String gender, String email, Long salary, Long skillId, Long companyId, Long projectId) { // Long companyId, Long projectId,
         Set<Skill> skillSet1 = new HashSet<>();
         Set<Project> projectSet = new HashSet<>();
-        skillSet1.add(ServiceFactory.of(Skill.class).findById(skillId).get());
-        projectSet.add(ServiceFactory.of(Project.class).findById(projectId).get());
+        skillSet1.add(SkillServiceImpl.getInstance().findById(skillId).get());
+        projectSet.add(ProjectServiceImpl.getInstance().findById(projectId).get());
 
         return create(Developer.builder()
                 .name(name)
@@ -24,7 +38,7 @@ public class DeveloperServiceImpl implements DeveloperService {
                 .email(email)
                 .salary(salary)
                 .skills(skillSet1)
-                .company(ServiceFactory.of(Company.class).findById(companyId).get())
+                .company(CompanyServiceImpl.getInstance().findById(companyId).get())
                 .projects(projectSet)
                 .build());
     }
@@ -33,8 +47,8 @@ public class DeveloperServiceImpl implements DeveloperService {
     public void updateDeveloper(Long id, String name, Long age, String gender, String email, Long salary, Long skillId, Long companyId, Long projectId) {
         Set<Skill> skillSet = new HashSet<>();
         Set<Project> projectSet = new HashSet<>();
-        skillSet.add(ServiceFactory.of(Skill.class).findById(skillId).get());
-        projectSet.add(ServiceFactory.of(Project.class).findById(projectId).get());
+        skillSet.add(SkillServiceImpl.getInstance().findById(skillId).get());
+        projectSet.add(ProjectServiceImpl.getInstance().findById(projectId).get());
 
         Developer developer = findById(id).get();
         developer.setName(name);
@@ -42,7 +56,7 @@ public class DeveloperServiceImpl implements DeveloperService {
         developer.setGender(gender);
         developer.setEmail(email);
         developer.setSalary(salary);
-        developer.setCompany(ServiceFactory.of(Company.class).findById(companyId).get());
+        developer.setCompany(CompanyServiceImpl.getInstance().findById(companyId).get());
         developer.setSkills(skillSet);
         developer.setProjects(projectSet);
         update(id, developer);
@@ -51,7 +65,7 @@ public class DeveloperServiceImpl implements DeveloperService {
     @Override
     public Long getSumSalariesDevelopersOfOneProject(Long projectId) {
         Long sumSalaries = 0L;
-        for (Developer developer : getDevelopersFromOneProject(projectId)) {
+        for (Developer developer :getDevelopersFromOneProject(projectId)) {
             Long salary = developer.getSalary();
             sumSalaries += salary;
         }
@@ -105,31 +119,31 @@ public class DeveloperServiceImpl implements DeveloperService {
 
     @Override
     public Optional<Developer> findById(Long id) {
-        return ServiceFactory.of(Developer.class).findById(id);
+        return developerCrudRepository.findById(id);
     }
 
     @Override
     public List<Developer> findAll() {
-        return ServiceFactory.of(Developer.class).findAll();
+        return developerCrudRepository.findAll();
     }
 
     @Override
     public Developer create(Developer developer) {
-        return ServiceFactory.of(Developer.class).create(developer);
+        return developerCrudRepository.create(developer);
     }
 
     @Override
     public Developer update(Long id, Developer developer) {
-        return ServiceFactory.of(Developer.class).update(id, developer);
+        return developerCrudRepository.update(id, developer);
     }
 
     @Override
     public void delete(Long id) {
-        ServiceFactory.of(Developer.class).delete(id);
+       developerCrudRepository.delete(id);
     }
 
     @Override
     public void close() {
-        ServiceFactory.of(Developer.class).close();
+        developerCrudRepository.close();
     }
 }

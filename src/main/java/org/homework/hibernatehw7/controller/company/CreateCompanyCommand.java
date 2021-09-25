@@ -6,6 +6,8 @@ import org.homework.hibernatehw7.model.Company;
 import org.homework.hibernatehw7.model.Developer;
 import org.homework.hibernatehw7.model.Project;
 import org.homework.hibernatehw7.services.CompanyServiceImpl;
+import org.homework.hibernatehw7.services.DeveloperServiceImpl;
+import org.homework.hibernatehw7.services.ProjectServiceImpl;
 import org.homework.hibernatehw7.services.ServiceFactory;
 import org.homework.hibernatehw7.services.interfaces.CompanyService;
 import org.homework.hibernatehw7.services.interfaces.Service;
@@ -64,7 +66,7 @@ public class CreateCompanyCommand implements Controller {
         System.out.print(" ENTER PROJECT-ID \n\uD83D\uDC49 ");
         String projectId = scanner.next();
         try {
-            if (!Validator.validNumber(projectId) | ServiceFactory.of(Project.class).findById(Long.valueOf(projectId)).get().getId() == null) {
+            if (!Validator.validNumber(projectId) || !ProjectServiceImpl.getInstance().findById(Long.valueOf(projectId)).isPresent()) {
                 System.out.println("Try again");
                 return enterProjectId();
             }
@@ -79,7 +81,7 @@ public class CreateCompanyCommand implements Controller {
         System.out.print(" ENTER DEVELOPER-ID \n\uD83D\uDC49 ");
         String developerId = scanner.next();
         try {
-            if (!Validator.validNumber(developerId) | ServiceFactory.of(Developer.class).findById(Long.valueOf(developerId)).get().getId() == null) {
+            if (!Validator.validNumber(developerId) || !DeveloperServiceImpl.getInstance().findById(Long.valueOf(developerId)).isPresent()) {
                 System.out.println("Try again");
                 return enterDeveloperId();
             }

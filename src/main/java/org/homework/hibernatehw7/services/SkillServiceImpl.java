@@ -11,6 +11,19 @@ import java.util.Set;
 
 public class SkillServiceImpl implements SkillService {
 
+    private static SkillServiceImpl skillService;
+
+    public static SkillServiceImpl getInstance() {
+        if (skillService == null) {
+            synchronized (SkillServiceImpl.class) {
+                if (skillService == null) {
+                    skillService = new SkillServiceImpl();
+                }
+            }
+        }
+        return skillService;
+    }
+
     @Override
     public Optional<Skill> findById(Long id) {
         return ServiceFactory.of(Skill.class).findById(id);
@@ -49,7 +62,7 @@ public class SkillServiceImpl implements SkillService {
     @Override
     public void updateSkill(Long id, String activity, String level, Long developerId) {
         Set<Developer> developerSet = new HashSet<>();
-        developerSet.add(ServiceFactory.of(Developer.class).findById(developerId).get());
+        developerSet.add(DeveloperServiceImpl.getInstance().findById(developerId).get());
 
         Skill skill = findById(id).get();
         skill.setActivity(activity);

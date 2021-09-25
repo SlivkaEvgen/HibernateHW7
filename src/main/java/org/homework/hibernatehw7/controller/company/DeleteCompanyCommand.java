@@ -3,7 +3,9 @@ package org.homework.hibernatehw7.controller.company;
 import org.homework.hibernatehw7.config.ScannerConsole;
 import org.homework.hibernatehw7.controller.interfaces.Controller;
 import org.homework.hibernatehw7.model.Company;
+import org.homework.hibernatehw7.services.CompanyServiceImpl;
 import org.homework.hibernatehw7.services.ServiceFactory;
+import org.homework.hibernatehw7.services.interfaces.CompanyService;
 import org.homework.hibernatehw7.services.interfaces.Service;
 import org.homework.hibernatehw7.utils.Validator;
 
@@ -11,7 +13,7 @@ import java.util.Scanner;
 
 public class DeleteCompanyCommand implements Controller {
 
-    private final Service<Company, Long> COMPANY_SERVICE = ServiceFactory.of(Company.class);
+    private final CompanyService COMPANY_SERVICE = new CompanyServiceImpl();
     private final Scanner scanner = ScannerConsole.getInstance();
     private static DeleteCompanyCommand deleteCompanyCommand;
 

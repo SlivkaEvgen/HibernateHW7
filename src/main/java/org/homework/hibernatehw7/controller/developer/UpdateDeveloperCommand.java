@@ -2,14 +2,11 @@ package org.homework.hibernatehw7.controller.developer;
 
 import org.homework.hibernatehw7.config.ScannerConsole;
 import org.homework.hibernatehw7.controller.interfaces.Controller;
-import org.homework.hibernatehw7.model.Company;
-import org.homework.hibernatehw7.model.Developer;
-import org.homework.hibernatehw7.model.Project;
-import org.homework.hibernatehw7.model.Skill;
+import org.homework.hibernatehw7.services.CompanyServiceImpl;
 import org.homework.hibernatehw7.services.DeveloperServiceImpl;
-import org.homework.hibernatehw7.services.ServiceFactory;
+import org.homework.hibernatehw7.services.ProjectServiceImpl;
+import org.homework.hibernatehw7.services.SkillServiceImpl;
 import org.homework.hibernatehw7.services.interfaces.DeveloperService;
-import org.homework.hibernatehw7.services.interfaces.Service;
 import org.homework.hibernatehw7.utils.Validator;
 
 import java.util.Scanner;
@@ -49,7 +46,7 @@ public class UpdateDeveloperCommand implements Controller {
     private String enterId() {
         System.out.print(" ENTER ID \n\uD83D\uDC49 ");
         String id = scanner.next();
-        if (!Validator.validNumber(id) || DEVELOPER_SERVICE.findById(Long.valueOf(id)).get().getId() == null) {
+        if (!Validator.validNumber(id) || !DEVELOPER_SERVICE.findById(Long.valueOf(id)).isPresent()) {
             System.out.println("Try again");
             return enterId();
         }
@@ -79,7 +76,7 @@ public class UpdateDeveloperCommand implements Controller {
     private String enterSalary() {
         System.out.print(" ENTER SALARY \n\uD83D\uDC49 ");
         String salary = scanner.next();
-        if (!Validator.validNumber(salary)) {
+        if (!Validator.validNumber(salary) || salary.length() > 10) {
             System.out.println("Try again");
             return enterSalary();
         }
@@ -111,7 +108,7 @@ public class UpdateDeveloperCommand implements Controller {
         System.out.print(" ENTER COMPANY-ID \n\uD83D\uDC49 ");
         String companyId = scanner.next();
         try {
-            if (!Validator.validNumber(companyId) | ServiceFactory.of(Company.class).findById(Long.valueOf(companyId)).get().getId() == null) {
+            if (!Validator.validNumber(companyId) || !CompanyServiceImpl.getInstance().findById(Long.valueOf(companyId)).isPresent()) {
                 System.out.println("Try again");
                 return enterCompanyId();
             }
@@ -126,7 +123,7 @@ public class UpdateDeveloperCommand implements Controller {
         System.out.print(" ENTER PROJECT-ID \n\uD83D\uDC49 ");
         String projectId = scanner.next();
         try {
-            if (!Validator.validNumber(projectId) | ServiceFactory.of(Project.class).findById(Long.valueOf(projectId)).get().getId() == null) {
+            if (!Validator.validNumber(projectId) || !ProjectServiceImpl.getInstance().findById(Long.valueOf(projectId)).isPresent()) {
                 System.out.println("Try again");
                 return enterProjectId();
             }
@@ -141,7 +138,7 @@ public class UpdateDeveloperCommand implements Controller {
         System.out.print(" ENTER SKILL-ID \n\uD83D\uDC49 ");
         String skillId = scanner.next();
         try {
-            if (!Validator.validNumber(skillId) | ServiceFactory.of(Skill.class).findById(Long.valueOf(skillId)).get().getId() == null) {
+            if (!Validator.validNumber(skillId) || !SkillServiceImpl.getInstance().findById(Long.valueOf(skillId)).isPresent()) {
                 System.out.println("Try again");
                 return enterSkillId();
             }

@@ -6,6 +6,8 @@ import org.homework.hibernatehw7.model.Company;
 import org.homework.hibernatehw7.model.Developer;
 import org.homework.hibernatehw7.model.Project;
 import org.homework.hibernatehw7.services.CompanyServiceImpl;
+import org.homework.hibernatehw7.services.DeveloperServiceImpl;
+import org.homework.hibernatehw7.services.ProjectServiceImpl;
 import org.homework.hibernatehw7.services.ServiceFactory;
 import org.homework.hibernatehw7.services.interfaces.CompanyService;
 import org.homework.hibernatehw7.services.interfaces.Service;
@@ -44,7 +46,7 @@ public class UpdateCompanyCommand implements Controller {
     private String enterId() {
         System.out.print(" ENTER ID \n\uD83D\uDC49 ");
         String id = scanner.next();
-        if (!Validator.validNumber(id) || COMPANY_SERVICE.findById(Long.valueOf(id)).get().getId() == null) {
+        if (!Validator.validNumber(id) || !COMPANY_SERVICE.findById(Long.valueOf(id)).isPresent()) {
             System.out.println("Try again");
             return enterId();
         }
@@ -74,7 +76,7 @@ public class UpdateCompanyCommand implements Controller {
     private String enterProjectId() {
         System.out.print(" ENTER PROJECT-ID \n\uD83D\uDC49 ");
         String projectId = scanner.next();
-        if (!Validator.validNumber(projectId) || ServiceFactory.of(Project.class).findById(Long.valueOf(projectId)).get().getId() == null) {
+        if (!Validator.validNumber(projectId) || !ProjectServiceImpl.getInstance().findById(Long.valueOf(projectId)).isPresent()) {
             System.out.println("Try again");
             return enterProjectId();
         }
@@ -84,7 +86,7 @@ public class UpdateCompanyCommand implements Controller {
     private String enterDeveloperId() {
         System.out.print(" ENTER DEVELOPER-ID \n\uD83D\uDC49 ");
         String developerId = scanner.next();
-        if (!Validator.validNumber(developerId) || ServiceFactory.of(Developer.class).findById(Long.valueOf(developerId)).get().getId() == null) {
+        if (!Validator.validNumber(developerId) || !DeveloperServiceImpl.getInstance().findById(Long.valueOf(developerId)).isPresent()) {
             System.out.println("Try again");
             return enterDeveloperId();
         }

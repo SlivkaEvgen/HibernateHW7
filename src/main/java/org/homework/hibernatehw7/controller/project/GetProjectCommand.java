@@ -67,7 +67,6 @@ public class GetProjectCommand implements Controller {
             System.out.print("\nNot found, try again ... ");
             getById();
         }
-        getById();
     }
 
     private void getAll() {

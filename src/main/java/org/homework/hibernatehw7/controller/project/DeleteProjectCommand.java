@@ -3,7 +3,9 @@ package org.homework.hibernatehw7.controller.project;
 import org.homework.hibernatehw7.config.ScannerConsole;
 import org.homework.hibernatehw7.controller.interfaces.Controller;
 import org.homework.hibernatehw7.model.Project;
+import org.homework.hibernatehw7.services.ProjectServiceImpl;
 import org.homework.hibernatehw7.services.ServiceFactory;
+import org.homework.hibernatehw7.services.interfaces.ProjectService;
 import org.homework.hibernatehw7.services.interfaces.Service;
 import org.homework.hibernatehw7.utils.Validator;
 
@@ -11,7 +13,7 @@ import java.util.Scanner;
 
 public class DeleteProjectCommand implements Controller {
 
-    private final Service<Project, Long> PROJECT_SERVICE = ServiceFactory.of(Project.class);
+    private final ProjectService PROJECT_SERVICE =new ProjectServiceImpl();
     private final Scanner scanner = ScannerConsole.getInstance();
     private static DeleteProjectCommand deleteProjectCommand;
 

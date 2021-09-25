@@ -47,7 +47,7 @@ public class CreateDeveloperCommand implements Controller {
     private String enterName() {
         System.out.print(" ENTER NAME \n\uD83D\uDC49 ");
         String name = scanner.next();
-        if (!Validator.validString(name)) {
+        if (!Validator.validString(name)|name.length()>15) {
             System.out.println("Try again");
             return enterName();
         }
@@ -57,7 +57,7 @@ public class CreateDeveloperCommand implements Controller {
     private String enterAge() {
         System.out.print(" ENTER AGE \n\uD83D\uDC49 ");
         String age = scanner.next();
-        if (!Validator.validNumber(age)) {
+        if (!Validator.validNumber(age)|age.length()>3) {
             System.out.println("Try again");
             return enterAge();
         }
@@ -67,7 +67,7 @@ public class CreateDeveloperCommand implements Controller {
     private String enterSalary() {
         System.out.print(" ENTER SALARY \n\uD83D\uDC49 ");
         String salary = scanner.next();
-        if (!Validator.validNumber(salary)) {
+        if (!Validator.validNumber(salary)|salary.length()>8) {
             System.out.println("Try again");
             return enterSalary();
         }
@@ -88,7 +88,7 @@ public class CreateDeveloperCommand implements Controller {
     private String enterEmail() {
         System.out.print(" ENTER EMAIL \n\uD83D\uDC49 ");
         String email = scanner.next();
-        if (!email.contains("@")) {
+        if (!email.contains("@")|email.length()>13) {
             System.out.println("Try again");
             return enterEmail();
         }

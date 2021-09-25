@@ -57,7 +57,7 @@ public class UpdateCustomerCommand implements Controller {
     private String enterName() {
         System.out.print(" ENTER NAME \n\uD83D\uDC49 ");
         String name = scanner.next();
-        if (!Validator.validString(name)) {
+        if (!Validator.validString(name)|name.length()>15) {
             System.out.println("Try again");
             return enterName();
         }
@@ -67,7 +67,7 @@ public class UpdateCustomerCommand implements Controller {
     private String enterCity() {
         System.out.print(" ENTER CITY \n\uD83D\uDC49 ");
         String city = scanner.next();
-        if (!Validator.validString(city)) {
+        if (!Validator.validString(city)|city.length()>15) {
             System.out.println("Try again");
             return enterName();
         }
@@ -77,7 +77,7 @@ public class UpdateCustomerCommand implements Controller {
     private String enterBudget() {
         System.out.print(" ENTER BUDGET \n\uD83D\uDC49 ");
         String budget = scanner.next();
-        if (!Validator.validNumber(budget)) {
+        if (!Validator.validNumber(budget)|budget.length()>10) {
             System.out.println("Try again");
             return enterBudget();
         }

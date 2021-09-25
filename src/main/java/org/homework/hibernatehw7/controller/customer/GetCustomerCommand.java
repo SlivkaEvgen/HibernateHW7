@@ -52,9 +52,8 @@ public class GetCustomerCommand implements Controller {
         System.out.print("\n ENTER ID \n\uD83D\uDC49 ");
         String next = scanner.next();
         if (Validator.validNumber(next)) {
-            Customer customer = CUSTOMER_SERVICE.findById(Long.valueOf(next)).get();
-            if (customer.getId() != null) {
-                System.out.println(customer);
+            if (CUSTOMER_SERVICE.findById(Long.valueOf(next)).isPresent()) {
+                System.out.println(CUSTOMER_SERVICE.findById(Long.valueOf(next)).isPresent());
             } else {
                 System.out.print("\nNot found, try again ... ");
                 getById();

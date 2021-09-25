@@ -54,7 +54,7 @@ public class GetSkillCommand implements Controller {
         String next = scanner.next();
         if (Validator.validNumber(next)) {
             Optional<Skill> optional = SKILL_SERVICE.findById(Long.valueOf(next));
-            if (optional.get().getId() != null) {
+            if (optional.isPresent()) {
                 System.out.println(optional.get());
             } else {
                 System.out.print("\nNot found, try again ... ");

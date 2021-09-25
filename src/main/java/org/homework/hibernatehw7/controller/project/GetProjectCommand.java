@@ -9,6 +9,7 @@ import org.homework.hibernatehw7.services.interfaces.ProjectService;
 import org.homework.hibernatehw7.services.interfaces.Service;
 import org.homework.hibernatehw7.utils.Validator;
 
+import java.util.Optional;
 import java.util.Scanner;
 
 public class GetProjectCommand implements Controller {
@@ -56,9 +57,9 @@ public class GetProjectCommand implements Controller {
         System.out.print("\n ENTER ID \n\uD83D\uDC49 ");
         String next = scanner.next();
         if (Validator.validNumber(next)) {
-            Project project = PROJECT_SERVICE.findById(Long.valueOf(next)).get();
-            if (project.getId() != null) {
-                System.out.println(project);
+            Optional<Project> optional = PROJECT_SERVICE.findById(Long.valueOf(next));
+            if (optional.isPresent()) {
+                System.out.println(optional.get());
             } else {
                 System.out.print("\nNot found, try again ... ");
                 getById();

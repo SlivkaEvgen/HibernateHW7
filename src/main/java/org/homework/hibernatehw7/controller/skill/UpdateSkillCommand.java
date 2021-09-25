@@ -2,12 +2,8 @@ package org.homework.hibernatehw7.controller.skill;
 
 import org.homework.hibernatehw7.config.ScannerConsole;
 import org.homework.hibernatehw7.controller.interfaces.Controller;
-import org.homework.hibernatehw7.model.Developer;
-import org.homework.hibernatehw7.model.Skill;
 import org.homework.hibernatehw7.services.DeveloperServiceImpl;
-import org.homework.hibernatehw7.services.ServiceFactory;
 import org.homework.hibernatehw7.services.SkillServiceImpl;
-import org.homework.hibernatehw7.services.interfaces.Service;
 import org.homework.hibernatehw7.services.interfaces.SkillService;
 import org.homework.hibernatehw7.utils.Validator;
 
@@ -43,7 +39,7 @@ public class UpdateSkillCommand implements Controller {
     private String enterId() {
         System.out.print(" ENTER ID \n\uD83D\uDC49 ");
         String id = scanner.next();
-        if (!Validator.validNumber(id) || !SKILL_SERVICE.findById(Long.valueOf(id)).isPresent()) {
+        if (!Validator.validNumber(id) | !SKILL_SERVICE.findById(Long.valueOf(id)).isPresent()) {
             System.out.println("Try again");
             return enterId();
         }
@@ -67,7 +63,7 @@ public class UpdateSkillCommand implements Controller {
     private String enterDeveloperId() {
         System.out.print(" ENTER DEVELOPER-ID \n\uD83D\uDC49 ");
         String developerId = scanner.next();
-        if (!Validator.validNumber(developerId) || !DeveloperServiceImpl.getInstance().findById(Long.valueOf(developerId)).isPresent()) {
+        if (!Validator.validNumber(developerId) | !DeveloperServiceImpl.getInstance().findById(Long.valueOf(developerId)).isPresent()) {
             System.out.println("Try again");
             return enterDeveloperId();
         }

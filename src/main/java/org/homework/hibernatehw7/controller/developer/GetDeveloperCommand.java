@@ -10,6 +10,7 @@ import org.homework.hibernatehw7.services.interfaces.Service;
 import org.homework.hibernatehw7.utils.Validator;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Scanner;
 
 public class GetDeveloperCommand implements Controller {
@@ -73,9 +74,9 @@ public class GetDeveloperCommand implements Controller {
         System.out.print("\n ENTER ID \n\uD83D\uDC49 ");
         String next = scanner.next();
         if (Validator.validNumber(next)) {
-            Developer developer = DEVELOPER_SERVICE.findById(Long.valueOf(next)).get();
-            if (developer.getId() != null) {
-                System.out.println(developer);
+            Optional<Developer> optional = DEVELOPER_SERVICE.findById(Long.valueOf(next));
+            if (optional.isPresent()) {
+                System.out.println(optional.get());
             } else {
                 System.out.print("\nNot found, try again ... ");
                 getById();

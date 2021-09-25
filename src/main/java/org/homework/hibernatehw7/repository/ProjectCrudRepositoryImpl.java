@@ -1,6 +1,5 @@
 package org.homework.hibernatehw7.repository;
 
-import org.homework.hibernatehw7.model.Developer;
 import org.homework.hibernatehw7.model.Project;
 import org.homework.hibernatehw7.repository.interfaces.ProjectCrudRepository;
 import java.util.List;
@@ -44,7 +43,7 @@ public class ProjectCrudRepositoryImpl implements ProjectCrudRepository {
     public List<String> getListProjectsWithDate() {
         return IntStream.range(0, findAll().size())
                 .mapToObj(i -> "In project " +
-                               RepositoryFactory.of(Developer.class).findAll().get(i).getName() + " - " +
+                               RepositoryFactory.of(Project.class).findAll().get(i).getName() + " - " +
                                countDevelopers(i + 1) + " developers, signs - " +
                                RepositoryFactory.of(Project.class).findAll().get(i).getFirstDate())
                 .collect(Collectors.toList());
@@ -53,5 +52,4 @@ public class ProjectCrudRepositoryImpl implements ProjectCrudRepository {
     private int countDevelopers(int projectId) {
         return new DeveloperCrudRepositoryImpl().getDevelopersFromOneProject((long) projectId).size();
     }
-
 }

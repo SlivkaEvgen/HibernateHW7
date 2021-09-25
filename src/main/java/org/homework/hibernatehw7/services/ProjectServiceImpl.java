@@ -57,12 +57,7 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public List<String> getListProjectsWithDate() {
-        return IntStream.range(0, findAll().size())
-                .mapToObj(i -> "In project " +
-                               DeveloperServiceImpl.getInstance().findAll().get(i).getName() + " - " +
-                               countDevelopers(i + 1) + " developers, signs - " +
-                               findAll().get(i).getFirstDate())
-                .collect(Collectors.toList());
+        return projectCrudRepository.getListProjectsWithDate();
     }
 
     @Override

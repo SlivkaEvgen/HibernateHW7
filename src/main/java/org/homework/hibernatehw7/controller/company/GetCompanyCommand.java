@@ -52,9 +52,8 @@ public class GetCompanyCommand implements Controller {
         System.out.print("\n ENTER ID \n\uD83D\uDC49 ");
         String next = scanner.next();
         if (Validator.validNumber(next)) {
-            Company company = COMPANY_SERVICE.findById(Long.valueOf(next)).get();
-            if (company.getId() != null) {
-                System.out.println(company);
+            if (COMPANY_SERVICE.findById(Long.valueOf(next)).isPresent()) {
+                System.out.println(COMPANY_SERVICE.findById(Long.valueOf(next)).get());
             } else {
                 System.out.print("\nNot found, try again ... ");
                 getById();

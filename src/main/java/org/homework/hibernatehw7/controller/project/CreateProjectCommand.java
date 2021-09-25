@@ -44,7 +44,7 @@ public class CreateProjectCommand implements Controller {
     private String enterName() {
         System.out.print(" ENTER NAME \n\uD83D\uDC49 ");
         String name = scanner.next();
-        if (!Validator.validString(name)) {
+        if (!Validator.validString(name)|name.length()>15) {
             System.out.println("Try again");
             return enterName();
         }
@@ -54,7 +54,7 @@ public class CreateProjectCommand implements Controller {
     private String enterCost() {
         System.out.print(" ENTER COST \n\uD83D\uDC49 ");
         String cost = scanner.next();
-        if (!Validator.validNumber(cost)) {
+        if (!Validator.validNumber(cost)|cost.length()>10) {
             System.out.println("Try again");
             return enterCost();
         }

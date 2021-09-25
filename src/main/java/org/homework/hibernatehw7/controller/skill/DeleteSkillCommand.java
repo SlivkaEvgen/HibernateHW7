@@ -33,7 +33,6 @@ public class DeleteSkillCommand implements Controller {
         System.out.print("\n ENTER ID \n\uD83D\uDC49 ");
         String id = scanner.next();
         if (Validator.validNumber(id)) {
-//            final Skill skill = SKILL_SERVICE.findById(Long.valueOf(id)).get();
             if (SKILL_SERVICE.findById(Long.valueOf(id)).isPresent()) {
                 System.out.println("\nAre you sure ?  \n" + SKILL_SERVICE.findById(Long.valueOf(id)).get());
                 System.out.print("Yes \uD83D\uDC49 Y\nNo  \uD83D\uDC49 N\n\uD83D\uDC49");

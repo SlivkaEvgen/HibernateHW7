@@ -11,6 +11,7 @@ import org.homework.hibernatehw7.services.interfaces.ProjectService;
 import org.homework.hibernatehw7.services.interfaces.Service;
 import org.homework.hibernatehw7.utils.Validator;
 
+import java.util.Optional;
 import java.util.Scanner;
 
 public class UpdateProjectCommand implements Controller {
@@ -45,8 +46,8 @@ public class UpdateProjectCommand implements Controller {
     private String enterId() {
         System.out.print(" ENTER ID \n\uD83D\uDC49 ");
         String id = scanner.next();
-        Project project = PROJECT_SERVICE.findById(Long.valueOf(id)).get();
-        if (!Validator.validNumber(id) || project.getId()==null) {
+        Optional<Project> optional = PROJECT_SERVICE.findById(Long.valueOf(id));
+        if (!Validator.validNumber(id) | !optional.isPresent()) {
             System.out.println("Try again");
             return enterId();
         }
@@ -56,7 +57,7 @@ public class UpdateProjectCommand implements Controller {
     private String enterName() {
         System.out.print(" ENTER NAME \n\uD83D\uDC49 ");
         String name = scanner.next();
-        if (!Validator.validString(name)) {
+        if (!Validator.validString(name)|name.length()>15) {
             System.out.println("Try again");
             return enterName();
         }
@@ -66,7 +67,7 @@ public class UpdateProjectCommand implements Controller {
     private String enterCost() {
         System.out.print(" ENTER COST \n\uD83D\uDC49 ");
         String cost = scanner.next();
-        if (!Validator.validNumber(cost)) {
+        if (!Validator.validNumber(cost)|cost.length()>10) {
             System.out.println("Try again");
             return enterCost();
         }
@@ -77,7 +78,7 @@ public class UpdateProjectCommand implements Controller {
         System.out.print(" ENTER COMPANY-ID \n\uD83D\uDC49 ");
         String companyId = scanner.next();
         try {
-            if (!Validator.validNumber(companyId) || !CompanyServiceImpl.getInstance().findById(Long.valueOf(companyId)).isPresent()) {
+            if (!Validator.validNumber(companyId) | !CompanyServiceImpl.getInstance().findById(Long.valueOf(companyId)).isPresent()) {
                 System.out.println("Try again");
                 return enterCompanyId();
             }
@@ -92,7 +93,7 @@ public class UpdateProjectCommand implements Controller {
         System.out.print(" ENTER DEVELOPER-ID \n\uD83D\uDC49 ");
         String developerId = scanner.next();
         try {
-            if (!Validator.validNumber(developerId) || !DeveloperServiceImpl.getInstance().findById(Long.valueOf(developerId)).isPresent()) {
+            if (!Validator.validNumber(developerId) | !DeveloperServiceImpl.getInstance().findById(Long.valueOf(developerId)).isPresent()) {
                 System.out.println("Try again");
                 return enterDeveloperId();
             }
@@ -107,7 +108,7 @@ public class UpdateProjectCommand implements Controller {
         System.out.print(" ENTER CUSTOMER-ID \n\uD83D\uDC49 ");
         String customerId = scanner.next();
         try {
-            if (!Validator.validNumber(customerId) || !CustomerServiceImpl.getInstance().findById(Long.valueOf(customerId)).isPresent()) {
+            if (!Validator.validNumber(customerId) | !CustomerServiceImpl.getInstance().findById(Long.valueOf(customerId)).isPresent()) {
                 System.out.println("Try again");
                 return enterCustomerId();
             }

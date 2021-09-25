@@ -6,7 +6,9 @@ import org.homework.hibernatehw7.model.Company;
 import org.homework.hibernatehw7.model.Developer;
 import org.homework.hibernatehw7.model.Project;
 import org.homework.hibernatehw7.model.Skill;
+import org.homework.hibernatehw7.services.DeveloperServiceImpl;
 import org.homework.hibernatehw7.services.ServiceFactory;
+import org.homework.hibernatehw7.services.interfaces.DeveloperService;
 import org.homework.hibernatehw7.services.interfaces.Service;
 import org.homework.hibernatehw7.utils.Validator;
 
@@ -14,7 +16,7 @@ import java.util.Scanner;
 
 public class UpdateDeveloperCommand implements Controller {
 
-    private final Service<Developer, Long> DEVELOPER_SERVICE = ServiceFactory.of(Developer.class);
+    private final DeveloperService DEVELOPER_SERVICE = new DeveloperServiceImpl();
     private final Scanner scanner = ScannerConsole.getInstance();
     private static UpdateDeveloperCommand updateDeveloperCommand;
 

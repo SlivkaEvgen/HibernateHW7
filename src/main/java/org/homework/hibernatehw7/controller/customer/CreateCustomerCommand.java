@@ -4,7 +4,9 @@ import org.homework.hibernatehw7.config.ScannerConsole;
 import org.homework.hibernatehw7.controller.interfaces.Controller;
 import org.homework.hibernatehw7.model.Customer;
 import org.homework.hibernatehw7.model.Project;
+import org.homework.hibernatehw7.services.CustomerServiceImpl;
 import org.homework.hibernatehw7.services.ServiceFactory;
+import org.homework.hibernatehw7.services.interfaces.CustomerService;
 import org.homework.hibernatehw7.services.interfaces.Service;
 import org.homework.hibernatehw7.utils.Validator;
 
@@ -12,7 +14,7 @@ import java.util.Scanner;
 
 public class CreateCustomerCommand implements Controller {
 
-    private final Service<Customer, Long> CUSTOMER_SERVICE = ServiceFactory.of(Customer.class);
+    private final CustomerService CUSTOMER_SERVICE = new CustomerServiceImpl();
     private final Scanner scanner = ScannerConsole.getInstance();
     private static CreateCustomerCommand createCustomerCommand;
 

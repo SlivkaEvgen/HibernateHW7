@@ -2,16 +2,19 @@ package org.homework.hibernatehw7.controller.project;
 
 import org.homework.hibernatehw7.config.ScannerConsole;
 import org.homework.hibernatehw7.controller.interfaces.Controller;
-import org.homework.hibernatehw7.services.CompanyServiceImpl;
-import org.homework.hibernatehw7.services.CustomerServiceImpl;
-import org.homework.hibernatehw7.services.DeveloperServiceImpl;
-import org.homework.hibernatehw7.services.ProjectServiceImpl;
+import org.homework.hibernatehw7.model.Company;
+import org.homework.hibernatehw7.model.Customer;
+import org.homework.hibernatehw7.model.Developer;
+import org.homework.hibernatehw7.model.Project;
+import org.homework.hibernatehw7.services.ServiceFactory;
+import org.homework.hibernatehw7.services.interfaces.Service;
 import org.homework.hibernatehw7.utils.Validator;
 
 import java.util.Scanner;
 
 public class CreateProjectCommand implements Controller {
 
+    private final Service<Project, Long> PROJECT_SERVICE = ServiceFactory.of(Project.class);
     private final Scanner scanner = ScannerConsole.getInstance();
     private static CreateProjectCommand createProjectCommand;
 
@@ -33,7 +36,7 @@ public class CreateProjectCommand implements Controller {
         final String companyId = enterCompanyId();
         final String customerId = enterCustomerId();
         final String developerId = enterDeveloperId();
-        ProjectServiceImpl.getInstance().createNewProject(name, Long.valueOf(cost), Long.valueOf(companyId), Long.valueOf(customerId), Long.valueOf(developerId));
+        PROJECT_SERVICE.createNewProject(name, Long.valueOf(cost), Long.valueOf(companyId), Long.valueOf(customerId), Long.valueOf(developerId));
         System.out.println(" ✅ You created \uD83D\uDC49 " + "new Project" + "\n");
     }
 
@@ -61,7 +64,7 @@ public class CreateProjectCommand implements Controller {
         System.out.print(" ENTER COMPANY-ID \n\uD83D\uDC49 ");
         String companyId = scanner.next();
         try {
-            if (!Validator.validNumber(companyId) | CompanyServiceImpl.getInstance().getById(Long.valueOf(companyId)).get().getId() == null) {
+            if (!Validator.validNumber(companyId) | ServiceFactory.of(Company.class).findById(Long.valueOf(companyId)).get().getId() == null) {
                 System.out.println("Try again");
                 return enterCompanyId();
             }
@@ -76,7 +79,7 @@ public class CreateProjectCommand implements Controller {
         System.out.print(" ENTER DEVELOPER-ID \n\uD83D\uDC49 ");
         String developerId = scanner.next();
         try {
-            if (!Validator.validNumber(developerId) | DeveloperServiceImpl.getInstance().getById(Long.valueOf(developerId)).get().getId() == null) {
+            if (!Validator.validNumber(developerId) | ServiceFactory.of(Developer.class).findById(Long.valueOf(developerId)).get().getId() == null) {
                 System.out.println("Try again");
                 return enterDeveloperId();
             }
@@ -91,7 +94,7 @@ public class CreateProjectCommand implements Controller {
         System.out.print(" ENTER CUSTOMER-ID \n\uD83D\uDC49 ");
         String customerId = scanner.next();
         try {
-            if (!Validator.validNumber(customerId) | CustomerServiceImpl.getInstance().getById(Long.valueOf(customerId)).get().getId() == null) {
+            if (!Validator.validNumber(customerId) | ServiceFactory.of(Customer.class).findById(Long.valueOf(customerId)).get().getId() == null) {
                 System.out.println("Try again");
                 return enterCustomerId();
             }

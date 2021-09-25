@@ -2,14 +2,18 @@ package org.homework.hibernatehw7.controller.company;
 
 import org.homework.hibernatehw7.config.ScannerConsole;
 import org.homework.hibernatehw7.controller.interfaces.Controller;
-import org.homework.hibernatehw7.services.CompanyServiceImpl;
-import org.homework.hibernatehw7.services.DeveloperServiceImpl;
-import org.homework.hibernatehw7.services.ProjectServiceImpl;
+import org.homework.hibernatehw7.model.Company;
+import org.homework.hibernatehw7.model.Developer;
+import org.homework.hibernatehw7.model.Project;
+import org.homework.hibernatehw7.services.ServiceFactory;
+import org.homework.hibernatehw7.services.interfaces.Service;
 import org.homework.hibernatehw7.utils.Validator;
+
 import java.util.Scanner;
 
 public class CreateCompanyCommand implements Controller {
 
+    private final Service<Company, Long> COMPANY_SERVICE = ServiceFactory.of(Company.class);
     private final Scanner scanner = ScannerConsole.getInstance();
     private static CreateCompanyCommand createCompanyCommand;
 
@@ -30,7 +34,7 @@ public class CreateCompanyCommand implements Controller {
         final String city = enterCity();
         final String projectId = enterProjectId();
         final String developerId = enterDeveloperId();
-        CompanyServiceImpl.getInstance().createNewCompany(name, city, Long.valueOf(projectId), Long.valueOf(developerId));
+        COMPANY_SERVICE.createNewCompany(name, city, Long.valueOf(projectId), Long.valueOf(developerId));
         System.out.println(" ✅ You created \uD83D\uDC49  " + "new Company " + " \n");
     }
 
@@ -58,7 +62,7 @@ public class CreateCompanyCommand implements Controller {
         System.out.print(" ENTER PROJECT-ID \n\uD83D\uDC49 ");
         String projectId = scanner.next();
         try {
-            if (!Validator.validNumber(projectId) | ProjectServiceImpl.getInstance().getById(Long.valueOf(projectId)).get().getId() == null) {
+            if (!Validator.validNumber(projectId) | ServiceFactory.of(Project.class).findById(Long.valueOf(projectId)).get().getId() == null) {
                 System.out.println("Try again");
                 return enterProjectId();
             }
@@ -73,7 +77,7 @@ public class CreateCompanyCommand implements Controller {
         System.out.print(" ENTER DEVELOPER-ID \n\uD83D\uDC49 ");
         String developerId = scanner.next();
         try {
-            if (!Validator.validNumber(developerId) | DeveloperServiceImpl.getInstance().getById(Long.valueOf(developerId)).get().getId() == null) {
+            if (!Validator.validNumber(developerId) | ServiceFactory.of(Developer.class).findById(Long.valueOf(developerId)).get().getId() == null) {
                 System.out.println("Try again");
                 return enterDeveloperId();
             }
@@ -83,21 +87,6 @@ public class CreateCompanyCommand implements Controller {
         }
         return developerId;
     }
-
-    //    private String enterCustomerId() {
-//        System.out.print(" ENTER CUSTOMER-ID \n\uD83D\uDC49 ");
-//        String customerId = scanner.next();
-//        try {
-//            if (!Validator.validNumber(customerId) | new CustomerServiceImpl().getById(Long.valueOf(customerId)).get().getId() == null) {
-//                System.out.println("Try again");
-//                return enterCustomerId();
-//            }
-//        } catch (NumberFormatException r) {
-//            System.out.println("Try again");
-//            return enterCustomerId();
-//        }
-//        return customerId;
-//    }
 
     @Override
     public void close() {

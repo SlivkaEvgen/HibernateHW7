@@ -10,12 +10,10 @@ import org.homework.hibernatehw7.utils.HibernateSessionFactory;
 import java.io.Closeable;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 
 public class CrudRepositoryHibernateImpl<T extends BaseModel<ID>, ID> implements Closeable, CrudRepositoryJDBC<T, ID> {
 
-    private final Class<T> modelClass; //(Class) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
+    private final Class<T> modelClass;
 
     public CrudRepositoryHibernateImpl(Class<T> modelClass) {
         this.modelClass = modelClass;
@@ -42,11 +40,6 @@ public class CrudRepositoryHibernateImpl<T extends BaseModel<ID>, ID> implements
         return resultList;
     }
 
-    private List<T> createAll(Iterable<T> itbl) {
-        return StreamSupport.stream(itbl.spliterator(), false)
-                .map(entity -> create(entity)).collect(Collectors.toList());
-    }
-
     @Override
     public T create(T t) {
         Session session = createSession();
@@ -68,7 +61,6 @@ public class CrudRepositoryHibernateImpl<T extends BaseModel<ID>, ID> implements
     @Override
     public void delete(ID id) {
         Session session = createSession();
-//        getById(id, session).ifPresent(entity -> session.remove(entity));
         getById(id, session).ifPresent(session::remove);
         closeSession(session);
     }
@@ -89,18 +81,4 @@ public class CrudRepositoryHibernateImpl<T extends BaseModel<ID>, ID> implements
     public void close() {
         HibernateSessionFactory.close();
     }
-//    public  <T> List<T> findAllWithJpql(Class<T>type,Session session,Long projectId){
-//        return session.createQuery("SELECT id ,sum(developers.salary) AS SUM FROM Project WHERE id="+projectId,type).getResultList();
-//    }
-//
-//    public List<T> sum(Long projectId){
-//        Session session = createSession();
-//        List<Developer> allWithJpql = findAllWithJpql(Developer.class, session, projectId);
-//        return (List<T>) allWithJpql;
-//    }
-
-//    public Set<T> createSet(){
-//        CrudRepositoryHibernateImpl<T, ID> repositoryHibernate = new CrudRepositoryHibernateImpl<>(modelClass);
-//        return new HashSet<>(repositoryHibernate.findAll());
-//    }
 }

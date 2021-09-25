@@ -2,15 +2,17 @@ package org.homework.hibernatehw7.controller.skill;
 
 import org.homework.hibernatehw7.config.ScannerConsole;
 import org.homework.hibernatehw7.controller.interfaces.Controller;
-import org.homework.hibernatehw7.services.DeveloperServiceImpl;
-import org.homework.hibernatehw7.services.SkillServiceImpl;
+import org.homework.hibernatehw7.model.Developer;
+import org.homework.hibernatehw7.model.Skill;
+import org.homework.hibernatehw7.services.ServiceFactory;
+import org.homework.hibernatehw7.services.interfaces.Service;
 import org.homework.hibernatehw7.utils.Validator;
 
 import java.util.Scanner;
 
 public class UpdateSkillCommand implements Controller {
 
-    private final SkillServiceImpl SKILL_SERVICE = SkillServiceImpl.getInstance();
+    private final Service<Skill, Long> SKILL_SERVICE = ServiceFactory.of(Skill.class);
     private final Scanner scanner = ScannerConsole.getInstance();
     private static UpdateSkillCommand updateSkillCommand;
 
@@ -31,14 +33,14 @@ public class UpdateSkillCommand implements Controller {
         final String activity = enterActivity();
         final String level = enterLevel();
         final String developerId = enterDeveloperId();
-        SKILL_SERVICE.update(Long.valueOf(id), activity, level, Long.valueOf(developerId));
-        System.out.println(" ✅ You updated \uD83D\uDC49 " + SKILL_SERVICE.getById(Long.valueOf(id)).get() + "\n");
+        SKILL_SERVICE.updateSkill(Long.valueOf(id), activity, level, Long.valueOf(developerId));
+        System.out.println(" ✅ You updated \uD83D\uDC49 " + SKILL_SERVICE.findById(Long.valueOf(id)).get() + "\n");
     }
 
     private String enterId() {
         System.out.print(" ENTER ID \n\uD83D\uDC49 ");
         String id = scanner.next();
-        if (!Validator.validNumber(id) || SKILL_SERVICE.getById(Long.valueOf(id)).get().getId() == null) {
+        if (!Validator.validNumber(id) || SKILL_SERVICE.findById(Long.valueOf(id)).get().getId() == null) {
             System.out.println("Try again");
             return enterId();
         }
@@ -62,7 +64,7 @@ public class UpdateSkillCommand implements Controller {
     private String enterDeveloperId() {
         System.out.print(" ENTER DEVELOPER-ID \n\uD83D\uDC49 ");
         String developerId = scanner.next();
-        if (!Validator.validNumber(developerId) || DeveloperServiceImpl.getInstance().getById(Long.valueOf(developerId)).get().getId() == null) {
+        if (!Validator.validNumber(developerId) || ServiceFactory.of(Developer.class).findById(Long.valueOf(developerId)).get().getId() == null) {
             System.out.println("Try again");
             return enterDeveloperId();
         }

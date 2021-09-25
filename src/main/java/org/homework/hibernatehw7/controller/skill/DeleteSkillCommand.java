@@ -3,13 +3,15 @@ package org.homework.hibernatehw7.controller.skill;
 import org.homework.hibernatehw7.config.ScannerConsole;
 import org.homework.hibernatehw7.controller.interfaces.Controller;
 import org.homework.hibernatehw7.model.Skill;
-import org.homework.hibernatehw7.services.SkillServiceImpl;
+import org.homework.hibernatehw7.services.ServiceFactory;
+import org.homework.hibernatehw7.services.interfaces.Service;
 import org.homework.hibernatehw7.utils.Validator;
 
 import java.util.Scanner;
 
 public class DeleteSkillCommand implements Controller {
 
+    private final Service<Skill, Long> SKILL_SERVICE = ServiceFactory.of(Skill.class);
     private final Scanner scanner = ScannerConsole.getInstance();
     private static DeleteSkillCommand deleteSkillCommand;
 
@@ -28,24 +30,23 @@ public class DeleteSkillCommand implements Controller {
     private void delete() {
         System.out.print("\n ENTER ID \n\uD83D\uDC49 ");
         String id = scanner.next();
-        final SkillServiceImpl skillService = SkillServiceImpl.getInstance();
         if (Validator.validNumber(id)) {
-            final Skill skill = skillService.getById(Long.valueOf(id)).get();
-            if (skill.getId() != null) {
-                System.out.println("\nAre you sure ?  \n" + skill);
+//            final Skill skill = SKILL_SERVICE.findById(Long.valueOf(id)).get();
+            if (SKILL_SERVICE.findById(Long.valueOf(id)).isPresent()) {
+                System.out.println("\nAre you sure ?  \n" + SKILL_SERVICE.findById(Long.valueOf(id)).get());
                 System.out.print("Yes \uD83D\uDC49 Y\nNo  \uD83D\uDC49 N\n\uD83D\uDC49");
                 String yesNo = scanner.next();
                 if (yesNo.equalsIgnoreCase("y")) {
-                    skillService.delete(Long.valueOf(id));
+                    SKILL_SERVICE.delete(Long.valueOf(id));
                     System.out.println(" ✅ You removed the Skill number \uD83D\uDC49 " + id + " \n");
                 }
             } else {
                 System.out.print("\nNot found, try again ... ");
-                SkillCommandImpl.getInstance().deleteCommand();
+                delete();
             }
         } else {
             System.out.print("\nNot found, try again ... ");
-            SkillCommandImpl.getInstance().deleteCommand();
+            delete();
         }
     }
 

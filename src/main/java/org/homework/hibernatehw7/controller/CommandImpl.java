@@ -2,6 +2,7 @@ package org.homework.hibernatehw7.controller;
 
 import org.homework.hibernatehw7.config.ScannerConsole;
 import org.homework.hibernatehw7.controller.interfaces.Controller;
+
 import java.util.Scanner;
 
 public class CommandImpl implements Controller {

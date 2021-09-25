@@ -18,23 +18,25 @@ public class ControllerImpl implements Controller {
     public void start() {
         System.out.print("\n \uD83D\uDC49 DEVELOPER\n \uD83D\uDC49 PROJECT\n \uD83D\uDC49 COMPANY\n \uD83D\uDC49 CUSTOMER\n \uD83D\uDC49 SKILL\n   \uD83D\uDC49 BACK\n   \uD83D\uDC49 STOP\n\uD83D\uDC49 ");
         final String controller = scanner.next();
-//        if (controller.isEmpty()) {
-//            close();
-//        }
         if (controller.equalsIgnoreCase("DEVELOPER")) {
             DeveloperCommandImpl.getInstance().start();
+            start();
         }
         if (controller.equalsIgnoreCase("PROJECT")) {
             ProjectCommandImpl.getInstance().start();
+            start();
         }
         if (controller.equalsIgnoreCase("COMPANY")) {
             CompanyCommandImpl.getInstance().start();
+            start();
         }
         if (controller.equalsIgnoreCase("CUSTOMER")) {
             CustomerCommandImpl.getInstance().start();
+            start();
         }
         if (controller.equalsIgnoreCase("SKILL")) {
             SkillCommandImpl.getInstance().start();
+            start();
         }
         if (controller.equalsIgnoreCase("BACK")) {
             new CommandImpl().start();

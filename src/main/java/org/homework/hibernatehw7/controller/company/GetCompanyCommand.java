@@ -3,14 +3,15 @@ package org.homework.hibernatehw7.controller.company;
 import org.homework.hibernatehw7.config.ScannerConsole;
 import org.homework.hibernatehw7.controller.interfaces.Controller;
 import org.homework.hibernatehw7.model.Company;
-import org.homework.hibernatehw7.services.CompanyServiceImpl;
+import org.homework.hibernatehw7.services.ServiceFactory;
+import org.homework.hibernatehw7.services.interfaces.Service;
 import org.homework.hibernatehw7.utils.Validator;
 
 import java.util.Scanner;
 
 public class GetCompanyCommand implements Controller {
 
-    private final CompanyServiceImpl COMPANY_SERVICE = CompanyServiceImpl.getInstance();
+    private final Service<Company, Long> COMPANY_SERVICE = ServiceFactory.of(Company.class);
     private final Scanner scanner = ScannerConsole.getInstance();
     private static GetCompanyCommand getCompanyCommand;
 
@@ -49,7 +50,7 @@ public class GetCompanyCommand implements Controller {
         System.out.print("\n ENTER ID \n\uD83D\uDC49 ");
         String next = scanner.next();
         if (Validator.validNumber(next)) {
-            Company company = COMPANY_SERVICE.getById(Long.valueOf(next)).get();
+            Company company = COMPANY_SERVICE.findById(Long.valueOf(next)).get();
             if (company.getId() != null) {
                 System.out.println(company);
             } else {
@@ -63,7 +64,7 @@ public class GetCompanyCommand implements Controller {
     }
 
     private void getAll() {
-        System.out.println(COMPANY_SERVICE.getAll());
+        System.out.println(COMPANY_SERVICE.findAll());
     }
 
     @Override

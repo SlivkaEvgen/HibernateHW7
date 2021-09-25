@@ -2,13 +2,16 @@ package org.homework.hibernatehw7.controller.skill;
 
 import org.homework.hibernatehw7.config.ScannerConsole;
 import org.homework.hibernatehw7.controller.interfaces.Controller;
-import org.homework.hibernatehw7.services.SkillServiceImpl;
+import org.homework.hibernatehw7.model.Skill;
+import org.homework.hibernatehw7.services.ServiceFactory;
+import org.homework.hibernatehw7.services.interfaces.Service;
 import org.homework.hibernatehw7.utils.Validator;
 
 import java.util.Scanner;
 
 public class CreateCommandSkill implements Controller {
 
+    private final Service<Skill, Long> SKILL_SERVICE = ServiceFactory.of(Skill.class);
     private final Scanner scanner = ScannerConsole.getInstance();
     private static CreateCommandSkill createCommandSkill;
 
@@ -27,8 +30,7 @@ public class CreateCommandSkill implements Controller {
     private void create() {
         final String activity = enterActivity();
         final String level = enterLevel();
-//        final String developerId = enterDeveloperId();
-        SkillServiceImpl.getInstance().createNewSkill(activity, level);
+        SKILL_SERVICE.createNewSkill(activity, level);
         System.out.println(" ✅ You created \uD83D\uDC49 " + "new Skill" + "\n");
     }
 
@@ -58,21 +60,6 @@ public class CreateCommandSkill implements Controller {
         }
         return level;
     }
-
-//    private String enterDeveloperId() {
-//        System.out.print(" ENTER DEVELOPER-ID \n\uD83D\uDC49 ");
-//        String developerId = scanner.next();
-//        try {
-//            if (!Validator.validNumber(developerId) |  DeveloperServiceImpl.getInstance().getById(Long.valueOf(developerId)).get().getId() == null) {
-//                System.out.println("Try again");
-//                return enterDeveloperId();
-//            }
-//        } catch (NumberFormatException r) {
-//            System.out.println("Try again");
-//            return enterDeveloperId();
-//        }
-//        return developerId;
-//    }
 
     @Override
     public void close() {

@@ -2,14 +2,17 @@ package org.homework.hibernatehw7.controller.skill;
 
 import org.homework.hibernatehw7.config.ScannerConsole;
 import org.homework.hibernatehw7.controller.interfaces.Controller;
-import org.homework.hibernatehw7.services.SkillServiceImpl;
+import org.homework.hibernatehw7.model.Skill;
+import org.homework.hibernatehw7.services.ServiceFactory;
+import org.homework.hibernatehw7.services.interfaces.Service;
 import org.homework.hibernatehw7.utils.Validator;
 
+import java.util.Optional;
 import java.util.Scanner;
 
 public class GetSkillCommand implements Controller {
 
-    private final SkillServiceImpl SKILL_SERVICE = SkillServiceImpl.getInstance();
+    private final Service<Skill, Long> SKILL_SERVICE = ServiceFactory.of(Skill.class);
     private final Scanner scanner = ScannerConsole.getInstance();
     private static GetSkillCommand getSkillCommand;
 
@@ -48,8 +51,9 @@ public class GetSkillCommand implements Controller {
         System.out.print("\n ENTER ID \n\uD83D\uDC49 ");
         String next = scanner.next();
         if (Validator.validNumber(next)) {
-            if (SKILL_SERVICE.getById(Long.valueOf(next)).get().getId() != null) {
-                System.out.println(SKILL_SERVICE.getById(Long.valueOf(next)));
+            Optional<Skill> optional = SKILL_SERVICE.findById(Long.valueOf(next));
+            if (optional.get().getId() != null) {
+                System.out.println(optional.get());
             } else {
                 System.out.print("\nNot found, try again ... ");
                 getById();
@@ -58,10 +62,11 @@ public class GetSkillCommand implements Controller {
             System.out.print("\nNot found, try again ... ");
             getById();
         }
+        getById();
     }
 
     private void getAll() {
-        System.out.println(SKILL_SERVICE.getAll());
+        System.out.println(SKILL_SERVICE.findAll());
     }
 
     @Override

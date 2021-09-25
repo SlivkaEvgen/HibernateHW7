@@ -2,13 +2,16 @@ package org.homework.hibernatehw7.controller.project;
 
 import org.homework.hibernatehw7.config.ScannerConsole;
 import org.homework.hibernatehw7.controller.interfaces.Controller;
-import org.homework.hibernatehw7.services.ProjectServiceImpl;
+import org.homework.hibernatehw7.model.Project;
+import org.homework.hibernatehw7.services.ServiceFactory;
+import org.homework.hibernatehw7.services.interfaces.Service;
 import org.homework.hibernatehw7.utils.Validator;
+
 import java.util.Scanner;
 
 public class GetProjectCommand implements Controller {
 
-    private final ProjectServiceImpl PROJECT_SERVICE = ProjectServiceImpl.getInstance();
+    private final Service<Project,Long> PROJECT_SERVICE = ServiceFactory.of(Project.class);
     private final Scanner scanner = ScannerConsole.getInstance();
     private static GetProjectCommand getProjectCommand;
 
@@ -47,16 +50,13 @@ public class GetProjectCommand implements Controller {
         start();
     }
 
-    private void getAll() {
-        System.out.println(PROJECT_SERVICE.getAll());
-    }
-
     private void getById() {
         System.out.print("\n ENTER ID \n\uD83D\uDC49 ");
         String next = scanner.next();
         if (Validator.validNumber(next)) {
-            if (PROJECT_SERVICE.getById(Long.valueOf(next)).get().getId() != null) {
-                System.out.println(PROJECT_SERVICE.getById(Long.valueOf(next)));
+            Project project = PROJECT_SERVICE.findById(Long.valueOf(next)).get();
+            if (project.getId() != null) {
+                System.out.println(project);
             } else {
                 System.out.print("\nNot found, try again ... ");
                 getById();
@@ -65,6 +65,11 @@ public class GetProjectCommand implements Controller {
             System.out.print("\nNot found, try again ... ");
             getById();
         }
+        getById();
+    }
+
+    private void getAll() {
+        System.out.println(PROJECT_SERVICE.findAll());
     }
 
     private void getListProjectsWithDate() {

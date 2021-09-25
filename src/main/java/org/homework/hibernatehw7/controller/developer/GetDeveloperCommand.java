@@ -1,10 +1,10 @@
 package org.homework.hibernatehw7.controller.developer;
 
-
 import org.homework.hibernatehw7.config.ScannerConsole;
 import org.homework.hibernatehw7.controller.interfaces.Controller;
 import org.homework.hibernatehw7.model.Developer;
-import org.homework.hibernatehw7.services.DeveloperServiceImpl;
+import org.homework.hibernatehw7.services.ServiceFactory;
+import org.homework.hibernatehw7.services.interfaces.Service;
 import org.homework.hibernatehw7.utils.Validator;
 
 import java.util.List;
@@ -12,7 +12,7 @@ import java.util.Scanner;
 
 public class GetDeveloperCommand implements Controller {
 
-    private final DeveloperServiceImpl DEVELOPER_SERVICE = DeveloperServiceImpl.getInstance();
+    private final Service<Developer, Long> DEVELOPER_SERVICE = ServiceFactory.of(Developer.class);
     private final Scanner scanner = ScannerConsole.getInstance();
     private static GetDeveloperCommand getDeveloperCommand;
 
@@ -64,15 +64,16 @@ public class GetDeveloperCommand implements Controller {
     }
 
     private void getAll() {
-        System.out.println(DEVELOPER_SERVICE.getAll());
+        System.out.println(DEVELOPER_SERVICE.findAll());
     }
 
     private void getById() {
         System.out.print("\n ENTER ID \n\uD83D\uDC49 ");
         String next = scanner.next();
         if (Validator.validNumber(next)) {
-            if (DEVELOPER_SERVICE.getById(Long.valueOf(next)).get().getId() != null) {
-                System.out.println(DEVELOPER_SERVICE.getById(Long.valueOf(next)));
+            Developer developer = DEVELOPER_SERVICE.findById(Long.valueOf(next)).get();
+            if (developer.getId() != null) {
+                System.out.println(developer);
             } else {
                 System.out.print("\nNot found, try again ... ");
                 getById();
@@ -81,13 +82,14 @@ public class GetDeveloperCommand implements Controller {
             System.out.print("\nNot found, try again ... ");
             getById();
         }
+        getById();
     }
 
     private void getByProjectID() {
         System.out.print(" ENTER PROJECT-ID \n\uD83D\uDC49 ");
-        String next = scanner.next();
-        if (Validator.validNumber(next)) {
-            List<Developer> fromOneProject = DEVELOPER_SERVICE.getDevelopersFromOneProject(Long.valueOf(next));
+        String projectId = scanner.next();
+        if (Validator.validNumber(projectId)) {
+            List<Developer> fromOneProject = DEVELOPER_SERVICE.getDevelopersFromOneProject(Long.valueOf(projectId));
             if (!fromOneProject.isEmpty()) {
                 System.out.println(fromOneProject + "\n");
             } else {
@@ -98,6 +100,7 @@ public class GetDeveloperCommand implements Controller {
             System.out.println("not found, try again ");
             getByProjectID();
         }
+        getByProjectID();
     }
 
     private void getByActivity() {
@@ -126,6 +129,7 @@ public class GetDeveloperCommand implements Controller {
             System.out.println("not found, try again ");
             getByActivity();
         }
+        getByActivity();
     }
 
     private void getByLevel() {
@@ -150,6 +154,7 @@ public class GetDeveloperCommand implements Controller {
             System.out.print("\n not found, try again \n");
             getByLevel();
         }
+        getByLevel();
     }
 
     private void getSumSalaries() {
@@ -177,6 +182,7 @@ public class GetDeveloperCommand implements Controller {
             System.out.print("\nnot found, try again \n");
             getSumSalaries();
         }
+        getSumSalaries();
     }
 
     @Override

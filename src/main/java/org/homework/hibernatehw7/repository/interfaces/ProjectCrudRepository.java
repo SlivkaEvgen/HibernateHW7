@@ -7,4 +7,8 @@ import java.util.List;
 public interface ProjectCrudRepository extends CrudRepositoryJDBC<Project, Long> {
 
     List<String> getListProjectsWithDate();
+
+    Project createNewProject(String name, Long cost, Long companyId, Long customerId);
+
+    void updateProject(Long id, String name, Long cost, Long companyId, Long customerId);
 }

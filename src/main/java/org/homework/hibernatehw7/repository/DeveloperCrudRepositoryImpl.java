@@ -4,14 +4,29 @@ import org.homework.hibernatehw7.model.Company;
 import org.homework.hibernatehw7.model.Developer;
 import org.homework.hibernatehw7.model.Project;
 import org.homework.hibernatehw7.model.Skill;
+import org.homework.hibernatehw7.repository.interfaces.CrudRepositoryJDBC;
 import org.homework.hibernatehw7.repository.interfaces.DeveloperCrudRepository;
 
 import java.util.*;
 
 public class DeveloperCrudRepositoryImpl implements DeveloperCrudRepository {
 
+    private final CrudRepositoryJDBC<Developer, Long> CRUD_REPOSITORY_JDBC = RepositoryFactory.of(Developer.class);
+    private static DeveloperCrudRepositoryImpl developerCrudRepository;
+
+    public static DeveloperCrudRepositoryImpl getInstance() {
+        if (developerCrudRepository == null) {
+            synchronized (DeveloperCrudRepositoryImpl.class) {
+                if (developerCrudRepository == null) {
+                    developerCrudRepository = new DeveloperCrudRepositoryImpl();
+                }
+            }
+        }
+        return developerCrudRepository;
+    }
+
     @Override
-    public Developer createNewDeveloper(String name, Long age, String gender, String email, Long salary, Set<Skill> skillSet, Long companyId, Long projectId) { // Long companyId, Long projectId,
+    public Developer createNewDeveloper(String name, Long age, String gender, String email, Long salary, Set<Skill> skillSet, Long companyId, Long projectId) {
         Set<Project> projectSet = new HashSet<>();
         projectSet.add(RepositoryFactory.of(Project.class).findById(projectId).get());
         return create(Developer.builder()
@@ -47,8 +62,7 @@ public class DeveloperCrudRepositoryImpl implements DeveloperCrudRepository {
     public Long getSumSalariesDevelopersOfOneProject(Long projectId) {
         Long sumSalaries = 0L;
         for (Developer developer : getDevelopersFromOneProject(projectId)) {
-            Long salary = developer.getSalary();
-            sumSalaries += salary;
+            sumSalaries += developer.getSalary();
         }
         return sumSalaries;
     }
@@ -100,31 +114,31 @@ public class DeveloperCrudRepositoryImpl implements DeveloperCrudRepository {
 
     @Override
     public Optional<Developer> findById(Long id) {
-        return RepositoryFactory.of(Developer.class).findById(id);
+        return CRUD_REPOSITORY_JDBC.findById(id);
     }
 
     @Override
     public List<Developer> findAll() {
-        return RepositoryFactory.of(Developer.class).findAll();
+        return CRUD_REPOSITORY_JDBC.findAll();
     }
 
     @Override
     public Developer create(Developer developer) {
-        return RepositoryFactory.of(Developer.class).create(developer);
+        return CRUD_REPOSITORY_JDBC.create(developer);
     }
 
     @Override
     public Developer update(Long id, Developer developer) {
-        return RepositoryFactory.of(Developer.class).update(id, developer);
+        return CRUD_REPOSITORY_JDBC.update(id, developer);
     }
 
     @Override
     public void delete(Long id) {
-        RepositoryFactory.of(Developer.class).delete(id);
+        CRUD_REPOSITORY_JDBC.delete(id);
     }
 
     @Override
     public void close() {
-        RepositoryFactory.of(Developer.class).close();
+        CRUD_REPOSITORY_JDBC.close();
     }
 }

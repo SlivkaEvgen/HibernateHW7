@@ -1,6 +1,5 @@
 package org.homework.hibernatehw7.repository;
 
-import lombok.SneakyThrows;
 import org.hibernate.Session;
 import org.hibernate.query.criteria.JpaCriteriaQuery;
 import org.homework.hibernatehw7.model.BaseModel;
@@ -17,10 +16,6 @@ public class CrudRepositoryHibernateImpl<T extends BaseModel<ID>, ID> implements
 
     public CrudRepositoryHibernateImpl(Class<T> modelClass) {
         this.modelClass = modelClass;
-    }
-
-    private Optional<T> getById(ID id, Session session) {
-        return Optional.ofNullable(session.get(modelClass, id));
     }
 
     @Override
@@ -65,24 +60,23 @@ public class CrudRepositoryHibernateImpl<T extends BaseModel<ID>, ID> implements
         closeSession(session);
     }
 
-    public Session createSession() {
-        Session session = HibernateSessionFactory.getSessionFactory().openSession();
-        session.beginTransaction();
-        return session;
-    }
-
-    public void closeSession(Session session) {
-        session.getTransaction().commit();
-        session.close();
-    }
-
-    @SneakyThrows
     @Override
     public void close() {
         HibernateSessionFactory.close();
     }
 
-//    private static <T> List<T> findAllWithJpql(Class<T> type, Session session) {
-//        return session.createQuery("SELECT d FROM " + type + " d", type).getResultList();
-//    }
+    private Optional<T> getById(ID id, Session session) {
+        return Optional.ofNullable(session.get(modelClass, id));
+    }
+
+    private Session createSession() {
+        Session session = HibernateSessionFactory.getSessionFactory().openSession();
+        session.beginTransaction();
+        return session;
+    }
+
+    private void closeSession(Session session) {
+        session.getTransaction().commit();
+        session.close();
+    }
 }

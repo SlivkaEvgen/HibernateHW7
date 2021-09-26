@@ -2,12 +2,14 @@ package org.homework.hibernatehw7.services;
 
 import org.homework.hibernatehw7.model.Customer;
 import org.homework.hibernatehw7.services.interfaces.CustomerService;
+import org.homework.hibernatehw7.services.interfaces.Service;
 
 import java.util.List;
 import java.util.Optional;
 
 public class CustomerServiceImpl implements CustomerService {
 
+    private final Service<Customer, Long> CUSTOMER_SERVICE = ServiceFactory.of(Customer.class);
     private static CustomerServiceImpl customerService;
 
     public static CustomerServiceImpl getInstance() {
@@ -23,48 +25,45 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public Customer createNewCustomer(String name, String city, Long budget) {
-        return create(Customer.builder().city(city).name(name).budget(budget).build());
+        return CUSTOMER_SERVICE.create(Customer.builder().city(city).name(name).budget(budget).build());
     }
 
     @Override
     public void updateCustomer(Long id, String name, String city, Long budget) {
-//        Set<Project> projectSet = new HashSet<>();
-//        projectSet.add(ProjectServiceImpl.getInstance().findById(projectId).get());
         Customer customer = findById(id).get();
         customer.setBudget(budget);
         customer.setCity(city);
         customer.setName(name);
-//        customer.setProjects(projectSet);
-        update(id, customer);
+        CUSTOMER_SERVICE.update(id, customer);
     }
 
     @Override
     public Optional<Customer> findById(Long id) {
-        return ServiceFactory.of(Customer.class).findById(id);
+        return CUSTOMER_SERVICE.findById(id);
     }
 
     @Override
     public List<Customer> findAll() {
-        return ServiceFactory.of(Customer.class).findAll();
+        return CUSTOMER_SERVICE.findAll();
     }
 
     @Override
     public Customer create(Customer customer) {
-        return ServiceFactory.of(Customer.class).create(customer);
+        return CUSTOMER_SERVICE.create(customer);
     }
 
     @Override
     public Customer update(Long id, Customer customer) {
-        return ServiceFactory.of(Customer.class).update(id, customer);
+        return CUSTOMER_SERVICE.update(id, customer);
     }
 
     @Override
     public void delete(Long id) {
-        ServiceFactory.of(Customer.class).delete(id);
+        CUSTOMER_SERVICE.delete(id);
     }
 
     @Override
     public void close() {
-        ServiceFactory.of(Customer.class).close();
+        CUSTOMER_SERVICE.close();
     }
 }

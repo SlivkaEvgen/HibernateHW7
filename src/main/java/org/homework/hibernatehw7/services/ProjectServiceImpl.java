@@ -9,7 +9,7 @@ import java.util.Optional;
 
 public class ProjectServiceImpl implements ProjectService {
 
-    private final ProjectCrudRepositoryImpl projectCrudRepository = new ProjectCrudRepositoryImpl();
+    private final ProjectCrudRepositoryImpl CRUD_REPOSITORY =  ProjectCrudRepositoryImpl.getInstance();
     private static ProjectServiceImpl projectService;
 
     public static ProjectServiceImpl getInstance() {
@@ -25,57 +25,46 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public Project createNewProject(String name, Long cost, Long companyId, Long customerId) {
-        return create(Project.builder().name(name).cost(cost)
-                .company(CompanyServiceImpl.getInstance().findById(companyId).get())
-                .customer(CustomerServiceImpl.getInstance().findById(customerId).get())
-                .build());
+        return CRUD_REPOSITORY.createNewProject(name, cost, companyId, customerId);
     }
 
     @Override
     public void updateProject(Long id, String name, Long cost, Long companyId, Long customerId) {
-//        Set<Developer> developerSet = new HashSet<>();
-//        developerSet.add(DeveloperServiceImpl.getInstance().findById(developerId).get());
-        Project project = findById(id).get();
-        project.setName(name);
-        project.setCost(cost);
-        project.setCompany(CompanyServiceImpl.getInstance().findById(companyId).get());
-        project.setCustomer(CustomerServiceImpl.getInstance().findById(customerId).get());
-//        project.setDevelopers(developerSet);
-        update(id, project);
+        CRUD_REPOSITORY.updateProject(id, name, cost, companyId, customerId);
     }
 
     @Override
     public List<String> getListProjectsWithDate() {
-        return projectCrudRepository.getListProjectsWithDate();
+        return CRUD_REPOSITORY.getListProjectsWithDate();
     }
 
     @Override
     public Optional<Project> findById(Long id) {
-        return projectCrudRepository.findById(id);
+        return CRUD_REPOSITORY.findById(id);
     }
 
     @Override
     public List<Project> findAll() {
-        return projectCrudRepository.findAll();
+        return CRUD_REPOSITORY.findAll();
     }
 
     @Override
     public Project create(Project project) {
-        return projectCrudRepository.create(project);
+        return CRUD_REPOSITORY.create(project);
     }
 
     @Override
     public Project update(Long id, Project project) {
-        return projectCrudRepository.update(id, project);
+        return CRUD_REPOSITORY.update(id, project);
     }
 
     @Override
     public void delete(Long id) {
-        projectCrudRepository.delete(id);
+        CRUD_REPOSITORY.delete(id);
     }
 
     @Override
     public void close() {
-        projectCrudRepository.close();
+        CRUD_REPOSITORY.close();
     }
 }

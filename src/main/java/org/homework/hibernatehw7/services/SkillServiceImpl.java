@@ -1,6 +1,7 @@
 package org.homework.hibernatehw7.services;
 
 import org.homework.hibernatehw7.model.Skill;
+import org.homework.hibernatehw7.services.interfaces.Service;
 import org.homework.hibernatehw7.services.interfaces.SkillService;
 
 import java.util.List;
@@ -8,6 +9,7 @@ import java.util.Optional;
 
 public class SkillServiceImpl implements SkillService {
 
+    private final Service<Skill,Long> SKILL_SERVICE = ServiceFactory.of(Skill.class);
     private static SkillServiceImpl skillService;
 
     public static SkillServiceImpl getInstance() {
@@ -23,47 +25,44 @@ public class SkillServiceImpl implements SkillService {
 
     @Override
     public Optional<Skill> findById(Long id) {
-        return ServiceFactory.of(Skill.class).findById(id);
+        return SKILL_SERVICE.findById(id);
     }
 
     @Override
     public List<Skill> findAll() {
-        return ServiceFactory.of(Skill.class).findAll();
+        return SKILL_SERVICE.findAll();
     }
 
     @Override
     public Skill create(Skill skill) {
-        return ServiceFactory.of(Skill.class).create(skill);
+        return SKILL_SERVICE.create(skill);
     }
 
     @Override
     public Skill update(Long id, Skill skill) {
-        return ServiceFactory.of(Skill.class).update(id, skill);
+        return SKILL_SERVICE.update(id, skill);
     }
 
     @Override
     public void delete(Long id) {
-        ServiceFactory.of(Skill.class).delete(id);
+        SKILL_SERVICE.delete(id);
     }
 
     @Override
     public void close() {
-        ServiceFactory.of(Skill.class).close();
+        SKILL_SERVICE.close();
     }
 
     @Override
     public Skill createNewSkill(String activity, String level) {
-        return create(Skill.builder().activity(activity).level(level).build());
+        return SKILL_SERVICE.create(Skill.builder().activity(activity).level(level).build());
     }
 
     @Override
     public void updateSkill(Long id, String activity, String level) {
-//        Set<Developer> developerSet = new HashSet<>();
-//        developerSet.add(DeveloperServiceImpl.getInstance().findById(developerId).get());
         Skill skill = findById(id).get();
         skill.setActivity(activity);
         skill.setLevel(level);
-//        skill.setDevelopers(developerSet);
-        update(id, skill);
+        SKILL_SERVICE.update(id, skill);
     }
 }

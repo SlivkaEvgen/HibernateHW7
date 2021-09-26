@@ -70,13 +70,11 @@ public class DeveloperCrudRepositoryImpl implements DeveloperCrudRepository {
     @Override
     public List<Developer> getDevelopersFromOneProject(Long projectId) {
         List<Developer> developersOfOneProject = new ArrayList<>();
-        for (Developer developer : findAll()) {
-            for (Project project : new ArrayList<>(developer.getProjects())) {
-                if (project.getId().equals(projectId)) {
-                    developersOfOneProject.add(developer);
-                }
-            }
-        }
+        findAll().forEach(developer -> new ArrayList<>(developer.getProjects())
+                .stream()
+                .filter(project -> project.getId().equals(projectId))
+                .map(project -> developer)
+                .forEach(developersOfOneProject::add));
         return developersOfOneProject;
     }
 
@@ -87,18 +85,13 @@ public class DeveloperCrudRepositoryImpl implements DeveloperCrudRepository {
 
     private List<Developer> getBySkill(String skillParameter) {
         List<Developer> skills = new ArrayList<>();
-        for (Developer developer : findAll()) {
-            for (Skill skill : new ArrayList<>(developer.getSkills())) {
-                String activity = skill.getActivity();
-                String skillLevel = skill.getLevel();
-                if (activity.equalsIgnoreCase(skillParameter)) {
-                    skills.add(developer);
-                }
-                if (skillLevel.equalsIgnoreCase(skillParameter)) {
-                    skills.add(developer);
-                }
+        findAll().forEach(developer -> new ArrayList<>(developer.getSkills()).forEach(skill -> {
+            String activity = skill.getActivity();
+            String skillLevel = skill.getLevel();
+            if (activity.equalsIgnoreCase(skillParameter) | skillLevel.equalsIgnoreCase(skillParameter)) {
+                skills.add(developer);
             }
-        }
+        }));
         return skills;
     }
 

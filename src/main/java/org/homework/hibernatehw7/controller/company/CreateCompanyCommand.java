@@ -56,33 +56,4 @@ public class CreateCompanyCommand implements Controller {
     public void close() {
         System.exit(0);
     }
-//    private String enterProjectId() {
-//        System.out.print(" ENTER PROJECT-ID \n\uD83D\uDC49 ");
-//        String projectId = scanner.next();
-//        try {
-//            if (!Validator.validNumber(projectId) || !ProjectServiceImpl.getInstance().findById(Long.valueOf(projectId)).isPresent()) {
-//                System.out.println("Try again");
-//                return enterProjectId();
-//            }
-//        } catch (NumberFormatException r) {
-//            System.out.println("Try again");
-//            return enterProjectId();
-//        }
-//        return projectId;
-//    }
-//
-//    private String enterDeveloperId() {
-//        System.out.print(" ENTER DEVELOPER-ID \n\uD83D\uDC49 ");
-//        String developerId = scanner.next();
-//        try {
-//            if (!Validator.validNumber(developerId) || !DeveloperServiceImpl.getInstance().findById(Long.valueOf(developerId)).isPresent()) {
-//                System.out.println("Try again");
-//                return enterDeveloperId();
-//            }
-//        } catch (NumberFormatException r) {
-//            System.out.println("Try again");
-//            return enterDeveloperId();
-//        }
-//        return developerId;
-//    }
 }

@@ -5,7 +5,6 @@ import org.homework.hibernatehw7.repository.interfaces.CrudRepositoryJDBC;
 import org.homework.hibernatehw7.repository.interfaces.ProjectCrudRepository;
 import org.homework.hibernatehw7.services.CompanyServiceImpl;
 import org.homework.hibernatehw7.services.CustomerServiceImpl;
-import org.homework.hibernatehw7.services.DeveloperServiceImpl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -62,7 +61,9 @@ public class ProjectCrudRepositoryImpl implements ProjectCrudRepository {
         List<String> projectWithDate = new ArrayList<>();
         for (Project project : findAll()) {
             projectWithDate.add("Project " + project.getName() + " has " +
-                                DeveloperServiceImpl.getInstance().getDevelopersFromOneProject(project.getId()).size() + " developers, sight date: " +
+                                DeveloperCrudRepositoryImpl.getInstance()
+                                        .getDevelopersFromOneProject(project.getId()).size()
+                                + " developers, sight date: " +
                                 project.getFirstDate());
         }
         return projectWithDate;

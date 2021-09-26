@@ -1,15 +1,15 @@
 package org.homework.hibernatehw7.services;
 
 import org.homework.hibernatehw7.model.Company;
+import org.homework.hibernatehw7.repository.CompanyCrudRepositoryImpl;
 import org.homework.hibernatehw7.services.interfaces.CompanyService;
-import org.homework.hibernatehw7.services.interfaces.Service;
 
 import java.util.List;
 import java.util.Optional;
 
 public class CompanyServiceImpl implements CompanyService {
 
-    private final Service<Company, Long> COMPANY_SERVICE = ServiceFactory.of(Company.class);
+    private final CompanyCrudRepositoryImpl COMPANY_SERVICE = CompanyCrudRepositoryImpl.getInstance();
     private static CompanyServiceImpl companyService;
 
     public static CompanyServiceImpl getInstance() {
@@ -55,14 +55,11 @@ public class CompanyServiceImpl implements CompanyService {
 
     @Override
     public Company createNewCompany(String name, String city) {
-        return COMPANY_SERVICE.create(Company.builder().name(name).city(city).build());
+        return COMPANY_SERVICE.createNewCompany(name, city);
     }
 
     @Override
     public void updateCompany(Long id, String name, String city) {
-        Company company = findById(id).get();
-        company.setCity(city);
-        company.setName(name);
-        COMPANY_SERVICE.update(id, company);
+        COMPANY_SERVICE.updateCompany(id, name, city);
     }
 }

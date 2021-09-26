@@ -95,7 +95,7 @@ public class CreateDeveloperCommand implements Controller {
         System.out.print(" ENTER COMPANY-ID \n\uD83D\uDC49 ");
         String companyId = scanner.next();
         try {
-            if (!Validator.validNumber(companyId) || !CompanyServiceImpl.getInstance().findById(Long.valueOf(companyId)).isPresent()) {
+            if (!Validator.validNumber(companyId) | !CompanyServiceImpl.getInstance().findById(Long.valueOf(companyId)).isPresent()) {
                 System.out.println("Try again");
                 return enterCompanyId();
             }
@@ -142,18 +142,4 @@ public class CreateDeveloperCommand implements Controller {
     public void close() {
         System.exit(0);
     }
-//    private Skill enterSkillId() {
-//        System.out.print(" ENTER Skill-ID \n\uD83D\uDC49 ");
-//        String skillId = scanner.next();
-//        try {
-//            if (!Validator.validNumber(skillId) | !skillService.findById(Long.valueOf(skillId)).isPresent()) {
-//                System.out.println("Try again");
-//                return enterSkillId();
-//            }
-//        } catch (NumberFormatException r) {
-//            System.out.println("Try again");
-//            return enterSkillId();
-//        }
-//        return skillService.findById(Long.valueOf(skillId)).get();
-//    }
 }

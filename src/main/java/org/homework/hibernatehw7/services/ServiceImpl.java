@@ -11,53 +11,39 @@ import java.util.Optional;
 
 public class ServiceImpl<T extends BaseModel<ID>, ID> implements Closeable, Service<T, ID> {
 
-    private final Class<T> modelClass ;
-    private static ServiceImpl service;
-//    private final CrudRepositoryJDBC<T,ID> CRUD_REPOSITORY = RepositoryFactory.of();
-
-
-    public static ServiceImpl getInstance(Class modelClass) {
-        if (service == null) {
-            synchronized (ServiceImpl.class) {
-                if (service == null) {
-                    service = new ServiceImpl(modelClass);
-                }
-            }
-        }
-        return service;
-    }
+    private final CrudRepositoryJDBC<T, ID> CRUD_REPOSITORY_JDBC;
 
     public ServiceImpl(Class<T> modelClass) {
-        this.modelClass = modelClass;
+        this.CRUD_REPOSITORY_JDBC = RepositoryFactory.of(modelClass);
     }
 
     @Override
     public Optional<T> findById(ID id) {
-        return RepositoryFactory.of(modelClass).findById(id);
+        return CRUD_REPOSITORY_JDBC.findById(id);
     }
 
     @Override
     public List<T> findAll() {
-        return RepositoryFactory.of(modelClass).findAll();
+        return CRUD_REPOSITORY_JDBC.findAll();
     }
 
     @Override
     public T create(T t) {
-        return RepositoryFactory.of(modelClass).create(t);
+        return CRUD_REPOSITORY_JDBC.create(t);
     }
 
     @Override
     public T update(ID id, T t) {
-        return RepositoryFactory.of(modelClass).update(id, t);
+        return CRUD_REPOSITORY_JDBC.update(id, t);
     }
 
     @Override
     public void delete(ID id) {
-        RepositoryFactory.of(modelClass).delete(id);
+        CRUD_REPOSITORY_JDBC.delete(id);
     }
 
     @Override
     public void close() {
-        RepositoryFactory.of(modelClass).close();
+        CRUD_REPOSITORY_JDBC.close();
     }
 }

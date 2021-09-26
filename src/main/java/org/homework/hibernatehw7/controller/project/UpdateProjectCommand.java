@@ -102,19 +102,4 @@ public class UpdateProjectCommand implements Controller {
     public void close() {
         System.exit(0);
     }
-
-//    private String enterDeveloperId() {
-//        System.out.print(" ENTER DEVELOPER-ID \n\uD83D\uDC49 ");
-//        String developerId = scanner.next();
-//        try {
-//            if (!Validator.validNumber(developerId) | !DeveloperServiceImpl.getInstance().findById(Long.valueOf(developerId)).isPresent()) {
-//                System.out.println("Try again");
-//                return enterDeveloperId();
-//            }
-//        } catch (NumberFormatException r) {
-//            System.out.println("Try again");
-//            return enterDeveloperId();
-//        }
-//        return developerId;
-//    }
 }

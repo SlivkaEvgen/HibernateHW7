@@ -2,7 +2,6 @@ package org.homework.hibernatehw7.controller.skill;
 
 import org.homework.hibernatehw7.config.ScannerConsole;
 import org.homework.hibernatehw7.controller.interfaces.Controller;
-import org.homework.hibernatehw7.services.DeveloperServiceImpl;
 import org.homework.hibernatehw7.services.SkillServiceImpl;
 import org.homework.hibernatehw7.services.interfaces.SkillService;
 import org.homework.hibernatehw7.utils.Validator;
@@ -11,7 +10,7 @@ import java.util.Scanner;
 
 public class UpdateSkillCommand implements Controller {
 
-    private final SkillService SKILL_SERVICE =  SkillServiceImpl.getInstance();
+    private final SkillService SKILL_SERVICE = SkillServiceImpl.getInstance();
     private final Scanner scanner = ScannerConsole.getInstance();
     private static UpdateSkillCommand updateSkillCommand;
 
@@ -74,13 +73,4 @@ public class UpdateSkillCommand implements Controller {
     public void close() {
         System.exit(0);
     }
-//    private String enterDeveloperId() {
-//        System.out.print(" ENTER DEVELOPER-ID \n\uD83D\uDC49 ");
-//        String developerId = scanner.next();
-//        if (!Validator.validNumber(developerId) | !DeveloperServiceImpl.getInstance().findById(Long.valueOf(developerId)).isPresent()) {
-//            System.out.println("Try again");
-//            return enterDeveloperId();
-//        }
-//        return developerId;
-//    }
 }

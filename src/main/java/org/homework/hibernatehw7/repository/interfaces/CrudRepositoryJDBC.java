@@ -13,11 +13,11 @@ public interface CrudRepositoryJDBC<T extends BaseModel<ID>, ID> {
 
     T create(T t);
 
-//    List<T> createAll(Iterable<T> itbl);
-
     T update(ID id, T t);
 
     void delete(ID id);
 
     void close();
+
+    //    List<T> createAll(Iterable<T> itbl);
 }

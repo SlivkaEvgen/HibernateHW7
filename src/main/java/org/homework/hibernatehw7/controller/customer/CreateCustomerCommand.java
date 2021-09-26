@@ -66,18 +66,4 @@ public class CreateCustomerCommand implements Controller {
     public void close() {
         System.exit(0);
     }
-//    private String enterProjectId() {
-//        System.out.print(" ENTER PROJECT-ID \n\uD83D\uDC49 ");
-//        String projectId = scanner.next();
-//        try {
-//            if (!Validator.validNumber(projectId) || !ProjectServiceImpl.getInstance().findById(Long.valueOf(projectId)).isPresent()) {
-//                System.out.println("Try again");
-//                return enterProjectId();
-//            }
-//        } catch (NumberFormatException r) {
-//            System.out.println("Try again");
-//            return enterProjectId();
-//        }
-//        return projectId;
-//    }
 }

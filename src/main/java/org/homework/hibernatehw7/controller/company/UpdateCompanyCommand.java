@@ -35,7 +35,7 @@ public class UpdateCompanyCommand implements Controller {
     private String enterId() {
         System.out.print(" ENTER ID \n\uD83D\uDC49 ");
         String id = scanner.next();
-        if (!Validator.validNumber(id) || !COMPANY_SERVICE.findById(Long.valueOf(id)).isPresent()) {
+        if (!Validator.validNumber(id) | !COMPANY_SERVICE.findById(Long.valueOf(id)).isPresent()) {
             System.out.println("Try again");
             return enterId();
         }
@@ -66,23 +66,4 @@ public class UpdateCompanyCommand implements Controller {
     public void close() {
         System.exit(0);
     }
-//    private String enterProjectId() {
-//        System.out.print(" ENTER PROJECT-ID \n\uD83D\uDC49 ");
-//        String projectId = scanner.next();
-//        if (!Validator.validNumber(projectId) || !ProjectServiceImpl.getInstance().findById(Long.valueOf(projectId)).isPresent()) {
-//            System.out.println("Try again");
-//            return enterProjectId();
-//        }
-//        return projectId;
-//    }
-
-//    private String enterDeveloperId() {
-//        System.out.print(" ENTER DEVELOPER-ID \n\uD83D\uDC49 ");
-//        String developerId = scanner.next();
-//        if (!Validator.validNumber(developerId) || !DeveloperServiceImpl.getInstance().findById(Long.valueOf(developerId)).isPresent()) {
-//            System.out.println("Try again");
-//            return enterDeveloperId();
-//        }
-//        return developerId;
-//    }
 }

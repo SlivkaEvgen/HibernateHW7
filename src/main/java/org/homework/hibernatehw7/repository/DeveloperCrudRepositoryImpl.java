@@ -82,34 +82,29 @@ public class DeveloperCrudRepositoryImpl implements DeveloperCrudRepository {
 
     @Override
     public List<Developer> getDevelopersByActivity(String nameActivity) {
-        List<Developer> developersActivity = new ArrayList<>();
+        return getBySkill(nameActivity);
+    }
+
+    private List<Developer> getBySkill(String skillParameter) {
+        List<Developer> skills = new ArrayList<>();
         for (Developer developer : findAll()) {
             for (Skill skill : new ArrayList<>(developer.getSkills())) {
-                if (skill.getActivity().equalsIgnoreCase(nameActivity)) {
-                    if (developersActivity.contains(developer)) {
-                        continue;
-                    }
-                    developersActivity.add(developer);
+                String activity = skill.getActivity();
+                String skillLevel = skill.getLevel();
+                if (activity.equalsIgnoreCase(skillParameter)) {
+                    skills.add(developer);
+                }
+                if (skillLevel.equalsIgnoreCase(skillParameter)) {
+                    skills.add(developer);
                 }
             }
         }
-        return developersActivity;
+        return skills;
     }
 
     @Override
     public List<Developer> getDevelopersByLevel(String nameLevel) {
-        List<Developer> developersActivity = new ArrayList<>();
-        for (Developer developer : findAll()) {
-            for (Skill skill : new ArrayList<>(developer.getSkills())) {
-                if (skill.getLevel().equalsIgnoreCase(nameLevel)) {
-                    if (developersActivity.contains(developer)) {
-                        continue;
-                    }
-                    developersActivity.add(developer);
-                }
-            }
-        }
-        return developersActivity;
+        return getBySkill(nameLevel);
     }
 
     @Override

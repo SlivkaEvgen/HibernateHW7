@@ -1,11 +1,12 @@
 package org.homework.hibernatehw7.repository;
 
-import org.homework.hibernatehw7.model.Company;
 import org.homework.hibernatehw7.model.Developer;
 import org.homework.hibernatehw7.model.Project;
 import org.homework.hibernatehw7.model.Skill;
 import org.homework.hibernatehw7.repository.interfaces.CrudRepositoryJDBC;
 import org.homework.hibernatehw7.repository.interfaces.DeveloperCrudRepository;
+import org.homework.hibernatehw7.services.CompanyServiceImpl;
+import org.homework.hibernatehw7.services.ProjectServiceImpl;
 
 import java.util.*;
 
@@ -28,7 +29,7 @@ public class DeveloperCrudRepositoryImpl implements DeveloperCrudRepository {
     @Override
     public Developer createNewDeveloper(String name, Long age, String gender, String email, Long salary, Set<Skill> skillSet, Long companyId, Long projectId) {
         Set<Project> projectSet = new HashSet<>();
-        projectSet.add(RepositoryFactory.of(Project.class).findById(projectId).get());
+        projectSet.add(ProjectServiceImpl.getInstance().findById(projectId).get());
         return create(Developer.builder()
                 .name(name)
                 .age(age)
@@ -36,7 +37,7 @@ public class DeveloperCrudRepositoryImpl implements DeveloperCrudRepository {
                 .email(email)
                 .salary(salary)
                 .skills(skillSet)
-                .company(RepositoryFactory.of(Company.class).findById(companyId).get())
+                .company(CompanyServiceImpl.getInstance().findById(companyId).get())
                 .projects(projectSet)
                 .build());
     }
@@ -44,15 +45,14 @@ public class DeveloperCrudRepositoryImpl implements DeveloperCrudRepository {
     @Override
     public void updateDeveloper(Long id, String name, Long age, String gender, String email, Long salary, Set<Skill> skillSet, Long companyId, Long projectId) {
         Set<Project> projectSet = new HashSet<>();
-        projectSet.add(RepositoryFactory.of(Project.class).findById(projectId).get());
-
+        projectSet.add(ProjectServiceImpl.getInstance().findById(projectId).get());
         Developer developer = findById(id).get();
         developer.setName(name);
         developer.setAge(age);
         developer.setGender(gender);
         developer.setEmail(email);
         developer.setSalary(salary);
-        developer.setCompany(RepositoryFactory.of(Company.class).findById(companyId).get());
+        developer.setCompany(CompanyServiceImpl.getInstance().findById(companyId).get());
         developer.setSkills(skillSet);
         developer.setProjects(projectSet);
         update(id, developer);

@@ -11,16 +11,15 @@ import org.homework.hibernatehw7.services.interfaces.DeveloperService;
 import org.homework.hibernatehw7.utils.Validator;
 
 import java.util.HashSet;
-import java.util.Optional;
 import java.util.Scanner;
 import java.util.Set;
 
 public class CreateDeveloperCommand implements Controller {
 
-    private final DeveloperService DEVELOPER_SERVICE = new DeveloperServiceImpl();
+    private final DeveloperService DEVELOPER_SERVICE = DeveloperServiceImpl.getInstance();
+    private final SkillServiceImpl skillService = SkillServiceImpl.getInstance();
     private final Scanner scanner = ScannerConsole.getInstance();
     private static CreateDeveloperCommand createDeveloperCommand;
-    private final SkillServiceImpl skillService = SkillServiceImpl.getInstance();
 
     public static CreateDeveloperCommand getInstance() {
         if (createDeveloperCommand == null) {
@@ -35,15 +34,9 @@ public class CreateDeveloperCommand implements Controller {
     }
 
     private void create() {
-        final String name = enterName();
-        final String age = enterAge();
-        final String gender = enterGender();
-        final String email = enterEmail();
-        final String salary = enterSalary();
-        final Set<Skill> skillSet = (Set<Skill>) addSetSkills();
-        final String companyId = enterCompanyId();
-        final String projectId = enterProjectId();
-        DEVELOPER_SERVICE.createNewDeveloper(name, Long.valueOf(age), gender, email, Long.valueOf(salary), skillSet, Long.valueOf(companyId), Long.valueOf(projectId));
+        DEVELOPER_SERVICE.createNewDeveloper(enterName(), Long.valueOf(enterAge()), enterGender(),
+                enterEmail(), Long.valueOf(enterSalary()), addSetSkills(), Long.valueOf(enterCompanyId()),
+                Long.valueOf(enterProjectId()));
         System.out.println(" ✅ You create \uD83D\uDC49   new Developer  \n");
     }
 
@@ -60,7 +53,7 @@ public class CreateDeveloperCommand implements Controller {
     private String enterAge() {
         System.out.print(" ENTER AGE \n\uD83D\uDC49 ");
         String age = scanner.next();
-        if (!Validator.validNumber(age) | age.length() > 3) {
+        if (!Validator.validNumber(age) | age.length() > 2) {
             System.out.println("Try again");
             return enterAge();
         }
@@ -117,7 +110,7 @@ public class CreateDeveloperCommand implements Controller {
         System.out.print(" ENTER Project-ID \n\uD83D\uDC49 ");
         String projectId = scanner.next();
         try {
-            if (!Validator.validNumber(projectId) || !ProjectServiceImpl.getInstance().findById(Long.valueOf(projectId)).isPresent()) {
+            if (!Validator.validNumber(projectId) | !ProjectServiceImpl.getInstance().findById(Long.valueOf(projectId)).isPresent()) {
                 System.out.println("Try again");
                 return enterProjectId();
             }
@@ -128,24 +121,30 @@ public class CreateDeveloperCommand implements Controller {
         return projectId;
     }
 
-    private Skill enterSkillId() {
+    private Set<Skill> addSetSkills() {
+        Set<Skill> skillSet = new HashSet<>();
         System.out.print(" ENTER Skill-ID \n\uD83D\uDC49 ");
         String skillId = scanner.next();
         try {
             if (!Validator.validNumber(skillId) | !skillService.findById(Long.valueOf(skillId)).isPresent()) {
                 System.out.println("Try again");
-                return enterSkillId();
+                return addSetSkills();
             }
         } catch (NumberFormatException r) {
             System.out.println("Try again");
-            return enterSkillId();
+            return addSetSkills();
         }
-        return skillService.findById(Long.valueOf(skillId)).get();
+        skillSet.add(skillService.findById(Long.valueOf(skillId)).get());
+        return skillSet;
     }
 
-    private Skill addSetSkills() {
-        System.out.print(" ENTER Skill-ID \n\uD83D\uDC49 ");
-        String skillId = scanner.next();
+    @Override
+    public void close() {
+        System.exit(0);
+    }
+//    private Skill enterSkillId() {
+//        System.out.print(" ENTER Skill-ID \n\uD83D\uDC49 ");
+//        String skillId = scanner.next();
 //        try {
 //            if (!Validator.validNumber(skillId) | !skillService.findById(Long.valueOf(skillId)).isPresent()) {
 //                System.out.println("Try again");
@@ -155,11 +154,6 @@ public class CreateDeveloperCommand implements Controller {
 //            System.out.println("Try again");
 //            return enterSkillId();
 //        }
-        return skillService.findById(Long.valueOf(skillId)).get();
-    }
-
-    @Override
-    public void close() {
-        System.exit(0);
-    }
+//        return skillService.findById(Long.valueOf(skillId)).get();
+//    }
 }

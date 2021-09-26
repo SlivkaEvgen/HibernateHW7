@@ -10,7 +10,7 @@ import java.util.Scanner;
 
 public class DeleteDeveloperCommand implements Controller {
 
-    private final DeveloperService DEVELOPER_SERVICE = new DeveloperServiceImpl();
+    private final DeveloperService DEVELOPER_SERVICE = DeveloperServiceImpl.getInstance();
     private final Scanner scanner = ScannerConsole.getInstance();
     private static DeleteDeveloperCommand deleteDeveloperCommand;
 

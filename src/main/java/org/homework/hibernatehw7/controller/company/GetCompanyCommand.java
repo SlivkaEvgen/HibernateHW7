@@ -10,7 +10,7 @@ import java.util.Scanner;
 
 public class GetCompanyCommand implements Controller {
 
-    private final CompanyService COMPANY_SERVICE = new CompanyServiceImpl();
+    private final CompanyService COMPANY_SERVICE = CompanyServiceImpl.getInstance();
     private final Scanner scanner = ScannerConsole.getInstance();
     private static GetCompanyCommand getCompanyCommand;
 

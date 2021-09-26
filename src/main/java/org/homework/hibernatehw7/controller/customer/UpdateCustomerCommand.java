@@ -2,9 +2,7 @@ package org.homework.hibernatehw7.controller.customer;
 
 import org.homework.hibernatehw7.config.ScannerConsole;
 import org.homework.hibernatehw7.controller.interfaces.Controller;
-import org.homework.hibernatehw7.services.CompanyServiceImpl;
 import org.homework.hibernatehw7.services.CustomerServiceImpl;
-import org.homework.hibernatehw7.services.ProjectServiceImpl;
 import org.homework.hibernatehw7.services.interfaces.CustomerService;
 import org.homework.hibernatehw7.utils.Validator;
 
@@ -30,12 +28,7 @@ public class UpdateCustomerCommand implements Controller {
 
     private void update() {
         final String id = enterId();
-        final String name = enterName();
-        final String city = enterCity();
-        final String budget = enterBudget();
-//        final String companyId = enterCompanyId();
-//        final String projectId = enterProjectId();
-        CUSTOMER_SERVICE.updateCustomer(Long.valueOf(id), name, city, Long.valueOf(budget));
+        CUSTOMER_SERVICE.updateCustomer(Long.valueOf(enterId()), enterName(), enterCity(), Long.valueOf(enterBudget()));
         System.out.println(" ✅ You updated \uD83D\uDC49 " + CUSTOMER_SERVICE.findById(Long.valueOf(id)).get() + "\n");
     }
 
@@ -79,38 +72,38 @@ public class UpdateCustomerCommand implements Controller {
         return budget;
     }
 
-    private String enterCompanyId() {
-        System.out.print(" ENTER COMPANY-ID \n\uD83D\uDC49 ");
-        String companyId = scanner.next();
-        try {
-            if (!Validator.validNumber(companyId) || !CompanyServiceImpl.getInstance().findById(Long.valueOf(companyId)).isPresent()) {
-                System.out.println("Try again");
-                return enterCompanyId();
-            }
-        } catch (NumberFormatException r) {
-            System.out.println("Try again");
-            return enterCompanyId();
-        }
-        return companyId;
-    }
-
-    private String enterProjectId() {
-        System.out.print(" ENTER PROJECT-ID \n\uD83D\uDC49 ");
-        String projectId = scanner.next();
-        try {
-            if (!Validator.validNumber(projectId) || !ProjectServiceImpl.getInstance().findById(Long.valueOf(projectId)).isPresent()) {
-                System.out.println("Try again");
-                return enterProjectId();
-            }
-        } catch (NumberFormatException r) {
-            System.out.println("Try again");
-            return enterProjectId();
-        }
-        return projectId;
-    }
-
     @Override
     public void close() {
         System.exit(0);
     }
+
+//    private String enterCompanyId() {
+//        System.out.print(" ENTER COMPANY-ID \n\uD83D\uDC49 ");
+//        String companyId = scanner.next();
+//        try {
+//            if (!Validator.validNumber(companyId) || !CompanyServiceImpl.getInstance().findById(Long.valueOf(companyId)).isPresent()) {
+//                System.out.println("Try again");
+//                return enterCompanyId();
+//            }
+//        } catch (NumberFormatException r) {
+//            System.out.println("Try again");
+//            return enterCompanyId();
+//        }
+//        return companyId;
+//    }
+
+//    private String enterProjectId() {
+//        System.out.print(" ENTER PROJECT-ID \n\uD83D\uDC49 ");
+//        String projectId = scanner.next();
+//        try {
+//            if (!Validator.validNumber(projectId) || !ProjectServiceImpl.getInstance().findById(Long.valueOf(projectId)).isPresent()) {
+//                System.out.println("Try again");
+//                return enterProjectId();
+//            }
+//        } catch (NumberFormatException r) {
+//            System.out.println("Try again");
+//            return enterProjectId();
+//        }
+//        return projectId;
+//    }
 }

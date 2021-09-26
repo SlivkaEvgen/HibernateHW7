@@ -50,7 +50,7 @@ public class GetCustomerCommand implements Controller {
         String next = scanner.next();
         if (Validator.validNumber(next)) {
             if (CUSTOMER_SERVICE.findById(Long.valueOf(next)).isPresent()) {
-                System.out.println(CUSTOMER_SERVICE.findById(Long.valueOf(next)).isPresent());
+                System.out.println(CUSTOMER_SERVICE.findById(Long.valueOf(next)).get());
             } else {
                 System.out.print("\nNot found, try again ... ");
                 getById();

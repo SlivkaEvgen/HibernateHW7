@@ -10,7 +10,7 @@ import java.util.Scanner;
 
 public class DeleteProjectCommand implements Controller {
 
-    private final ProjectService PROJECT_SERVICE = new ProjectServiceImpl();
+    private final ProjectService PROJECT_SERVICE = ProjectServiceImpl.getInstance();
     private final Scanner scanner = ScannerConsole.getInstance();
     private static DeleteProjectCommand deleteProjectCommand;
 

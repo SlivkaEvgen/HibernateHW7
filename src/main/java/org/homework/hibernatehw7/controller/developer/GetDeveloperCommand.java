@@ -13,7 +13,7 @@ import java.util.Scanner;
 
 public class GetDeveloperCommand implements Controller {
 
-    private final DeveloperService DEVELOPER_SERVICE = new DeveloperServiceImpl();
+    private final DeveloperService DEVELOPER_SERVICE = DeveloperServiceImpl.getInstance();
     private final Scanner scanner = ScannerConsole.getInstance();
     private static GetDeveloperCommand getDeveloperCommand;
 

@@ -2,6 +2,7 @@ package org.homework.hibernatehw7.controller.skill;
 
 import org.homework.hibernatehw7.config.ScannerConsole;
 import org.homework.hibernatehw7.controller.interfaces.Controller;
+import org.homework.hibernatehw7.model.Skill;
 import org.homework.hibernatehw7.services.SkillServiceImpl;
 import org.homework.hibernatehw7.services.interfaces.SkillService;
 import org.homework.hibernatehw7.utils.Validator;
@@ -10,7 +11,7 @@ import java.util.Scanner;
 
 public class CreateCommandSkill implements Controller {
 
-    private final SkillService SKILL_SERVICE = new SkillServiceImpl();
+    private final SkillService SKILL_SERVICE = SkillServiceImpl.getInstance();
     private final Scanner scanner = ScannerConsole.getInstance();
     private static CreateCommandSkill createCommandSkill;
 
@@ -27,10 +28,8 @@ public class CreateCommandSkill implements Controller {
     }
 
     private void create() {
-        final String activity = enterActivity();
-        final String level = enterLevel();
-        SKILL_SERVICE.createNewSkill(activity, level);
-        System.out.println(" ✅ You created \uD83D\uDC49 " + "new Skill" + "\n");
+        Skill skill = SKILL_SERVICE.createNewSkill(enterActivity(), enterLevel());
+        System.out.println(" ✅ You created \uD83D\uDC49 " + "new Skill " + skill + "\n");
     }
 
     private String enterActivity() {

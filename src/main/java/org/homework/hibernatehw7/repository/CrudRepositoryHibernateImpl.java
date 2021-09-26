@@ -1,11 +1,15 @@
 package org.homework.hibernatehw7.repository;
 
 import org.hibernate.Session;
+import org.hibernate.query.criteria.HibernateCriteriaBuilder;
 import org.hibernate.query.criteria.JpaCriteriaQuery;
+import org.hibernate.query.criteria.JpaRoot;
 import org.homework.hibernatehw7.model.BaseModel;
+import org.homework.hibernatehw7.model.Developer;
 import org.homework.hibernatehw7.repository.interfaces.CrudRepositoryJDBC;
 import org.homework.hibernatehw7.utils.HibernateSessionFactory;
 
+import javax.persistence.criteria.Order;
 import java.io.Closeable;
 import java.util.List;
 import java.util.Optional;

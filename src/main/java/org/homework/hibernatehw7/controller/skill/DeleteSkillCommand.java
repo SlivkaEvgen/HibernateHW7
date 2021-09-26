@@ -10,7 +10,7 @@ import java.util.Scanner;
 
 public class DeleteSkillCommand implements Controller {
 
-    private final SkillService SKILL_SERVICE = new SkillServiceImpl();
+    private final SkillService SKILL_SERVICE = SkillServiceImpl.getInstance();
     private final Scanner scanner = ScannerConsole.getInstance();
     private static DeleteSkillCommand deleteSkillCommand;
 

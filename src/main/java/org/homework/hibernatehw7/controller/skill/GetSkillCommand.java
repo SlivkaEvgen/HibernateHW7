@@ -12,7 +12,7 @@ import java.util.Scanner;
 
 public class GetSkillCommand implements Controller {
 
-    private final SkillService SKILL_SERVICE = new SkillServiceImpl();
+    private final SkillService SKILL_SERVICE = SkillServiceImpl.getInstance();
     private final Scanner scanner = ScannerConsole.getInstance();
     private static GetSkillCommand getSkillCommand;
 

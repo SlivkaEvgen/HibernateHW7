@@ -16,7 +16,7 @@ import java.util.Set;
 
 public class UpdateDeveloperCommand implements Controller {
 
-    private final DeveloperService DEVELOPER_SERVICE = new DeveloperServiceImpl();
+    private final DeveloperService DEVELOPER_SERVICE = DeveloperServiceImpl.getInstance();
     private final Scanner scanner = ScannerConsole.getInstance();
     private static UpdateDeveloperCommand updateDeveloperCommand;
 
@@ -34,16 +34,9 @@ public class UpdateDeveloperCommand implements Controller {
 
     private void update() {
         final String id = enterId();
-        final String name = enterName();
-        final String age = enterAge();
-        final String gender = enterGender();
-        final String email = enterEmail();
-        final String salary = enterSalary();
-//        Set<Skill> skillSet = enterSkillId();
-        Set<Skill> skillSet = createSet();
-        final String companyId = enterCompanyId();
-        final String projectId = enterProjectId();
-        DEVELOPER_SERVICE.updateDeveloper(Long.valueOf(id), name, Long.valueOf(age), gender, email, Long.valueOf(salary),  skillSet, Long.valueOf(companyId),Long.valueOf( projectId));
+        DEVELOPER_SERVICE.updateDeveloper(Long.valueOf(id), enterName(), Long.valueOf(enterAge()),
+                enterGender(), enterEmail(), Long.valueOf(enterSalary()), createSet(),
+                Long.valueOf(enterCompanyId()), Long.valueOf(enterProjectId()));
         System.out.println(" ✅ You updated \uD83D\uDC49 " + DEVELOPER_SERVICE.findById(Long.valueOf(id)).get() + "\n");
     }
 
@@ -70,7 +63,7 @@ public class UpdateDeveloperCommand implements Controller {
     private String enterAge() {
         System.out.print(" ENTER AGE \n\uD83D\uDC49 ");
         String age = scanner.next();
-        if (!Validator.validNumber(age) | age.length() > 3) {
+        if (!Validator.validNumber(age) | age.length() > 2) {
             System.out.println("Try again");
             return enterAge();
         }
@@ -138,23 +131,8 @@ public class UpdateDeveloperCommand implements Controller {
         return projectId;
     }
 
-    private String enterSkillId() {
-        System.out.print(" ENTER SKILL-ID \n\uD83D\uDC49 ");
-        String skillId = scanner.next();
-        try {
-            if (!Validator.validNumber(skillId) || !SkillServiceImpl.getInstance().findById(Long.valueOf(skillId)).isPresent()) {
-                System.out.println("Try again");
-                return enterSkillId();
-            }
-        } catch (NumberFormatException r) {
-            System.out.println("Try again");
-            return enterSkillId();
-        }
-        return skillId;
-    }
-
     private Set<Skill> createSet() {
-        Set<Skill>skillSet = new HashSet<>();
+        Set<Skill> skillSet = new HashSet<>();
         System.out.print(" ENTER SKILL-ID \n\uD83D\uDC49 ");
         String skillId = scanner.next();
         try {
@@ -174,4 +152,18 @@ public class UpdateDeveloperCommand implements Controller {
     public void close() {
         System.exit(0);
     }
+//    private String enterSkillId() {
+//        System.out.print(" ENTER SKILL-ID \n\uD83D\uDC49 ");
+//        String skillId = scanner.next();
+//        try {
+//            if (!Validator.validNumber(skillId) || !SkillServiceImpl.getInstance().findById(Long.valueOf(skillId)).isPresent()) {
+//                System.out.println("Try again");
+//                return enterSkillId();
+//            }
+//        } catch (NumberFormatException r) {
+//            System.out.println("Try again");
+//            return enterSkillId();
+//        }
+//        return skillId;
+//    }
 }

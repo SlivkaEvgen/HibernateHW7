@@ -5,7 +5,6 @@ import org.homework.hibernatehw7.controller.interfaces.Controller;
 import org.homework.hibernatehw7.model.Project;
 import org.homework.hibernatehw7.services.CompanyServiceImpl;
 import org.homework.hibernatehw7.services.CustomerServiceImpl;
-import org.homework.hibernatehw7.services.DeveloperServiceImpl;
 import org.homework.hibernatehw7.services.ProjectServiceImpl;
 import org.homework.hibernatehw7.services.interfaces.ProjectService;
 import org.homework.hibernatehw7.utils.Validator;
@@ -15,7 +14,7 @@ import java.util.Scanner;
 
 public class UpdateProjectCommand implements Controller {
 
-    private final ProjectService PROJECT_SERVICE = new ProjectServiceImpl();
+    private final ProjectService PROJECT_SERVICE = ProjectServiceImpl.getInstance();
     private final Scanner scanner = ScannerConsole.getInstance();
     private static UpdateProjectCommand updateProjectCommand;
 
@@ -33,12 +32,8 @@ public class UpdateProjectCommand implements Controller {
 
     private void update() {
         final String id = enterId();
-        final String name = enterName();
-        final String cost = enterCost();
-        final String companyId = enterCompanyId();
-        final String customerId = enterCustomerId();
-//        final String developerId = enterDeveloperId();
-        PROJECT_SERVICE.updateProject(Long.valueOf(id), name, Long.valueOf(cost), Long.valueOf(companyId), Long.valueOf(customerId));
+        PROJECT_SERVICE.updateProject(Long.valueOf(id), enterName(), Long.valueOf(enterCost()),
+                Long.valueOf(enterCompanyId()), Long.valueOf(enterCustomerId()));
         System.out.println(" ✅ You updated \uD83D\uDC49 " + PROJECT_SERVICE.findById(Long.valueOf(id)).get() + "\n");
     }
 
@@ -88,21 +83,6 @@ public class UpdateProjectCommand implements Controller {
         return companyId;
     }
 
-    private String enterDeveloperId() {
-        System.out.print(" ENTER DEVELOPER-ID \n\uD83D\uDC49 ");
-        String developerId = scanner.next();
-        try {
-            if (!Validator.validNumber(developerId) | !DeveloperServiceImpl.getInstance().findById(Long.valueOf(developerId)).isPresent()) {
-                System.out.println("Try again");
-                return enterDeveloperId();
-            }
-        } catch (NumberFormatException r) {
-            System.out.println("Try again");
-            return enterDeveloperId();
-        }
-        return developerId;
-    }
-
     private String enterCustomerId() {
         System.out.print(" ENTER CUSTOMER-ID \n\uD83D\uDC49 ");
         String customerId = scanner.next();
@@ -122,4 +102,19 @@ public class UpdateProjectCommand implements Controller {
     public void close() {
         System.exit(0);
     }
+
+//    private String enterDeveloperId() {
+//        System.out.print(" ENTER DEVELOPER-ID \n\uD83D\uDC49 ");
+//        String developerId = scanner.next();
+//        try {
+//            if (!Validator.validNumber(developerId) | !DeveloperServiceImpl.getInstance().findById(Long.valueOf(developerId)).isPresent()) {
+//                System.out.println("Try again");
+//                return enterDeveloperId();
+//            }
+//        } catch (NumberFormatException r) {
+//            System.out.println("Try again");
+//            return enterDeveloperId();
+//        }
+//        return developerId;
+//    }
 }

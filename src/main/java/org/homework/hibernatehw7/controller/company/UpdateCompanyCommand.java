@@ -3,8 +3,6 @@ package org.homework.hibernatehw7.controller.company;
 import org.homework.hibernatehw7.config.ScannerConsole;
 import org.homework.hibernatehw7.controller.interfaces.Controller;
 import org.homework.hibernatehw7.services.CompanyServiceImpl;
-import org.homework.hibernatehw7.services.DeveloperServiceImpl;
-import org.homework.hibernatehw7.services.ProjectServiceImpl;
 import org.homework.hibernatehw7.services.interfaces.CompanyService;
 import org.homework.hibernatehw7.utils.Validator;
 
@@ -12,7 +10,7 @@ import java.util.Scanner;
 
 public class UpdateCompanyCommand implements Controller {
 
-    private final CompanyService COMPANY_SERVICE = new CompanyServiceImpl();
+    private final CompanyService COMPANY_SERVICE = CompanyServiceImpl.getInstance();
     private final Scanner scanner = ScannerConsole.getInstance();
     private static UpdateCompanyCommand updateCompanyCommand;
 
@@ -30,11 +28,7 @@ public class UpdateCompanyCommand implements Controller {
 
     private void update() {
         final String id = enterId();
-        final String name = enterName();
-        final String city = enterCity();
-//        final String projectId = enterProjectId();
-//        final String developerId = enterDeveloperId();
-        COMPANY_SERVICE.updateCompany(Long.valueOf(id), name, city);
+        COMPANY_SERVICE.updateCompany(Long.valueOf(id), enterName(), enterCity());
         System.out.println(" ✅ You updated \uD83D\uDC49 " + COMPANY_SERVICE.findById(Long.valueOf(id)).get() + "\n");
     }
 
@@ -68,28 +62,27 @@ public class UpdateCompanyCommand implements Controller {
         return city;
     }
 
-    private String enterProjectId() {
-        System.out.print(" ENTER PROJECT-ID \n\uD83D\uDC49 ");
-        String projectId = scanner.next();
-        if (!Validator.validNumber(projectId) || !ProjectServiceImpl.getInstance().findById(Long.valueOf(projectId)).isPresent()) {
-            System.out.println("Try again");
-            return enterProjectId();
-        }
-        return projectId;
-    }
-
-    private String enterDeveloperId() {
-        System.out.print(" ENTER DEVELOPER-ID \n\uD83D\uDC49 ");
-        String developerId = scanner.next();
-        if (!Validator.validNumber(developerId) || !DeveloperServiceImpl.getInstance().findById(Long.valueOf(developerId)).isPresent()) {
-            System.out.println("Try again");
-            return enterDeveloperId();
-        }
-        return developerId;
-    }
-
     @Override
     public void close() {
         System.exit(0);
     }
+//    private String enterProjectId() {
+//        System.out.print(" ENTER PROJECT-ID \n\uD83D\uDC49 ");
+//        String projectId = scanner.next();
+//        if (!Validator.validNumber(projectId) || !ProjectServiceImpl.getInstance().findById(Long.valueOf(projectId)).isPresent()) {
+//            System.out.println("Try again");
+//            return enterProjectId();
+//        }
+//        return projectId;
+//    }
+
+//    private String enterDeveloperId() {
+//        System.out.print(" ENTER DEVELOPER-ID \n\uD83D\uDC49 ");
+//        String developerId = scanner.next();
+//        if (!Validator.validNumber(developerId) || !DeveloperServiceImpl.getInstance().findById(Long.valueOf(developerId)).isPresent()) {
+//            System.out.println("Try again");
+//            return enterDeveloperId();
+//        }
+//        return developerId;
+//    }
 }

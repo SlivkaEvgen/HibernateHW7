@@ -12,7 +12,7 @@ import java.util.Scanner;
 
 public class GetProjectCommand implements Controller {
 
-    private final ProjectService PROJECT_SERVICE = new ProjectServiceImpl();
+    private final ProjectService PROJECT_SERVICE = ProjectServiceImpl.getInstance();
     private final Scanner scanner = ScannerConsole.getInstance();
     private static GetProjectCommand getProjectCommand;
 

@@ -43,7 +43,7 @@ public class UpdateDeveloperCommand implements Controller {
     private String enterId() {
         System.out.print(" ENTER ID \n\uD83D\uDC49 ");
         String id = scanner.next();
-        if (!Validator.validNumber(id) || !DEVELOPER_SERVICE.findById(Long.valueOf(id)).isPresent()) {
+        if (!Validator.validNumber(id) | !DEVELOPER_SERVICE.findById(Long.valueOf(id)).isPresent()) {
             System.out.println("Try again");
             return enterId();
         }
@@ -105,7 +105,7 @@ public class UpdateDeveloperCommand implements Controller {
         System.out.print(" ENTER COMPANY-ID \n\uD83D\uDC49 ");
         String companyId = scanner.next();
         try {
-            if (!Validator.validNumber(companyId) || !CompanyServiceImpl.getInstance().findById(Long.valueOf(companyId)).isPresent()) {
+            if (!Validator.validNumber(companyId) | !CompanyServiceImpl.getInstance().findById(Long.valueOf(companyId)).isPresent()) {
                 System.out.println("Try again");
                 return enterCompanyId();
             }
@@ -120,7 +120,7 @@ public class UpdateDeveloperCommand implements Controller {
         System.out.print(" ENTER PROJECT-ID \n\uD83D\uDC49 ");
         String projectId = scanner.next();
         try {
-            if (!Validator.validNumber(projectId) || !ProjectServiceImpl.getInstance().findById(Long.valueOf(projectId)).isPresent()) {
+            if (!Validator.validNumber(projectId) | !ProjectServiceImpl.getInstance().findById(Long.valueOf(projectId)).isPresent()) {
                 System.out.println("Try again");
                 return enterProjectId();
             }
@@ -136,7 +136,7 @@ public class UpdateDeveloperCommand implements Controller {
         System.out.print(" ENTER SKILL-ID \n\uD83D\uDC49 ");
         String skillId = scanner.next();
         try {
-            if (!Validator.validNumber(skillId) || !SkillServiceImpl.getInstance().findById(Long.valueOf(skillId)).isPresent()) {
+            if (!Validator.validNumber(skillId) | !SkillServiceImpl.getInstance().findById(Long.valueOf(skillId)).isPresent()) {
                 System.out.println("Try again");
                 return createSet();
             }
@@ -152,18 +152,4 @@ public class UpdateDeveloperCommand implements Controller {
     public void close() {
         System.exit(0);
     }
-//    private String enterSkillId() {
-//        System.out.print(" ENTER SKILL-ID \n\uD83D\uDC49 ");
-//        String skillId = scanner.next();
-//        try {
-//            if (!Validator.validNumber(skillId) || !SkillServiceImpl.getInstance().findById(Long.valueOf(skillId)).isPresent()) {
-//                System.out.println("Try again");
-//                return enterSkillId();
-//            }
-//        } catch (NumberFormatException r) {
-//            System.out.println("Try again");
-//            return enterSkillId();
-//        }
-//        return skillId;
-//    }
 }

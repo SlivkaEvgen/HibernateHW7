@@ -1,16 +1,11 @@
 package org.homework.hibernatehw7.services;
 
-import org.homework.hibernatehw7.model.Developer;
 import org.homework.hibernatehw7.model.Project;
 import org.homework.hibernatehw7.repository.ProjectCrudRepositoryImpl;
 import org.homework.hibernatehw7.services.interfaces.ProjectService;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 public class ProjectServiceImpl implements ProjectService {
 
@@ -29,29 +24,23 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public Project createNewProject(String name, Long cost, Long companyId, Long customerId, Long developerId) {
-        Set<Developer> developers = new HashSet<>();
-        developers.add(DeveloperServiceImpl.getInstance().findById(developerId).get());
-        return create(Project.builder()
-                .name(name)
-                .cost(cost)
+    public Project createNewProject(String name, Long cost, Long companyId, Long customerId) {
+        return create(Project.builder().name(name).cost(cost)
                 .company(CompanyServiceImpl.getInstance().findById(companyId).get())
                 .customer(CustomerServiceImpl.getInstance().findById(customerId).get())
-                .developers(developers)
                 .build());
     }
 
     @Override
-    public void updateProject(Long id, String name, Long cost, Long companyId, Long customerId, Long developerId) {
-        Set<Developer> developerSet = new HashSet<>();
-        developerSet.add(DeveloperServiceImpl.getInstance().findById(developerId).get());
-
+    public void updateProject(Long id, String name, Long cost, Long companyId, Long customerId) {
+//        Set<Developer> developerSet = new HashSet<>();
+//        developerSet.add(DeveloperServiceImpl.getInstance().findById(developerId).get());
         Project project = findById(id).get();
         project.setName(name);
         project.setCost(cost);
         project.setCompany(CompanyServiceImpl.getInstance().findById(companyId).get());
         project.setCustomer(CustomerServiceImpl.getInstance().findById(customerId).get());
-        project.setDevelopers(developerSet);
+//        project.setDevelopers(developerSet);
         update(id, project);
     }
 
@@ -89,9 +78,4 @@ public class ProjectServiceImpl implements ProjectService {
     public void close() {
         projectCrudRepository.close();
     }
-
-    private int countDevelopers(int projectId) {
-        return DeveloperServiceImpl.getInstance().getDevelopersFromOneProject((long) projectId).size();
-    }
-
 }

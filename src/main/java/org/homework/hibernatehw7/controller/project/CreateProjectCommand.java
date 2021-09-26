@@ -2,20 +2,18 @@ package org.homework.hibernatehw7.controller.project;
 
 import org.homework.hibernatehw7.config.ScannerConsole;
 import org.homework.hibernatehw7.controller.interfaces.Controller;
-import org.homework.hibernatehw7.model.Company;
-import org.homework.hibernatehw7.model.Customer;
-import org.homework.hibernatehw7.model.Developer;
-import org.homework.hibernatehw7.model.Project;
-import org.homework.hibernatehw7.services.*;
+import org.homework.hibernatehw7.services.CompanyServiceImpl;
+import org.homework.hibernatehw7.services.CustomerServiceImpl;
+import org.homework.hibernatehw7.services.DeveloperServiceImpl;
+import org.homework.hibernatehw7.services.ProjectServiceImpl;
 import org.homework.hibernatehw7.services.interfaces.ProjectService;
-import org.homework.hibernatehw7.services.interfaces.Service;
 import org.homework.hibernatehw7.utils.Validator;
 
 import java.util.Scanner;
 
 public class CreateProjectCommand implements Controller {
 
-    private final ProjectService PROJECT_SERVICE =new ProjectServiceImpl();
+    private final ProjectService PROJECT_SERVICE = new ProjectServiceImpl();
     private final Scanner scanner = ScannerConsole.getInstance();
     private static CreateProjectCommand createProjectCommand;
 
@@ -36,15 +34,15 @@ public class CreateProjectCommand implements Controller {
         final String cost = enterCost();
         final String companyId = enterCompanyId();
         final String customerId = enterCustomerId();
-        final String developerId = enterDeveloperId();
-        PROJECT_SERVICE.createNewProject(name, Long.valueOf(cost), Long.valueOf(companyId), Long.valueOf(customerId), Long.valueOf(developerId));
+//        final String developerId = enterDeveloperId();
+        PROJECT_SERVICE.createNewProject(name, Long.valueOf(cost), Long.valueOf(companyId), Long.valueOf(customerId));
         System.out.println(" ✅ You created \uD83D\uDC49 " + "new Project" + "\n");
     }
 
     private String enterName() {
         System.out.print(" ENTER NAME \n\uD83D\uDC49 ");
         String name = scanner.next();
-        if (!Validator.validString(name)|name.length()>15) {
+        if (!Validator.validString(name) | name.length() > 15) {
             System.out.println("Try again");
             return enterName();
         }
@@ -54,7 +52,7 @@ public class CreateProjectCommand implements Controller {
     private String enterCost() {
         System.out.print(" ENTER COST \n\uD83D\uDC49 ");
         String cost = scanner.next();
-        if (!Validator.validNumber(cost)|cost.length()>10) {
+        if (!Validator.validNumber(cost) | cost.length() > 10) {
             System.out.println("Try again");
             return enterCost();
         }

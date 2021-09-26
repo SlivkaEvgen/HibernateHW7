@@ -1,13 +1,10 @@
 package org.homework.hibernatehw7.services;
 
-import org.homework.hibernatehw7.model.Developer;
 import org.homework.hibernatehw7.model.Skill;
 import org.homework.hibernatehw7.services.interfaces.SkillService;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 public class SkillServiceImpl implements SkillService {
 
@@ -60,14 +57,13 @@ public class SkillServiceImpl implements SkillService {
     }
 
     @Override
-    public void updateSkill(Long id, String activity, String level, Long developerId) {
-        Set<Developer> developerSet = new HashSet<>();
-        developerSet.add(DeveloperServiceImpl.getInstance().findById(developerId).get());
-
+    public void updateSkill(Long id, String activity, String level) {
+//        Set<Developer> developerSet = new HashSet<>();
+//        developerSet.add(DeveloperServiceImpl.getInstance().findById(developerId).get());
         Skill skill = findById(id).get();
         skill.setActivity(activity);
         skill.setLevel(level);
-        skill.setDevelopers(developerSet);
+//        skill.setDevelopers(developerSet);
         update(id, skill);
     }
 }

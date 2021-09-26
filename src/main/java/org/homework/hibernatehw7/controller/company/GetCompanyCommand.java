@@ -2,11 +2,8 @@ package org.homework.hibernatehw7.controller.company;
 
 import org.homework.hibernatehw7.config.ScannerConsole;
 import org.homework.hibernatehw7.controller.interfaces.Controller;
-import org.homework.hibernatehw7.model.Company;
 import org.homework.hibernatehw7.services.CompanyServiceImpl;
-import org.homework.hibernatehw7.services.ServiceFactory;
 import org.homework.hibernatehw7.services.interfaces.CompanyService;
-import org.homework.hibernatehw7.services.interfaces.Service;
 import org.homework.hibernatehw7.utils.Validator;
 
 import java.util.Scanner;

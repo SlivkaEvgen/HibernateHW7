@@ -11,29 +11,24 @@ import java.util.*;
 public class DeveloperCrudRepositoryImpl implements DeveloperCrudRepository {
 
     @Override
-    public Developer createNewDeveloper(String name, Long age, String gender, String email, Long salary, Long skillId, Long companyId, Long projectId) { // Long companyId, Long projectId,
-        Set<Skill> skillSet1 = new HashSet<>();
+    public Developer createNewDeveloper(String name, Long age, String gender, String email, Long salary, Set<Skill> skillSet, Long companyId, Long projectId) { // Long companyId, Long projectId,
         Set<Project> projectSet = new HashSet<>();
-        skillSet1.add(RepositoryFactory.of(Skill.class).findById(skillId).get());
         projectSet.add(RepositoryFactory.of(Project.class).findById(projectId).get());
-
         return create(Developer.builder()
                 .name(name)
                 .age(age)
                 .gender(gender)
                 .email(email)
                 .salary(salary)
-                .skills(skillSet1)
+                .skills(skillSet)
                 .company(RepositoryFactory.of(Company.class).findById(companyId).get())
                 .projects(projectSet)
                 .build());
     }
 
     @Override
-    public void updateDeveloper(Long id, String name, Long age, String gender, String email, Long salary, Long skillId, Long companyId, Long projectId) {
-        Set<Skill> skillSet = new HashSet<>();
+    public void updateDeveloper(Long id, String name, Long age, String gender, String email, Long salary, Set<Skill> skillSet, Long companyId, Long projectId) {
         Set<Project> projectSet = new HashSet<>();
-        skillSet.add(RepositoryFactory.of(Skill.class).findById(skillId).get());
         projectSet.add(RepositoryFactory.of(Project.class).findById(projectId).get());
 
         Developer developer = findById(id).get();

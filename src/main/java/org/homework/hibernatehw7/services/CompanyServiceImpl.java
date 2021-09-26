@@ -1,14 +1,10 @@
 package org.homework.hibernatehw7.services;
 
 import org.homework.hibernatehw7.model.Company;
-import org.homework.hibernatehw7.model.Developer;
-import org.homework.hibernatehw7.model.Project;
 import org.homework.hibernatehw7.services.interfaces.CompanyService;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 public class CompanyServiceImpl implements CompanyService {
 
@@ -56,32 +52,22 @@ public class CompanyServiceImpl implements CompanyService {
     }
 
     @Override
-    public Company createNewCompany(String name, String city, Long projectId, Long developerId) {
-        Set<Project> projectSet = new HashSet<>();
-        Set<Developer> developerSet = new HashSet<>();
-        projectSet.add(ProjectServiceImpl.getInstance().findById(projectId).get());
-        developerSet.add(DeveloperServiceImpl.getInstance().findById(developerId).get());
-
-        return create(Company.builder()
-                .name(name)
-                .city(city)
-                .projects(projectSet)
-                .developers(developerSet)
-                .build());
+    public Company createNewCompany(String name, String city) {
+        return create(Company.builder().name(name).city(city).build());
     }
 
     @Override
-    public void updateCompany(Long id, String name, String city, Long projectId, Long developerId) {
-        Set<Project> projectSet = new HashSet<>();
-        Set<Developer> developerSet = new HashSet<>();
-        projectSet.add(ProjectServiceImpl.getInstance().findById(projectId).get());
-        developerSet.add(DeveloperServiceImpl.getInstance().findById(developerId).get());
+    public void updateCompany(Long id, String name, String city) {
+//        Set<Project> projectSet = new HashSet<>();
+//        Set<Developer> developerSet = new HashSet<>();
+//        projectSet.add(ProjectServiceImpl.getInstance().findById(projectId).get());
+//        developerSet.add(DeveloperServiceImpl.getInstance().findById(developerId).get());
 
         Company company = findById(id).get();
         company.setCity(city);
         company.setName(name);
-        company.setProjects(projectSet);
-        company.setDevelopers(developerSet);
+//        company.setProjects(projectSet);
+//        company.setDevelopers(developerSet);
         update(id, company);
     }
 }

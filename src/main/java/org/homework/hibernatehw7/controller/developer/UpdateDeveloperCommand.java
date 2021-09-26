@@ -2,6 +2,7 @@ package org.homework.hibernatehw7.controller.developer;
 
 import org.homework.hibernatehw7.config.ScannerConsole;
 import org.homework.hibernatehw7.controller.interfaces.Controller;
+import org.homework.hibernatehw7.model.Skill;
 import org.homework.hibernatehw7.services.CompanyServiceImpl;
 import org.homework.hibernatehw7.services.DeveloperServiceImpl;
 import org.homework.hibernatehw7.services.ProjectServiceImpl;
@@ -9,7 +10,9 @@ import org.homework.hibernatehw7.services.SkillServiceImpl;
 import org.homework.hibernatehw7.services.interfaces.DeveloperService;
 import org.homework.hibernatehw7.utils.Validator;
 
+import java.util.HashSet;
 import java.util.Scanner;
+import java.util.Set;
 
 public class UpdateDeveloperCommand implements Controller {
 
@@ -36,10 +39,11 @@ public class UpdateDeveloperCommand implements Controller {
         final String gender = enterGender();
         final String email = enterEmail();
         final String salary = enterSalary();
-        final String skillId = enterSkillId();
+//        Set<Skill> skillSet = enterSkillId();
+        Set<Skill> skillSet = createSet();
         final String companyId = enterCompanyId();
         final String projectId = enterProjectId();
-        DEVELOPER_SERVICE.updateDeveloper(Long.valueOf(id), name, Long.valueOf(age), gender, email, Long.valueOf(salary), Long.valueOf(skillId), Long.valueOf(companyId), Long.valueOf(projectId));
+        DEVELOPER_SERVICE.updateDeveloper(Long.valueOf(id), name, Long.valueOf(age), gender, email, Long.valueOf(salary),  skillSet, Long.valueOf(companyId),Long.valueOf( projectId));
         System.out.println(" ✅ You updated \uD83D\uDC49 " + DEVELOPER_SERVICE.findById(Long.valueOf(id)).get() + "\n");
     }
 
@@ -56,7 +60,7 @@ public class UpdateDeveloperCommand implements Controller {
     private String enterName() {
         System.out.print(" ENTER NAME \n\uD83D\uDC49 ");
         String name = scanner.next();
-        if (!Validator.validString(name)|name.length()>15) {
+        if (!Validator.validString(name) | name.length() > 15) {
             System.out.println("Try again");
             return enterName();
         }
@@ -66,7 +70,7 @@ public class UpdateDeveloperCommand implements Controller {
     private String enterAge() {
         System.out.print(" ENTER AGE \n\uD83D\uDC49 ");
         String age = scanner.next();
-        if (!Validator.validNumber(age)|age.length()>3) {
+        if (!Validator.validNumber(age) | age.length() > 3) {
             System.out.println("Try again");
             return enterAge();
         }
@@ -97,7 +101,7 @@ public class UpdateDeveloperCommand implements Controller {
     private String enterEmail() {
         System.out.print(" ENTER EMAIL \n\uD83D\uDC49 ");
         String email = scanner.next();
-        if (!email.contains("@")|email.length()>13) {
+        if (!email.contains("@") | email.length() > 13) {
             System.out.println("Try again");
             return enterEmail();
         }
@@ -147,6 +151,23 @@ public class UpdateDeveloperCommand implements Controller {
             return enterSkillId();
         }
         return skillId;
+    }
+
+    private Set<Skill> createSet() {
+        Set<Skill>skillSet = new HashSet<>();
+        System.out.print(" ENTER SKILL-ID \n\uD83D\uDC49 ");
+        String skillId = scanner.next();
+        try {
+            if (!Validator.validNumber(skillId) || !SkillServiceImpl.getInstance().findById(Long.valueOf(skillId)).isPresent()) {
+                System.out.println("Try again");
+                return createSet();
+            }
+        } catch (NumberFormatException r) {
+            System.out.println("Try again");
+            return createSet();
+        }
+        skillSet.add(SkillServiceImpl.getInstance().findById(Long.valueOf(skillId)).get());
+        return skillSet;
     }
 
     @Override

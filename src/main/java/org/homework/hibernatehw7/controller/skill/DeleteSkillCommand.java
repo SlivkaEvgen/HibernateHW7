@@ -2,10 +2,7 @@ package org.homework.hibernatehw7.controller.skill;
 
 import org.homework.hibernatehw7.config.ScannerConsole;
 import org.homework.hibernatehw7.controller.interfaces.Controller;
-import org.homework.hibernatehw7.model.Skill;
-import org.homework.hibernatehw7.services.ServiceFactory;
 import org.homework.hibernatehw7.services.SkillServiceImpl;
-import org.homework.hibernatehw7.services.interfaces.Service;
 import org.homework.hibernatehw7.services.interfaces.SkillService;
 import org.homework.hibernatehw7.utils.Validator;
 

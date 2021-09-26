@@ -5,7 +5,6 @@ import org.homework.hibernatehw7.model.Project;
 import org.homework.hibernatehw7.model.Skill;
 import org.homework.hibernatehw7.repository.DeveloperCrudRepositoryImpl;
 import org.homework.hibernatehw7.services.interfaces.DeveloperService;
-
 import java.util.*;
 
 public class DeveloperServiceImpl implements DeveloperService {
@@ -25,10 +24,8 @@ public class DeveloperServiceImpl implements DeveloperService {
     }
 
     @Override
-    public Developer createNewDeveloper(String name, Long age, String gender, String email, Long salary, Long skillId, Long companyId, Long projectId) { // Long companyId, Long projectId,
-        Set<Skill> skillSet1 = new HashSet<>();
+    public Developer createNewDeveloper(String name, Long age, String gender, String email, Long salary, Set<Skill> skillSet, Long companyId, Long projectId) { // Long companyId, Long projectId,
         Set<Project> projectSet = new HashSet<>();
-        skillSet1.add(SkillServiceImpl.getInstance().findById(skillId).get());
         projectSet.add(ProjectServiceImpl.getInstance().findById(projectId).get());
 
         return create(Developer.builder()
@@ -37,17 +34,17 @@ public class DeveloperServiceImpl implements DeveloperService {
                 .gender(gender)
                 .email(email)
                 .salary(salary)
-                .skills(skillSet1)
+                .skills(skillSet)
                 .company(CompanyServiceImpl.getInstance().findById(companyId).get())
                 .projects(projectSet)
                 .build());
     }
 
     @Override
-    public void updateDeveloper(Long id, String name, Long age, String gender, String email, Long salary, Long skillId, Long companyId, Long projectId) {
-        Set<Skill> skillSet = new HashSet<>();
+    public void updateDeveloper(Long id, String name, Long age, String gender, String email, Long salary, Set<Skill> skillSet, Long companyId, Long projectId) {
+//        Set<Skill> skillSet = new HashSet<>();
         Set<Project> projectSet = new HashSet<>();
-        skillSet.add(SkillServiceImpl.getInstance().findById(skillId).get());
+//        skillSet.add(SkillServiceImpl.getInstance().findById(skillId).get());
         projectSet.add(ProjectServiceImpl.getInstance().findById(projectId).get());
 
         Developer developer = findById(id).get();
@@ -65,7 +62,7 @@ public class DeveloperServiceImpl implements DeveloperService {
     @Override
     public Long getSumSalariesDevelopersOfOneProject(Long projectId) {
         Long sumSalaries = 0L;
-        for (Developer developer :getDevelopersFromOneProject(projectId)) {
+        for (Developer developer : getDevelopersFromOneProject(projectId)) {
             Long salary = developer.getSalary();
             sumSalaries += salary;
         }
@@ -139,7 +136,7 @@ public class DeveloperServiceImpl implements DeveloperService {
 
     @Override
     public void delete(Long id) {
-       developerCrudRepository.delete(id);
+        developerCrudRepository.delete(id);
     }
 
     @Override

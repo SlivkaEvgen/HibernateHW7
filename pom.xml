@@ -19,11 +19,13 @@
         <ibatis-core.version>3.0</ibatis-core.version>
         <log4j-core.version>2.14.1</log4j-core.version>
         <hibernate-entitymanager.version>6.0.0.Alpha7</hibernate-entitymanager.version>
-        <hibernate-core.version>6.0.0.Alpha8</hibernate-core.version>
+        <hibernate-core.version>6.0.0.Alpha7</hibernate-core.version>
         <javax.persistence-api.version>2.2</javax.persistence-api.version>
         <jackson-databind.version>2.13.0-rc2</jackson-databind.version>
         <lombok.version>1.18.20</lombok.version>
         <jackson-datatype-jsr310.version>2.13.0-rc2</jackson-datatype-jsr310.version>
+        <mockito-all.version>2.0.2-beta</mockito-all.version>
+        <junit.version>4.13.2</junit.version>
     </properties>
     <dependencies>
         <dependency>
@@ -103,6 +105,18 @@
             <groupId>com.fasterxml.jackson.datatype</groupId>
             <artifactId>jackson-datatype-jsr310</artifactId>
             <version>${jackson-datatype-jsr310.version}</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>${junit.version}</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-all</artifactId>
+            <version>${mockito-all.version}</version>
             <scope>compile</scope>
         </dependency>
     </dependencies>

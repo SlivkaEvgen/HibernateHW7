@@ -2,10 +2,10 @@ package org.homework.hibernatehw7.repository;
 
 import org.homework.hibernatehw7.model.Project;
 import org.homework.hibernatehw7.repository.interfaces.ProjectCrudRepository;
+import org.homework.hibernatehw7.services.DeveloperServiceImpl;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 public class ProjectCrudRepositoryImpl implements ProjectCrudRepository {
 
@@ -26,7 +26,7 @@ public class ProjectCrudRepositoryImpl implements ProjectCrudRepository {
 
     @Override
     public Project update(Long id, Project project) {
-        return RepositoryFactory.of(Project.class).update(id,project);
+        return RepositoryFactory.of(Project.class).update(id, project);
     }
 
     @Override
@@ -41,15 +41,12 @@ public class ProjectCrudRepositoryImpl implements ProjectCrudRepository {
 
     @Override
     public List<String> getListProjectsWithDate() {
-        return IntStream.range(0, findAll().size())
-                .mapToObj(i -> "In project " +
-                               RepositoryFactory.of(Project.class).findAll().get(i).getName() + " - " +
-                               countDevelopers(i + 1) + " developers, signs - " +
-                               RepositoryFactory.of(Project.class).findAll().get(i).getFirstDate())
-                .collect(Collectors.toList());
-    }
-
-    private int countDevelopers(int projectId) {
-        return new DeveloperCrudRepositoryImpl().getDevelopersFromOneProject((long) projectId).size();
+        List<String> proWithDate = new ArrayList<>();
+        for (Project project : RepositoryFactory.of(Project.class).findAll()) {
+            proWithDate.add("Project " + project.getName() + " has " +
+                            new DeveloperServiceImpl().getDevelopersFromOneProject(project.getId()).size() + " developers, sight date: " +
+                            project.getFirstDate());
+        }
+        return proWithDate;
     }
 }

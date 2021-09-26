@@ -2,15 +2,10 @@ package org.homework.hibernatehw7.controller.company;
 
 import org.homework.hibernatehw7.config.ScannerConsole;
 import org.homework.hibernatehw7.controller.interfaces.Controller;
-import org.homework.hibernatehw7.model.Company;
-import org.homework.hibernatehw7.model.Developer;
-import org.homework.hibernatehw7.model.Project;
 import org.homework.hibernatehw7.services.CompanyServiceImpl;
 import org.homework.hibernatehw7.services.DeveloperServiceImpl;
 import org.homework.hibernatehw7.services.ProjectServiceImpl;
-import org.homework.hibernatehw7.services.ServiceFactory;
 import org.homework.hibernatehw7.services.interfaces.CompanyService;
-import org.homework.hibernatehw7.services.interfaces.Service;
 import org.homework.hibernatehw7.utils.Validator;
 
 import java.util.Scanner;
@@ -36,16 +31,16 @@ public class CreateCompanyCommand implements Controller {
     private void create() {
         final String name = enterName();
         final String city = enterCity();
-        final String projectId = enterProjectId();
-        final String developerId = enterDeveloperId();
-        COMPANY_SERVICE.createNewCompany(name, city, Long.valueOf(projectId), Long.valueOf(developerId));
+//        final String projectId = enterProjectId();
+//        final String developerId = enterDeveloperId();
+        COMPANY_SERVICE.createNewCompany(name, city);
         System.out.println(" ✅ You created \uD83D\uDC49  " + "new Company " + " \n");
     }
 
     private String enterName() {
         System.out.print(" ENTER NAME \n\uD83D\uDC49 ");
         String name = scanner.next();
-        if (!Validator.validString(name)|name.length()>15) {
+        if (!Validator.validString(name) | name.length() > 15) {
             System.out.println("Try again");
             return enterName();
         }
@@ -55,7 +50,7 @@ public class CreateCompanyCommand implements Controller {
     private String enterCity() {
         System.out.print(" ENTER CITY \n\uD83D\uDC49 ");
         String city = scanner.next();
-        if (!Validator.validString(city)|city.length()>15) {
+        if (!Validator.validString(city) | city.length() > 15) {
             System.out.println("Try again");
             return enterCity();
         }

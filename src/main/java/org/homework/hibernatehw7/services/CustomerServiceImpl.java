@@ -1,13 +1,10 @@
 package org.homework.hibernatehw7.services;
 
 import org.homework.hibernatehw7.model.Customer;
-import org.homework.hibernatehw7.model.Project;
 import org.homework.hibernatehw7.services.interfaces.CustomerService;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 public class CustomerServiceImpl implements CustomerService {
 
@@ -25,28 +22,19 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public Customer createNewCustomer(String name, String city, Long budget, Long projectId) {
-        Set<Project> projectSet = new HashSet<>();
-        projectSet.add(ProjectServiceImpl.getInstance().findById(projectId).get());
-
-        return create(Customer.builder()
-                .city(city)
-                .name(name)
-                .budget(budget)
-                .projects(projectSet)
-                .build());
+    public Customer createNewCustomer(String name, String city, Long budget) {
+        return create(Customer.builder().city(city).name(name).budget(budget).build());
     }
 
     @Override
-    public void updateCustomer(Long id, String name, String city, Long budget, Long companyId, Long projectId) {
-        Set<Project> projectSet = new HashSet<>();
-        projectSet.add(ProjectServiceImpl.getInstance().findById(projectId).get());
-
+    public void updateCustomer(Long id, String name, String city, Long budget) {
+//        Set<Project> projectSet = new HashSet<>();
+//        projectSet.add(ProjectServiceImpl.getInstance().findById(projectId).get());
         Customer customer = findById(id).get();
         customer.setBudget(budget);
         customer.setCity(city);
         customer.setName(name);
-        customer.setProjects(projectSet);
+//        customer.setProjects(projectSet);
         update(id, customer);
     }
 

@@ -2,15 +2,10 @@ package org.homework.hibernatehw7.controller.company;
 
 import org.homework.hibernatehw7.config.ScannerConsole;
 import org.homework.hibernatehw7.controller.interfaces.Controller;
-import org.homework.hibernatehw7.model.Company;
-import org.homework.hibernatehw7.model.Developer;
-import org.homework.hibernatehw7.model.Project;
 import org.homework.hibernatehw7.services.CompanyServiceImpl;
 import org.homework.hibernatehw7.services.DeveloperServiceImpl;
 import org.homework.hibernatehw7.services.ProjectServiceImpl;
-import org.homework.hibernatehw7.services.ServiceFactory;
 import org.homework.hibernatehw7.services.interfaces.CompanyService;
-import org.homework.hibernatehw7.services.interfaces.Service;
 import org.homework.hibernatehw7.utils.Validator;
 
 import java.util.Scanner;
@@ -37,9 +32,9 @@ public class UpdateCompanyCommand implements Controller {
         final String id = enterId();
         final String name = enterName();
         final String city = enterCity();
-        final String projectId = enterProjectId();
-        final String developerId = enterDeveloperId();
-        COMPANY_SERVICE.updateCompany(Long.valueOf(id), name, city, Long.valueOf(projectId), Long.valueOf(developerId));
+//        final String projectId = enterProjectId();
+//        final String developerId = enterDeveloperId();
+        COMPANY_SERVICE.updateCompany(Long.valueOf(id), name, city);
         System.out.println(" ✅ You updated \uD83D\uDC49 " + COMPANY_SERVICE.findById(Long.valueOf(id)).get() + "\n");
     }
 
@@ -56,7 +51,7 @@ public class UpdateCompanyCommand implements Controller {
     private String enterName() {
         System.out.print(" ENTER NAME \n\uD83D\uDC49 ");
         String name = scanner.next();
-        if (!Validator.validString(name)|name.length()>15) {
+        if (!Validator.validString(name) | name.length() > 15) {
             System.out.println("Try again");
             return enterName();
         }
@@ -66,7 +61,7 @@ public class UpdateCompanyCommand implements Controller {
     private String enterCity() {
         System.out.print(" ENTER CITY \n\uD83D\uDC49 ");
         String city = scanner.next();
-        if (!Validator.validString(city)|city.length()>15) {
+        if (!Validator.validString(city) | city.length() > 15) {
             System.out.println("Try again");
             return enterCity();
         }

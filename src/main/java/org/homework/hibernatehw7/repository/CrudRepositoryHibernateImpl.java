@@ -81,4 +81,8 @@ public class CrudRepositoryHibernateImpl<T extends BaseModel<ID>, ID> implements
     public void close() {
         HibernateSessionFactory.close();
     }
+
+//    private static <T> List<T> findAllWithJpql(Class<T> type, Session session) {
+//        return session.createQuery("SELECT d FROM " + type + " d", type).getResultList();
+//    }
 }

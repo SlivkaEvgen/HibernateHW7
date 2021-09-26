@@ -31,8 +31,8 @@ public class UpdateSkillCommand implements Controller {
         final String id = enterId();
         final String activity = enterActivity();
         final String level = enterLevel();
-        final String developerId = enterDeveloperId();
-        SKILL_SERVICE.updateSkill(Long.valueOf(id), activity, level, Long.valueOf(developerId));
+//        final String developerId = enterDeveloperId();
+        SKILL_SERVICE.updateSkill(Long.valueOf(id), activity, level);
         System.out.println(" ✅ You updated \uD83D\uDC49 " + SKILL_SERVICE.findById(Long.valueOf(id)).get() + "\n");
     }
 
@@ -60,15 +60,15 @@ public class UpdateSkillCommand implements Controller {
         return activity;
     }
 
-    private String enterDeveloperId() {
-        System.out.print(" ENTER DEVELOPER-ID \n\uD83D\uDC49 ");
-        String developerId = scanner.next();
-        if (!Validator.validNumber(developerId) | !DeveloperServiceImpl.getInstance().findById(Long.valueOf(developerId)).isPresent()) {
-            System.out.println("Try again");
-            return enterDeveloperId();
-        }
-        return developerId;
-    }
+//    private String enterDeveloperId() {
+//        System.out.print(" ENTER DEVELOPER-ID \n\uD83D\uDC49 ");
+//        String developerId = scanner.next();
+//        if (!Validator.validNumber(developerId) | !DeveloperServiceImpl.getInstance().findById(Long.valueOf(developerId)).isPresent()) {
+//            System.out.println("Try again");
+//            return enterDeveloperId();
+//        }
+//        return developerId;
+//    }
 
     private String enterLevel() {
         System.out.print(" ENTER LEVEL \n\uD83D\uDC49 ");

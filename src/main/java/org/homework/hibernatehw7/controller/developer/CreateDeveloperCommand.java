@@ -11,6 +11,7 @@ import org.homework.hibernatehw7.services.interfaces.DeveloperService;
 import org.homework.hibernatehw7.utils.Validator;
 
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Scanner;
 import java.util.Set;
 
@@ -20,6 +21,7 @@ public class CreateDeveloperCommand implements Controller {
     private final SkillServiceImpl skillService = SkillServiceImpl.getInstance();
     private final Scanner scanner = ScannerConsole.getInstance();
     private static CreateDeveloperCommand createDeveloperCommand;
+    private final Set<Skill> skillSet = new HashSet<>();
 
     public static CreateDeveloperCommand getInstance() {
         if (createDeveloperCommand == null) {
@@ -121,20 +123,31 @@ public class CreateDeveloperCommand implements Controller {
         return projectId;
     }
 
-    private Set<Skill> addSetSkills() {
-        Set<Skill> skillSet = new HashSet<>();
-        System.out.print(" ENTER Skill-ID \n\uD83D\uDC49 ");
-        String skillId = scanner.next();
+    private Skill getSkill(String skillId){
+        Skill skill;
+        Optional<Skill> optional = skillService.findById(Long.valueOf(skillId));
         try {
-            if (!Validator.validNumber(skillId) | !skillService.findById(Long.valueOf(skillId)).isPresent()) {
+            if (!Validator.validNumber(skillId)| !optional.isPresent()) {
                 System.out.println("Try again");
-                return addSetSkills();
+                 addSetSkills();
             }
         } catch (NumberFormatException r) {
             System.out.println("Try again");
+             addSetSkills();
+        }
+        skill=optional.get();
+        return skill;
+    }
+
+    private Set<Skill> addSetSkills() {
+        System.out.print(" ENTER Skill-ID \n\uD83D\uDC49 ");
+        String skillId = scanner.next();
+        Skill skill = getSkill(skillId);
+        skillSet.add(skill);
+        System.out.print("Add More skills? \n YES \uD83D\uDC49 Y \n NO \uD83D\uDC49 N \n\uD83D\uDC49 ");
+        if (scanner.next().equalsIgnoreCase("y")){
             return addSetSkills();
         }
-        skillSet.add(skillService.findById(Long.valueOf(skillId)).get());
         return skillSet;
     }
 

@@ -19,16 +19,14 @@ import java.util.Scanner;
 public class ReadConsole implements Controller {
 
     private final Scanner scanner = ScannerConsole.getInstance();
-    private final String RESET = "\u001b[0m";
     private final String RED = "\u001b[31m";
-    private final String GREEN = "\u001b[32m";
     private final String YELLOW = "\u001b[33m";
-    private final String BLUE = "\u001b[34m";
+    private final String COLOUR3 = "\u001b[40m";
     private String model = "";
     private String crud = "";
     private String special = "";
     private String result = "";
-    private final String startList = YELLOW + "_________________________________________________________________________________________________________________________\n"+
+    private final String startList = YELLOW + COLOUR3 + "_________________________________________________________________________________________________________________________\n" +
                                      "| DEVELOPER    -> DV  | PROJECT     -> PR   | SKILL          -> SK  | CUSTOMER        -> CS    | COMPANY         -> CM  |\n" +
                                      "| GET          -> G   | CREATE      -> C    | UPDATE         -> U   | DELETE          -> D     |                        |\n" +
                                      "| PRO withDate -> PWD | DEV byLevel -> DBL  | DEV byActivity -> DBA | DEV byProjectId -> DBD   | DEV SumSalaries -> SS  |\n" +
@@ -97,7 +95,7 @@ public class ReadConsole implements Controller {
             read = crud + model;
             return read;
         }
-        if (read.equalsIgnoreCase("project") | read.equalsIgnoreCase("pro")|read.equalsIgnoreCase("pr")) {
+        if (read.equalsIgnoreCase("project") | read.equalsIgnoreCase("pro") | read.equalsIgnoreCase("pr")) {
             model = "project";
             crud = getCrud();
             read = crud + model;
@@ -148,7 +146,7 @@ public class ReadConsole implements Controller {
             read = crud + model;
             return read;
         }
-        if (read.equalsIgnoreCase("id")|read.equalsIgnoreCase("byid")) {
+        if (read.equalsIgnoreCase("id") | read.equalsIgnoreCase("byid")) {
             crud = "id";
             model = getModel();
             read = crud + model;
@@ -157,7 +155,7 @@ public class ReadConsole implements Controller {
         if (read.equalsIgnoreCase("stop") | read.equalsIgnoreCase("s") | read.equalsIgnoreCase("sp")) {
             close();
         } else {
-            System.out.println(RED+"Введите запрос корректно");
+            System.out.println(RED + "Введите запрос корректно");
             start();
             return read;
         }
@@ -166,7 +164,7 @@ public class ReadConsole implements Controller {
 
     private String getSpecial() {
         if (model.isEmpty() & crud.isEmpty()) {
-            String specials = BLUE + "\n--------------------------------------------------------------------------------------------------\n" +
+            String specials = YELLOW + COLOUR3 + "\n--------------------------------------------------------------------------------------------------\n" +
                               "| PROJECTS   withDATE    -> PWD   | DEVELOPERS ByLEVEL     -> DBL | DEVELOPERS ByACTIVITY -> DBA |\n" +
                               "| DEVELOPERS ByProjectID -> DBD   | DEVELOPERS SumSALARIES -> SS  | MAIN LIST             -> Q   |\n" +
                               "---------------------------------------------------------------------------------------------------\n";
@@ -191,7 +189,7 @@ public class ReadConsole implements Controller {
                 System.out.println(specials);
                 return special;
             }
-            if (special.equalsIgnoreCase("byProjectId") | special.equalsIgnoreCase("DBPID")) {
+            if (special.equalsIgnoreCase("byProjectId") | special.equalsIgnoreCase("DBD")) {
                 special = "byProjectId";
                 System.out.print("\n  ✅RESULT \uD83D\uDC47");
                 GetDeveloperCommand.getInstance().getByProjectID();
@@ -214,7 +212,7 @@ public class ReadConsole implements Controller {
             if (special.equalsIgnoreCase("stop") | special.equalsIgnoreCase("s") | special.equalsIgnoreCase("sp")) {
                 close();
             } else {
-                System.out.println(RED + " Выберите операцию \uD83D\uDC47" + specials);
+                System.out.println(RED + " Choose query \uD83D\uDC47" + specials);
                 special = scanner.next();
                 getSpecial();
             }
@@ -227,17 +225,17 @@ public class ReadConsole implements Controller {
         if (result.contains("company")) {
             if (result.contains("all")) {
                 GetCompanyCommand.getInstance().getAll();
-                model="";
+                model = "";
                 start();
             }
-            if (result.contains("id")|result.equalsIgnoreCase("byid")) {
+            if (result.contains("id") | result.equalsIgnoreCase("byid")) {
                 GetCompanyCommand.getInstance().getById();
-                model="";
+                model = "";
                 start();
             }
             if (result.contains("get")) {
                 System.out.println(getBySmall());
-                model="";
+                model = "";
                 start();
             }
             if (result.contains("update")) {
@@ -258,14 +256,14 @@ public class ReadConsole implements Controller {
             System.out.println(startList);
         }
         if (result.contains("customer")) {
-            if (result.contains("id")|result.contains("byid")) {
+            if (result.contains("id") | result.contains("byid")) {
                 GetCustomerCommand.getInstance().getById();
-                model="";
+                model = "";
                 start();
             }
             if (result.contains("all")) {
                 GetCustomerCommand.getInstance().getAll();
-                model="";
+                model = "";
                 start();
             }
             if (result.contains("get")) {
@@ -289,14 +287,14 @@ public class ReadConsole implements Controller {
             System.out.println(startList);
         }
         if (result.contains("developer")) {
-            if (result.contains("id")|result.contains("byid")) {
+            if (result.contains("id") | result.contains("byid")) {
                 GetDeveloperCommand.getInstance().getById();
-                model="";
+                model = "";
                 start();
             }
             if (result.contains("all")) {
                 GetDeveloperCommand.getInstance().getAll();
-                model="";
+                model = "";
                 start();
             }
             if (result.contains("get")) {
@@ -320,14 +318,14 @@ public class ReadConsole implements Controller {
             System.out.println(startList);
         }
         if (result.contains("skill")) {
-            if (result.contains("id")|result.contains("byid")) {
+            if (result.contains("id") | result.contains("byid")) {
                 GetSkillCommand.getInstance().getById();
-                model="";
+                model = "";
                 start();
             }
             if (result.contains("all")) {
                 GetSkillCommand.getInstance().getAll();
-                model="";
+                model = "";
                 start();
             }
             if (result.contains("get")) {
@@ -351,14 +349,14 @@ public class ReadConsole implements Controller {
             System.out.println(startList);
         }
         if (result.contains("project")) {
-            if (result.contains("id")|result.contains("byid")) {
+            if (result.contains("id") | result.contains("byid")) {
                 GetProjectCommand.getInstance().getById();
-                model="";
+                model = "";
                 start();
             }
             if (result.contains("all")) {
                 GetProjectCommand.getInstance().getAll();
-                model="";
+                model = "";
                 start();
             }
             if (result.contains("get")) {
@@ -385,8 +383,8 @@ public class ReadConsole implements Controller {
 
     private String getCrud() {
         if (crud.isEmpty()) {
-            System.out.println("Выбери операцию");
-            String crudString = BLUE + "______________________________________________\n" +
+            System.out.println(" Choose query ");
+            String crudString = YELLOW + COLOUR3 + "______________________________________________\n" +
                                 "| GET    -> G | CREATE -> C | MAIN LIST -> Q |\n" +
                                 "| UPDATE -> U | DELETE -> D | STOP      -> S |\n" +
                                 "----------------------------------------------\n";
@@ -418,7 +416,7 @@ public class ReadConsole implements Controller {
                 close();
                 return crud;
             } else {
-                System.out.println(RED+"введите правильно операцию");
+                System.out.println(RED + "Please, try again ");
                 return getCrud();
             }
         }
@@ -428,7 +426,7 @@ public class ReadConsole implements Controller {
     private String getModel() {
         if (model.isEmpty()) {
             System.out.println("Выбери модель");
-            String getModelList = BLUE + "____________________________________________________\n" +
+            String getModelList = YELLOW + COLOUR3 + "____________________________________________________\n" +
                                   "| COMPANY -> CM | CUSTOMER  -> CS | SKILL   -> SK |\n" +
                                   "| PROJECT -> PR | DEVELOPER -> DV |               |\n" +
                                   "| SPECIAL -> SP | MAIN LIST -> Q  | STOP     -> S |\n" +
@@ -465,20 +463,15 @@ public class ReadConsole implements Controller {
             if (model.equalsIgnoreCase("stop") | model.equalsIgnoreCase("s") | model.equalsIgnoreCase("sp")) {
                 close();
             } else {
-                System.out.println(RED+"введите правильно название модели");
+                System.out.println(RED + " Please, try again ");
                 return getModel();
             }
         }
         return model;
     }
 
-    @Override
-    public void close() {
-        System.exit(0);
-    }
-
     private String getBySmall() {
-        String getBySmall = BLUE + "_______________________________\n" +
+        String getBySmall = YELLOW + COLOUR3 + "_______________________________\n" +
                             "| BY ID     -> ID | ALL  -> A |\n" +
                             "| MAIN LIST -> Q  | STOP -> S |\n" +
                             "-------------------------------";
@@ -529,7 +522,7 @@ public class ReadConsole implements Controller {
     }
 
     private String getByProject() {
-        String getBy = BLUE + "_______________________________________________\n" +
+        String getBy = YELLOW + COLOUR3 + "_______________________________________________\n" +
                        "| BY ID       -> ID    | All         -> A     |\n" +
                        "| WithDATE    -> PWD   | MAIN LIST   -> Q     |\n" +
                        "|                      | STOP        -> S     |\n" +
@@ -555,13 +548,13 @@ public class ReadConsole implements Controller {
             close();
             return next;
         } else {
-             getByProject();
+            getByProject();
         }
         return next;
     }
 
     private String getByDeveloper() {
-        String getByDev = YELLOW + "_______________________________________________\n" +
+        String getByDev = YELLOW + COLOUR3 + "_______________________________________________\n" +
                           "| BY ID       -> ID    | All         -> A     |\n" +
                           "| SumSALARIES -> SS    | ByProjectID -> DBD   |\n" +
                           "| ByACTIVITY  -> DBA   | ByLEVEL     -> DBL   |\n" +
@@ -633,7 +626,11 @@ public class ReadConsole implements Controller {
         special = "withDate";
         model = "";
         crud = "";
-        getSpecial();
-        return getByProject();
+        return getSpecial();
+    }
+
+    @Override
+    public void close() {
+        System.exit(0);
     }
 }

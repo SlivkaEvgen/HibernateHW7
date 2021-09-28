@@ -55,6 +55,13 @@ public class SkillCrudRepositoryImpl implements SkillCrudRepository {
 
     @Override
     public Skill createNewSkill(String activity, String level) {
+        for (Skill skill:findAll()) {
+            if (skill.getLevel().equalsIgnoreCase(level)&&skill.getActivity().equalsIgnoreCase(activity)){
+                System.out.println(" Already have such a skill "+ skill);
+                return skill;
+            }
+        }
+
         return CRUD_REPOSITORY_JDBC.create(Skill.builder().activity(activity).level(level).build());
     }
 

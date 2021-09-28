@@ -7,6 +7,7 @@ import org.homework.hibernatehw7.services.CompanyServiceImpl;
 import org.homework.hibernatehw7.services.CustomerServiceImpl;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -74,6 +75,7 @@ public class ProjectCrudRepositoryImpl implements ProjectCrudRepository {
         Project project = findById(id).get();
         project.setName(name);
         project.setCost(cost);
+        project.setFirstDate(new Date().toString());
         project.setCompany(CompanyServiceImpl.getInstance().findById(companyId).get());
         project.setCustomer(CustomerServiceImpl.getInstance().findById(customerId).get());
         update(id, project);
@@ -82,6 +84,7 @@ public class ProjectCrudRepositoryImpl implements ProjectCrudRepository {
     @Override
     public Project createNewProject(String name, Long cost, Long companyId, Long customerId) {
         return create(Project.builder().name(name).cost(cost)
+                .firstDate(new Date().toString())
                 .company(CompanyServiceImpl.getInstance().findById(companyId).get())
                 .customer(CustomerServiceImpl.getInstance().findById(customerId).get())
                 .build());

@@ -1,23 +1,18 @@
 package org.homework.hibernatehw7.controller;
 
 import org.homework.hibernatehw7.config.ScannerConsole;
-import org.homework.hibernatehw7.controller.company.CompanyCommandImpl;
-import org.homework.hibernatehw7.controller.company.DeleteCompanyCommand;
-import org.homework.hibernatehw7.controller.company.GetCompanyCommand;
-import org.homework.hibernatehw7.controller.customer.CustomerCommandImpl;
-import org.homework.hibernatehw7.controller.customer.GetCustomerCommand;
-import org.homework.hibernatehw7.controller.developer.DeveloperCommandImpl;
-import org.homework.hibernatehw7.controller.developer.GetDeveloperCommand;
 import org.homework.hibernatehw7.controller.interfaces.Controller;
-import org.homework.hibernatehw7.controller.project.GetProjectCommand;
-import org.homework.hibernatehw7.controller.project.ProjectCommandImpl;
-import org.homework.hibernatehw7.controller.skill.GetSkillCommand;
-import org.homework.hibernatehw7.controller.skill.SkillCommandImpl;
+import org.homework.hibernatehw7.model.*;
 
 import java.util.Scanner;
 
-public class ReadConsole implements Controller {
+public class ControllerConsole<T extends BaseModel<ID>, ID> implements Controller {
 
+    private final GetDeleteCommands<Developer, Long> developerMethods = new GetDeleteCommands<>(Developer.class);
+    private final GetDeleteCommands<Project, Long> projectMethods = new GetDeleteCommands<>(Project.class);
+    private final GetDeleteCommands<Company, Long> companyMethods = new GetDeleteCommands<>(Company.class);
+    private final GetDeleteCommands<Skill, Long> skillMethods = new GetDeleteCommands<>(Skill.class);
+    private final GetDeleteCommands<Customer, Long> customerMethods = new GetDeleteCommands<>(Customer.class);
     private final Scanner scanner = ScannerConsole.getInstance();
     private final String RED = "\u001b[31m";
     private final String YELLOW = "\u001b[33m";
@@ -26,19 +21,21 @@ public class ReadConsole implements Controller {
     private String crud = "";
     private String special = "";
     private String result = "";
-    private final String startList = YELLOW + COLOUR3 + "_________________________________________________________________________________________________________________________\n" +
+    private final String startList = YELLOW + COLOUR3 +
+                                     "_________________________________________________________________________________________________________________________\n" +
                                      "| DEVELOPER    -> DV  | PROJECT     -> PR   | SKILL          -> SK  | CUSTOMER        -> CS    | COMPANY         -> CM  |\n" +
                                      "| GET          -> G   | CREATE      -> C    | UPDATE         -> U   | DELETE          -> D     |                        |\n" +
                                      "| PRO withDate -> PWD | DEV byLevel -> DBL  | DEV byActivity -> DBA | DEV byProjectId -> DBD   | DEV SumSalaries -> SS  |\n" +
                                      "| SPECIAL      -> SPR | GET ByID    -> ByID | GET ALL        -> A   | THIS LIST       -> Q     | STOP            -> S   |\n" +
                                      "-------------------------------------------------------------------------------------------------------------------------\n";
 
+
     @Override
     public void start() {
         System.out.println(startList);
         while (scanner.hasNext()) {
             result = getRead();
-            String hasModel = ifHasModel();
+            ifHasModel();
         }
     }
 
@@ -101,7 +98,7 @@ public class ReadConsole implements Controller {
             read = crud + model;
             return read;
         }
-        if (read.equalsIgnoreCase("SPECIAL") | read.equalsIgnoreCase("specr") | read.equalsIgnoreCase("spr")) {
+        if (read.equalsIgnoreCase("SPECIAL") | read.equalsIgnoreCase("specR") | read.equalsIgnoreCase("spr")) {
             getSpecial();
             read = special;
             return read;
@@ -146,7 +143,7 @@ public class ReadConsole implements Controller {
             read = crud + model;
             return read;
         }
-        if (read.equalsIgnoreCase("id") | read.equalsIgnoreCase("byid")) {
+        if (read.equalsIgnoreCase("id") | read.equalsIgnoreCase("byId")) {
             crud = "id";
             model = getModel();
             read = crud + model;
@@ -164,42 +161,43 @@ public class ReadConsole implements Controller {
 
     private String getSpecial() {
         if (model.isEmpty() & crud.isEmpty()) {
-            String specials = YELLOW + COLOUR3 + "\n--------------------------------------------------------------------------------------------------\n" +
+            String specials = YELLOW + COLOUR3 +
+                              "--------------------------------------------------------------------------------------------------\n" +
                               "| PROJECTS   withDATE    -> PWD   | DEVELOPERS ByLEVEL     -> DBL | DEVELOPERS ByACTIVITY -> DBA |\n" +
                               "| DEVELOPERS ByProjectID -> DBD   | DEVELOPERS SumSALARIES -> SS  | MAIN LIST             -> Q   |\n" +
                               "---------------------------------------------------------------------------------------------------\n";
             if (special.equalsIgnoreCase("withDate") | special.equalsIgnoreCase("PWD")) {
                 special = "withDate";
                 System.out.print("\n  ✅RESULT \uD83D\uDC47");
-                GetProjectCommand.getInstance().getListProjectsWithDate();
+                projectMethods.getListProjectsWithDate();
                 System.out.println(specials);
                 return special;
             }
             if (special.equalsIgnoreCase("byLevel") | special.equalsIgnoreCase("DBL")) {
                 special = "byLevel";
                 System.out.print("\n  ✅RESULT \uD83D\uDC47\n");
-                GetDeveloperCommand.getInstance().getByLevel();
+                developerMethods.getByLevel();
                 System.out.println(specials);
                 return special;
             }
             if (special.equalsIgnoreCase("byActivity") | special.equalsIgnoreCase("DBA")) {
                 special = "byActivity";
                 System.out.print("\n  ✅RESULT \uD83D\uDC47\n");
-                GetDeveloperCommand.getInstance().getByActivity();
+                developerMethods.getByActivity();
                 System.out.println(specials);
                 return special;
             }
             if (special.equalsIgnoreCase("byProjectId") | special.equalsIgnoreCase("DBD")) {
                 special = "byProjectId";
                 System.out.print("\n  ✅RESULT \uD83D\uDC47");
-                GetDeveloperCommand.getInstance().getByProjectID();
+                developerMethods.getByProjectID();
                 System.out.println(specials);
                 return special;
             }
             if (special.equalsIgnoreCase("SumSalaries") | special.equalsIgnoreCase("SS")) {
                 special = "SumSalaries";
                 System.out.print("\n  ✅RESULT \uD83D\uDC47");
-                GetDeveloperCommand.getInstance().getSumSalaries();
+                developerMethods.getSumSalaries();
                 System.out.println(specials);
                 return special;
             }
@@ -221,15 +219,15 @@ public class ReadConsole implements Controller {
         return special;
     }
 
-    private String ifHasModel() {
+    private void ifHasModel() {
         if (result.contains("company")) {
             if (result.contains("all")) {
-                GetCompanyCommand.getInstance().getAll();
+                companyMethods.getAll();
                 model = "";
                 start();
             }
-            if (result.contains("id") | result.equalsIgnoreCase("byid")) {
-                GetCompanyCommand.getInstance().getById();
+            if (result.contains("id") | result.equalsIgnoreCase("byId")) {
+                companyMethods.getById();
                 model = "";
                 start();
             }
@@ -239,13 +237,16 @@ public class ReadConsole implements Controller {
                 start();
             }
             if (result.contains("update")) {
-                CompanyCommandImpl.getInstance().updateCommand();
+                CreateUpdateCommands.getInstance().updateCompany();
+                start();
             }
             if (result.contains("create")) {
-                CompanyCommandImpl.getInstance().createCommand();
+                CreateUpdateCommands.getInstance().createCompany();
+                start();
             }
             if (result.contains("delete")) {
-                DeleteCompanyCommand.getInstance().delete();
+                companyMethods.delete();
+                start();
             }
             if (result.equalsIgnoreCase("main") | result.equalsIgnoreCase("list") | result.equalsIgnoreCase("q")) {
                 start();
@@ -256,13 +257,13 @@ public class ReadConsole implements Controller {
             System.out.println(startList);
         }
         if (result.contains("customer")) {
-            if (result.contains("id") | result.contains("byid")) {
-                GetCustomerCommand.getInstance().getById();
+            if (result.contains("id") | result.contains("byId")) {
+                customerMethods.getById();
                 model = "";
                 start();
             }
             if (result.contains("all")) {
-                GetCustomerCommand.getInstance().getAll();
+                customerMethods.getAll();
                 model = "";
                 start();
             }
@@ -270,13 +271,16 @@ public class ReadConsole implements Controller {
                 System.out.println(getBySmall());
             }
             if (result.contains("update")) {
-                CustomerCommandImpl.getInstance().updateCommand();
+                CreateUpdateCommands.getInstance().updateCustomer();
+                start();
             }
             if (result.contains("create")) {
-                CustomerCommandImpl.getInstance().createCommand();
+                CreateUpdateCommands.getInstance().createCustomer();
+                start();
             }
             if (result.contains("delete")) {
-                CustomerCommandImpl.getInstance().deleteCommand();
+                customerMethods.delete();
+                start();
             }
             if (result.equalsIgnoreCase("main") | result.equalsIgnoreCase("list") | result.equalsIgnoreCase("q")) {
                 start();
@@ -287,13 +291,13 @@ public class ReadConsole implements Controller {
             System.out.println(startList);
         }
         if (result.contains("developer")) {
-            if (result.contains("id") | result.contains("byid")) {
-                GetDeveloperCommand.getInstance().getById();
+            if (result.contains("id") | result.contains("byId")) {
+                developerMethods.getById();
                 model = "";
                 start();
             }
             if (result.contains("all")) {
-                GetDeveloperCommand.getInstance().getAll();
+                developerMethods.getAll();
                 model = "";
                 start();
             }
@@ -301,13 +305,16 @@ public class ReadConsole implements Controller {
                 System.out.println(getByDeveloper());
             }
             if (result.contains("update")) {
-                DeveloperCommandImpl.getInstance().updateCommand();
+                CreateUpdateCommands.getInstance().updateDeveloper();
+                start();
             }
             if (result.contains("create")) {
-                DeveloperCommandImpl.getInstance().createCommand();
+                CreateUpdateCommands.getInstance().createDeveloper();
+                start();
             }
             if (result.contains("delete")) {
-                DeveloperCommandImpl.getInstance().deleteCommand();
+                developerMethods.delete();
+                start();
             }
             if (result.equalsIgnoreCase("main") | result.equalsIgnoreCase("list") | result.equalsIgnoreCase("q")) {
                 start();
@@ -318,13 +325,13 @@ public class ReadConsole implements Controller {
             System.out.println(startList);
         }
         if (result.contains("skill")) {
-            if (result.contains("id") | result.contains("byid")) {
-                GetSkillCommand.getInstance().getById();
+            if (result.contains("id") | result.contains("byId")) {
+                skillMethods.getById();
                 model = "";
                 start();
             }
             if (result.contains("all")) {
-                GetSkillCommand.getInstance().getAll();
+                skillMethods.getAll();
                 model = "";
                 start();
             }
@@ -332,13 +339,16 @@ public class ReadConsole implements Controller {
                 System.out.println(getBySmall());
             }
             if (result.contains("update")) {
-                SkillCommandImpl.getInstance().updateCommand();
+                CreateUpdateCommands.getInstance().updateSkill();
+                start();
             }
             if (result.contains("create")) {
-                SkillCommandImpl.getInstance().createCommand();
+                CreateUpdateCommands.getInstance().createSkill();
+                start();
             }
             if (result.contains("delete")) {
-                SkillCommandImpl.getInstance().deleteCommand();
+                skillMethods.delete();
+                start();
             }
             if (result.equalsIgnoreCase("main") | result.equalsIgnoreCase("list") | result.equalsIgnoreCase("q")) {
                 start();
@@ -349,13 +359,13 @@ public class ReadConsole implements Controller {
             System.out.println(startList);
         }
         if (result.contains("project")) {
-            if (result.contains("id") | result.contains("byid")) {
-                GetProjectCommand.getInstance().getById();
+            if (result.contains("id") | result.contains("byId")) {
+                projectMethods.getById();
                 model = "";
                 start();
             }
             if (result.contains("all")) {
-                GetProjectCommand.getInstance().getAll();
+                projectMethods.getAll();
                 model = "";
                 start();
             }
@@ -363,13 +373,16 @@ public class ReadConsole implements Controller {
                 getByProject();
             }
             if (result.contains("update")) {
-                ProjectCommandImpl.getInstance().updateCommand();
+                CreateUpdateCommands.getInstance().updateProject();
+                start();
             }
             if (result.contains("create")) {
-                ProjectCommandImpl.getInstance().createCommand();
+                CreateUpdateCommands.getInstance().createProject();
+                start();
             }
             if (result.contains("delete")) {
-                ProjectCommandImpl.getInstance().deleteCommand();
+                projectMethods.delete();
+                start();
             }
             if (result.equalsIgnoreCase("main") | result.equalsIgnoreCase("list") | result.equalsIgnoreCase("q")) {
                 start();
@@ -378,13 +391,13 @@ public class ReadConsole implements Controller {
                 close();
             }
         }
-        return result;
     }
 
     private String getCrud() {
         if (crud.isEmpty()) {
             System.out.println(" Choose query ");
-            String crudString = YELLOW + COLOUR3 + "______________________________________________\n" +
+            String crudString = YELLOW + COLOUR3 +
+                                "______________________________________________\n" +
                                 "| GET    -> G | CREATE -> C | MAIN LIST -> Q |\n" +
                                 "| UPDATE -> U | DELETE -> D | STOP      -> S |\n" +
                                 "----------------------------------------------\n";
@@ -426,7 +439,8 @@ public class ReadConsole implements Controller {
     private String getModel() {
         if (model.isEmpty()) {
             System.out.println("Выбери модель");
-            String getModelList = YELLOW + COLOUR3 + "____________________________________________________\n" +
+            String getModelList = YELLOW + COLOUR3 +
+                                  "____________________________________________________\n" +
                                   "| COMPANY -> CM | CUSTOMER  -> CS | SKILL   -> SK |\n" +
                                   "| PROJECT -> PR | DEVELOPER -> DV |               |\n" +
                                   "| SPECIAL -> SP | MAIN LIST -> Q  | STOP     -> S |\n" +
@@ -471,38 +485,39 @@ public class ReadConsole implements Controller {
     }
 
     private String getBySmall() {
-        String getBySmall = YELLOW + COLOUR3 + "_______________________________\n" +
+        String getBySmall = YELLOW + COLOUR3 +
+                            "_______________________________\n" +
                             "| BY ID     -> ID | ALL  -> A |\n" +
                             "| MAIN LIST -> Q  | STOP -> S |\n" +
                             "-------------------------------";
         System.out.println(getBySmall);
         String next = scanner.next();
-        if (next.equalsIgnoreCase("byid") | next.equalsIgnoreCase("id")) {
+        if (next.equalsIgnoreCase("byId") | next.equalsIgnoreCase("id")) {
             if (model.equalsIgnoreCase("company")) {
-                GetCompanyCommand.getInstance().getById();
+                companyMethods.getById();
                 return getBySmall();
             }
             if (model.equalsIgnoreCase("customer")) {
-                GetCustomerCommand.getInstance().getById();
+                customerMethods.getById();
                 return getBySmall();
             }
             if (model.equalsIgnoreCase("skill")) {
-                GetSkillCommand.getInstance().getById();
+                skillMethods.getById();
                 return getBySmall();
             }
 
         }
         if (next.equalsIgnoreCase("all") | next.equalsIgnoreCase("a")) {
             if (model.equalsIgnoreCase("company")) {
-                GetCompanyCommand.getInstance().getAll();
+                companyMethods.getAll();
                 return getBySmall();
             }
             if (model.equalsIgnoreCase("customer")) {
-                GetCustomerCommand.getInstance().getAll();
+                customerMethods.getAll();
                 return getBySmall();
             }
             if (model.equalsIgnoreCase("skill")) {
-                GetSkillCommand.getInstance().getAll();
+                skillMethods.getAll();
                 return getBySmall();
             }
         }
@@ -521,40 +536,39 @@ public class ReadConsole implements Controller {
         return next;
     }
 
-    private String getByProject() {
-        String getBy = YELLOW + COLOUR3 + "_______________________________________________\n" +
+    private void getByProject() {
+        String getBy = YELLOW + COLOUR3 +
+                       "_______________________________________________\n" +
                        "| BY ID       -> ID    | All         -> A     |\n" +
                        "| WithDATE    -> PWD   | MAIN LIST   -> Q     |\n" +
                        "|                      | STOP        -> S     |\n" +
                        "-----------------------------------------------\n";
         System.out.println(getBy);
         String next = scanner.next();
-        if (next.equalsIgnoreCase("byid") | next.equalsIgnoreCase("id")) {
-            GetProjectCommand.getInstance().getById();
+        if (next.equalsIgnoreCase("byId") | next.equalsIgnoreCase("id")) {
+            projectMethods.getById();
         }
         if (next.equalsIgnoreCase("all") | next.equalsIgnoreCase("a")) {
-            GetProjectCommand.getInstance().getAll();
+            projectMethods.getAll();
         }
         if (next.equalsIgnoreCase("withDate") | next.equalsIgnoreCase("PWD")) {
-            return projectsWithDate();
+            projectsWithDate();
+            return;
         }
         if (next.equalsIgnoreCase("main") | next.equalsIgnoreCase("list") | next.equalsIgnoreCase("q")) {
-            next = "q";
             start();
-            return next;
+            return;
         }
         if (next.equalsIgnoreCase("stop") | next.equalsIgnoreCase("s") | next.equalsIgnoreCase("sp")) {
-            next = "s";
             close();
-            return next;
         } else {
             getByProject();
         }
-        return next;
     }
 
     private String getByDeveloper() {
-        String getByDev = YELLOW + COLOUR3 + "_______________________________________________\n" +
+        String getByDev = YELLOW + COLOUR3 +
+                          "_______________________________________________\n" +
                           "| BY ID       -> ID    | All         -> A     |\n" +
                           "| SumSALARIES -> SS    | ByProjectID -> DBD   |\n" +
                           "| ByACTIVITY  -> DBA   | ByLEVEL     -> DBL   |\n" +
@@ -562,11 +576,11 @@ public class ReadConsole implements Controller {
                           "-----------------------------------------------\n";
         System.out.println(getByDev);
         String next = scanner.next();
-        if (next.equalsIgnoreCase("byid") | next.equalsIgnoreCase("id")) {
-            GetDeveloperCommand.getInstance().getById();
+        if (next.equalsIgnoreCase("byId") | next.equalsIgnoreCase("id")) {
+            developerMethods.getById();
         }
         if (next.equalsIgnoreCase("all") | next.equalsIgnoreCase("a")) {
-            GetDeveloperCommand.getInstance().getAll();
+            developerMethods.getAll();
         }
         if (next.equalsIgnoreCase("byProjectId") | next.equalsIgnoreCase("DBD")) {
             return byProjectId();
@@ -622,11 +636,11 @@ public class ReadConsole implements Controller {
         return getSpecial();
     }
 
-    private String projectsWithDate() {
+    private void projectsWithDate() {
         special = "withDate";
         model = "";
         crud = "";
-        return getSpecial();
+        getSpecial();
     }
 
     @Override

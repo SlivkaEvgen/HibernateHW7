@@ -8,7 +8,7 @@ import org.homework.hibernatehw7.utils.Validator;
 
 import java.util.Scanner;
 
-public class DeleteSkillCommand implements Controller {
+public class DeleteSkillCommand  implements Controller {
 
     private final SkillService SKILL_SERVICE = SkillServiceImpl.getInstance();
     private final Scanner scanner = ScannerConsole.getInstance();
@@ -26,7 +26,8 @@ public class DeleteSkillCommand implements Controller {
         delete();
     }
 
-    private void delete() {
+    public void delete() {
+//        Deletes<Skill, Long> skillLongDeletes = new Deletes<>(Skill.class);
         System.out.print("\n ENTER ID \n\uD83D\uDC49 ");
         String id = scanner.next();
         if (Validator.validNumber(id)) {

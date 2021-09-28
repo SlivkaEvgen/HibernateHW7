@@ -26,7 +26,7 @@ public class DeleteCustomerCommand implements Controller {
         delete();
     }
 
-    private void delete() {
+    public void delete() {
         System.out.print("\n ENTER ID \n\uD83D\uDC49 ");
         String id = scanner.next();
         if (Validator.validNumber(id)) {

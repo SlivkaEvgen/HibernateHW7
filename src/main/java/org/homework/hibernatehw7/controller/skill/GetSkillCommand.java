@@ -47,7 +47,7 @@ public class GetSkillCommand implements Controller {
         start();
     }
 
-    private void getById() {
+    public void getById() {
         System.out.print("\n ENTER ID \n\uD83D\uDC49 ");
         String next = scanner.next();
         if (Validator.validNumber(next)) {
@@ -64,7 +64,7 @@ public class GetSkillCommand implements Controller {
         }
     }
 
-    private void getAll() {
+    public void getAll() {
         System.out.println(SKILL_SERVICE.findAll());
     }
 

@@ -64,11 +64,11 @@ public class GetDeveloperCommand implements Controller {
         start();
     }
 
-    private void getAll() {
+    public void getAll() {
         System.out.println(DEVELOPER_SERVICE.findAll());
     }
 
-    private void getById() {
+    public void getById() {
         System.out.print("\n ENTER ID \n\uD83D\uDC49 ");
         String next = scanner.next();
         if (Validator.validNumber(next)) {
@@ -85,7 +85,7 @@ public class GetDeveloperCommand implements Controller {
         }
     }
 
-    private void getByProjectID() {
+    public void getByProjectID() {
         System.out.print(" ENTER PROJECT-ID \n\uD83D\uDC49 ");
         String projectId = scanner.next();
         if (Validator.validNumber(projectId)) {
@@ -102,7 +102,7 @@ public class GetDeveloperCommand implements Controller {
         }
     }
 
-    private void getByActivity() {
+    public void getByActivity() {
         System.out.print(" ENTER ACTIVITY \n ✅examples : Java, JS, C+, C# \n\uD83D\uDC49 ");
         String activity = scanner.next();
         if (Validator.validString(activity)) {
@@ -130,7 +130,7 @@ public class GetDeveloperCommand implements Controller {
         }
     }
 
-    private void getByLevel() {
+    public void getByLevel() {
         System.out.print(" ENTER LEVEL \n ✅examples : Junior, Middle, Senior \n\uD83D\uDC49 ");
         String level = scanner.next();
         if (Validator.validString(level)) {
@@ -154,7 +154,7 @@ public class GetDeveloperCommand implements Controller {
         }
     }
 
-    private void getSumSalaries() {
+    public void getSumSalaries() {
         System.out.print(" ENTER PROJECT-ID \n\uD83D\uDC49 ");
         String next = scanner.next();
         if (Validator.validNumber(next)) {

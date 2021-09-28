@@ -154,9 +154,10 @@ public class GetDeleteCommands<T extends BaseModel<ID>, ID> implements Controlle
         System.out.print(" ENTER LEVEL \n\uD83D\uDC49 ");
         System.out.println(" Example: Junior, Middle, Senior");
         String level = scanner.next();
-        if (!Validator.validString(level) | !level.equalsIgnoreCase("junior")
-                                            & !level.equalsIgnoreCase("middle")
-                                            & !level.equalsIgnoreCase("senior")) {
+        if (!Validator.validString(level) |
+            !level.equalsIgnoreCase("junior")
+            & !level.equalsIgnoreCase("middle")
+            & !level.equalsIgnoreCase("senior")) {
             System.out.println("Try again");
             return enterLevel();
         }
@@ -224,25 +225,13 @@ public class GetDeleteCommands<T extends BaseModel<ID>, ID> implements Controlle
     public void getByLevel() {
         System.out.print(" ENTER LEVEL \n ✅examples : Junior, Middle, Senior \n\uD83D\uDC49 ");
         String level = scanner.next();
-        if (Validator.validString(level)) {
-            if (!level.equalsIgnoreCase("middle")) {
-                if (!level.equalsIgnoreCase("senior")) {
-                    if (!level.equalsIgnoreCase("junior")) {
-                        System.out.println("not found, try again ");
-                        getByLevel();
-                    } else {
-                        System.out.println(developerService.getDevelopersByLevel(level) + "\n");
-                    }
-                } else {
-                    System.out.println(developerService.getDevelopersByLevel(level) + "\n");
-                }
-            } else {
-                System.out.println(developerService.getDevelopersByLevel(level) + "\n");
-            }
-        } else {
-            System.out.print("\n not found, try again \n");
+        if (Validator.validString(level) & !level.equalsIgnoreCase("middle")
+            | !level.equalsIgnoreCase("senior")
+            | !level.equalsIgnoreCase("junior")) {
+            System.out.println("not found, try again ");
             getByLevel();
         }
+        System.out.println(developerService.getDevelopersByLevel(level) + "\n");
     }
 
     public void getSumSalaries() {
@@ -250,14 +239,8 @@ public class GetDeleteCommands<T extends BaseModel<ID>, ID> implements Controlle
         String next = scanner.next();
         if (Validator.validNumber(next)) {
             try {
-                if (!next.isEmpty()) {
-                    long nextLong = Long.parseLong(next);
-                    if (nextLong != 0) {
-                        System.out.print(developerService.getSumSalariesDevelopersOfOneProject(nextLong) + "\n");
-                    } else {
-                        System.out.print("\nnot found, try again \n");
-                        getSumSalaries();
-                    }
+                if (!next.isEmpty() & Long.parseLong(next) != 0) {
+                    System.out.print(developerService.getSumSalariesDevelopersOfOneProject(Long.valueOf(next)) + "\n");
                 } else {
                     System.out.print("\nnot found, try again \n");
                     getSumSalaries();
@@ -293,29 +276,14 @@ public class GetDeleteCommands<T extends BaseModel<ID>, ID> implements Controlle
     public void getByActivity() {
         System.out.print(" ENTER ACTIVITY \n ✅examples : Java, JS, C+, C# \n\uD83D\uDC49 ");
         String activity = scanner.next();
-        if (Validator.validString(activity)) {
-            if (!activity.equalsIgnoreCase("js")) {
-                if (!activity.equalsIgnoreCase("java")) {
-                    if (!activity.equalsIgnoreCase("C+")) {
-                        if (!activity.equalsIgnoreCase("C#")) {
-                            System.out.println("not found, try again ");
-                            getByActivity();
-                        } else {
-                            System.out.println(developerService.getDevelopersByActivity(activity) + "\n");
-                        }
-                    } else {
-                        System.out.println(developerService.getDevelopersByActivity(activity) + "\n");
-                    }
-                } else {
-                    System.out.println(developerService.getDevelopersByActivity(activity) + "\n");
-                }
-            } else {
-                System.out.println(developerService.getDevelopersByActivity(activity) + "\n");
-            }
-        } else {
+        if (Validator.validString(activity) & !activity.equalsIgnoreCase("js")
+            | !activity.equalsIgnoreCase("java")
+              & !activity.equalsIgnoreCase("C+")
+              & !activity.equalsIgnoreCase("C#")) {
             System.out.println("not found, try again ");
             getByActivity();
         }
+        System.out.println(developerService.getDevelopersByActivity(activity) + "\n");
     }
 
     public void getById() {
@@ -342,38 +310,33 @@ public class GetDeleteCommands<T extends BaseModel<ID>, ID> implements Controlle
     public void delete() {
         System.out.print("\n ENTER ID \n\uD83D\uDC49 ");
         String id = scanner.next();
-        if (Validator.validNumber(id)) {
-            if (ServiceFactory.of(modelClass).findById((ID) Long.valueOf(id)).isPresent()) {
-                if (modelClass.getSimpleName().equalsIgnoreCase("Customer")) {
-                    System.out.println("\n\n" +
-                                       "‼️ All \uD83D\uDED1PROJECTS \n" +
-                                       "will be ❗DELETED❗ together with the customer!\n" +
-                                       "‼️ Are you sure you want to delete the customer❓❓❓  \n"
-                                       + service.findById((ID) Long.valueOf(id)).get() + "\n");
-                }
-                if (modelClass.getSimpleName().equalsIgnoreCase("Company")) {
-                    System.out.println("\n\n" +
-                                       "‼️ All \uD83D\uDED1PROJECTS and \uD83D\uDED1DEVELOPERS  \n" +
-                                       "will be ❗DELETED❗ together with the company!\n" +
-                                       "‼️ Are you sure you want to delete the company❓❓❓  \n" +
-                                       service.findById((ID) Long.valueOf(id)).get() + "\n");
-                } else {
-                    System.out.println("\nAre you sure ?  \n" + ServiceFactory.of(modelClass).findById((ID) Long.valueOf(id)).get());
-                }
-                System.out.print("Yes \uD83D\uDC49 Y\nNo  \uD83D\uDC49 N\n\uD83D\uDC49 ");
-                final String yesNo = scanner.next();
-                if (yesNo.equalsIgnoreCase("y")) {
-                    ServiceFactory.of(modelClass).delete((ID) Long.valueOf(id));
-                    System.out.println(" ✅ You removed the " + modelClass.getSimpleName() + " number \uD83D\uDC49 " + id + " \n");
-                }
-            } else {
-                System.out.print("\nNot found, try again ... ");
-                delete();
+        if (Validator.validNumber(id) & ServiceFactory.of(modelClass).findById((ID) Long.valueOf(id)).isPresent()) {
+            if (modelClass.getSimpleName().equalsIgnoreCase("Customer")) {
+                System.out.println("\n\n" +
+                                   "‼️ All \uD83D\uDED1PROJECTS \n" +
+                                   "will be ❗DELETED❗ together with the customer!\n" +
+                                   "‼️ Are you sure you want to delete the customer❓❓❓  \n"
+                                   + service.findById((ID) Long.valueOf(id)).get() + "\n");
+            }
+            if (modelClass.getSimpleName().equalsIgnoreCase("Company")) {
+                System.out.println("\n\n" +
+                                   "‼️ All \uD83D\uDED1PROJECTS and \uD83D\uDED1DEVELOPERS  \n" +
+                                   "will be ❗DELETED❗ together with the company!\n" +
+                                   "‼️ Are you sure you want to delete the company❓❓❓  \n" +
+                                   service.findById((ID) Long.valueOf(id)).get() + "\n");
+            }
+            System.out.println("\nAre you sure ?  \n" + ServiceFactory.of(modelClass).findById((ID) Long.valueOf(id)).get());
+            System.out.print("Yes \uD83D\uDC49 Y\nNo  \uD83D\uDC49 N\n\uD83D\uDC49 ");
+            final String yesNo = scanner.next();
+            if (yesNo.equalsIgnoreCase("y")) {
+                ServiceFactory.of(modelClass).delete((ID) Long.valueOf(id));
+                System.out.println(" ✅ You removed the " + modelClass.getSimpleName() + " number \uD83D\uDC49 " + id + " \n");
             }
         } else {
             System.out.print("\nNot found, try again ... ");
             delete();
         }
+
     }
 
     public void getListProjectsWithDate() {

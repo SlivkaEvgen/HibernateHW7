@@ -28,7 +28,6 @@ public class CreateUpdateCommands implements Controller {
 
     @Override
     public void start() {
-
     }
 
     public void createSkill() {

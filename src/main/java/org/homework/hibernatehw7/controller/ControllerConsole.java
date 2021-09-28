@@ -6,7 +6,7 @@ import org.homework.hibernatehw7.model.*;
 
 import java.util.Scanner;
 
-public class ControllerConsole<T extends BaseModel<ID>, ID> implements Controller {
+public class ControllerConsole implements Controller {
 
     private final GetDeleteCommands<Developer, Long> developerMethods = new GetDeleteCommands<>(Developer.class);
     private final GetDeleteCommands<Project, Long> projectMethods = new GetDeleteCommands<>(Project.class);
@@ -16,12 +16,12 @@ public class ControllerConsole<T extends BaseModel<ID>, ID> implements Controlle
     private final Scanner scanner = ScannerConsole.getInstance();
     private final String RED = "\u001b[31m";
     private final String YELLOW = "\u001b[33m";
-    private final String COLOUR3 = "\u001b[40m";
-    private String model = "";
-    private String crud = "";
-    private String special = "";
+    private final String DARK_BLACK_BACK = "\u001b[40m";
+    private String modelName = "";
+    private String crudName = "";
+    private String specialQuery = "";
     private String result = "";
-    private final String startList = YELLOW + COLOUR3 +
+    private final String startList = YELLOW + DARK_BLACK_BACK +
                                      "_________________________________________________________________________________________________________________________\n" +
                                      "| DEVELOPER    -> DV  | PROJECT     -> PR   | SKILL          -> SK  | CUSTOMER        -> CS    | COMPANY         -> CM  |\n" +
                                      "| GET          -> G   | CREATE      -> C    | UPDATE         -> U   | DELETE          -> D     |                        |\n" +
@@ -41,96 +41,96 @@ public class ControllerConsole<T extends BaseModel<ID>, ID> implements Controlle
 
     private String getRead() {
         String read = scanner.next();
-        model = "";
-        crud = "";
-        special = "";
+        modelName = "";
+        crudName = "";
+        specialQuery = "";
         if (read.equalsIgnoreCase("get") | read.equalsIgnoreCase("g")) {
-            crud = "get";
-            model = getModel();
-            read = crud + model;
+            crudName = "get";
+            modelName = getModelName();
+            read = crudName + modelName;
             return read;
         }
         if (read.equalsIgnoreCase("create") | read.equalsIgnoreCase("c") | read.equalsIgnoreCase("cre")) {
-            crud = "create";
-            model = getModel();
-            read = crud + model;
+            crudName = "create";
+            modelName = getModelName();
+            read = crudName + modelName;
             return read;
         }
         if (read.equalsIgnoreCase("update") | read.equalsIgnoreCase("u") | read.equalsIgnoreCase("up")) {
-            crud = "update";
-            model = getModel();
-            read = crud + model;
+            crudName = "update";
+            modelName = getModelName();
+            read = crudName + modelName;
             return read;
         }
         if (read.equalsIgnoreCase("delete") | read.equalsIgnoreCase("d") | read.equalsIgnoreCase("del")) {
-            crud = "delete";
-            model = getModel();
-            read = crud + model;
+            crudName = "delete";
+            modelName = getModelName();
+            read = crudName + modelName;
             return read;
         }
         if (read.equalsIgnoreCase("developer") | read.equalsIgnoreCase("dev") | read.equalsIgnoreCase("dv")) {
-            model = "developer";
-            crud = getCrud();
-            read = crud + model;
+            modelName = "developer";
+            crudName = getCrudName();
+            read = crudName + modelName;
             return read;
         }
         if (read.equalsIgnoreCase("customer") | read.equalsIgnoreCase("cus") | read.equalsIgnoreCase("cs")) {
-            model = "customer";
-            crud = getCrud();
-            read = crud + model;
+            modelName = "customer";
+            crudName = getCrudName();
+            read = crudName + modelName;
             return read;
         }
         if (read.equalsIgnoreCase("company") | read.equalsIgnoreCase("com") | read.equalsIgnoreCase("cm")) {
-            model = "company";
-            crud = getCrud();
-            read = crud + model;
+            modelName = "company";
+            crudName = getCrudName();
+            read = crudName + modelName;
             return read;
         }
         if (read.equalsIgnoreCase("skill") | read.equalsIgnoreCase("skl") | read.equalsIgnoreCase("sk")) {
-            model = "skill";
-            crud = getCrud();
-            read = crud + model;
+            modelName = "skill";
+            crudName = getCrudName();
+            read = crudName + modelName;
             return read;
         }
         if (read.equalsIgnoreCase("project") | read.equalsIgnoreCase("pro") | read.equalsIgnoreCase("pr")) {
-            model = "project";
-            crud = getCrud();
-            read = crud + model;
+            modelName = "project";
+            crudName = getCrudName();
+            read = crudName + modelName;
             return read;
         }
         if (read.equalsIgnoreCase("SPECIAL") | read.equalsIgnoreCase("specR") | read.equalsIgnoreCase("spr")) {
-            getSpecial();
-            read = special;
+            getSpecialQueries();
+            read = specialQuery;
             return read;
         }
         if (read.equalsIgnoreCase("byProjectId") | read.equalsIgnoreCase("DBD")) {
-            special = "byProjectId";
-            getSpecial();
-            read = special;
+            specialQuery = "byProjectId";
+            getSpecialQueries();
+            read = specialQuery;
             return read;
         }
         if (read.equalsIgnoreCase("byActivity") | read.equalsIgnoreCase("DBA")) {
-            special = "byActivity";
-            getSpecial();
-            read = special;
+            specialQuery = "byActivity";
+            getSpecialQueries();
+            read = specialQuery;
             return read;
         }
         if (read.equalsIgnoreCase("byLevel") | read.equalsIgnoreCase("DBL")) {
-            special = "byLevel";
-            getSpecial();
-            read = special;
+            specialQuery = "byLevel";
+            getSpecialQueries();
+            read = specialQuery;
             return read;
         }
         if (read.equalsIgnoreCase("withDate") | read.equalsIgnoreCase("PWD")) {
-            special = "withDate";
-            getSpecial();
-            read = special;
+            specialQuery = "withDate";
+            getSpecialQueries();
+            read = specialQuery;
             return read;
         }
         if (read.equalsIgnoreCase("SumSalaries") | read.equalsIgnoreCase("SS")) {
-            special = "SumSalaries";
-            getSpecial();
-            read = special;
+            specialQuery = "SumSalaries";
+            getSpecialQueries();
+            read = specialQuery;
             return read;
         }
         if (read.equalsIgnoreCase("list") | read.equalsIgnoreCase("main") | read.equalsIgnoreCase("q")) {
@@ -138,15 +138,15 @@ public class ControllerConsole<T extends BaseModel<ID>, ID> implements Controlle
             return read;
         }
         if (read.equalsIgnoreCase("all") | read.equalsIgnoreCase("a")) {
-            crud = "all";
-            model = getModel();
-            read = crud + model;
+            crudName = "all";
+            modelName = getModelName();
+            read = crudName + modelName;
             return read;
         }
         if (read.equalsIgnoreCase("id") | read.equalsIgnoreCase("byId")) {
-            crud = "id";
-            model = getModel();
-            read = crud + model;
+            crudName = "id";
+            modelName = getModelName();
+            read = crudName + modelName;
             return read;
         }
         if (read.equalsIgnoreCase("stop") | read.equalsIgnoreCase("s") | read.equalsIgnoreCase("sp")) {
@@ -159,81 +159,81 @@ public class ControllerConsole<T extends BaseModel<ID>, ID> implements Controlle
         return getRead();
     }
 
-    private String getSpecial() {
-        if (model.isEmpty() & crud.isEmpty()) {
-            String specials = YELLOW + COLOUR3 +
+    private String getSpecialQueries() {
+        if (modelName.isEmpty() & crudName.isEmpty()) {
+            String specials = YELLOW + DARK_BLACK_BACK +
                               "--------------------------------------------------------------------------------------------------\n" +
                               "| PROJECTS   withDATE    -> PWD   | DEVELOPERS ByLEVEL     -> DBL | DEVELOPERS ByACTIVITY -> DBA |\n" +
                               "| DEVELOPERS ByProjectID -> DBD   | DEVELOPERS SumSALARIES -> SS  | MAIN LIST             -> Q   |\n" +
                               "---------------------------------------------------------------------------------------------------\n";
-            if (special.equalsIgnoreCase("withDate") | special.equalsIgnoreCase("PWD")) {
-                special = "withDate";
+            if (specialQuery.equalsIgnoreCase("withDate") | specialQuery.equalsIgnoreCase("PWD")) {
+                specialQuery = "withDate";
                 System.out.print("\n  ✅RESULT \uD83D\uDC47");
                 projectMethods.getListProjectsWithDate();
                 System.out.println(specials);
-                return special;
+                return specialQuery;
             }
-            if (special.equalsIgnoreCase("byLevel") | special.equalsIgnoreCase("DBL")) {
-                special = "byLevel";
+            if (specialQuery.equalsIgnoreCase("byLevel") | specialQuery.equalsIgnoreCase("DBL")) {
+                specialQuery = "byLevel";
                 System.out.print("\n  ✅RESULT \uD83D\uDC47\n");
                 developerMethods.getByLevel();
                 System.out.println(specials);
-                return special;
+                return specialQuery;
             }
-            if (special.equalsIgnoreCase("byActivity") | special.equalsIgnoreCase("DBA")) {
-                special = "byActivity";
+            if (specialQuery.equalsIgnoreCase("byActivity") | specialQuery.equalsIgnoreCase("DBA")) {
+                specialQuery = "byActivity";
                 System.out.print("\n  ✅RESULT \uD83D\uDC47\n");
                 developerMethods.getByActivity();
                 System.out.println(specials);
-                return special;
+                return specialQuery;
             }
-            if (special.equalsIgnoreCase("byProjectId") | special.equalsIgnoreCase("DBD")) {
-                special = "byProjectId";
+            if (specialQuery.equalsIgnoreCase("byProjectId") | specialQuery.equalsIgnoreCase("DBD")) {
+                specialQuery = "byProjectId";
                 System.out.print("\n  ✅RESULT \uD83D\uDC47");
                 developerMethods.getByProjectID();
                 System.out.println(specials);
-                return special;
+                return specialQuery;
             }
-            if (special.equalsIgnoreCase("SumSalaries") | special.equalsIgnoreCase("SS")) {
-                special = "SumSalaries";
+            if (specialQuery.equalsIgnoreCase("SumSalaries") | specialQuery.equalsIgnoreCase("SS")) {
+                specialQuery = "SumSalaries";
                 System.out.print("\n  ✅RESULT \uD83D\uDC47");
                 developerMethods.getSumSalaries();
                 System.out.println(specials);
-                return special;
+                return specialQuery;
             }
-            if (special.equalsIgnoreCase("list") | special.equalsIgnoreCase("q")) {
-                special = startList;
+            if (specialQuery.equalsIgnoreCase("list") | specialQuery.equalsIgnoreCase("q")) {
+                specialQuery = startList;
                 start();
                 System.out.println(startList);
-                return special;
+                return specialQuery;
             }
-            if (special.equalsIgnoreCase("stop") | special.equalsIgnoreCase("s") | special.equalsIgnoreCase("sp")) {
+            if (specialQuery.equalsIgnoreCase("stop") | specialQuery.equalsIgnoreCase("s") | specialQuery.equalsIgnoreCase("sp")) {
                 close();
             } else {
                 System.out.println(RED + " Choose query \uD83D\uDC47" + specials);
-                special = scanner.next();
-                getSpecial();
+                specialQuery = scanner.next();
+                getSpecialQueries();
             }
-            return special;
+            return specialQuery;
         }
-        return special;
+        return specialQuery;
     }
 
     private void ifHasModel() {
         if (result.contains("company")) {
             if (result.contains("all")) {
                 companyMethods.getAll();
-                model = "";
+                modelName = "";
                 start();
             }
             if (result.contains("id") | result.equalsIgnoreCase("byId")) {
                 companyMethods.getById();
-                model = "";
+                modelName = "";
                 start();
             }
             if (result.contains("get")) {
                 System.out.println(getBySmall());
-                model = "";
+                modelName = "";
                 start();
             }
             if (result.contains("update")) {
@@ -259,12 +259,12 @@ public class ControllerConsole<T extends BaseModel<ID>, ID> implements Controlle
         if (result.contains("customer")) {
             if (result.contains("id") | result.contains("byId")) {
                 customerMethods.getById();
-                model = "";
+                modelName = "";
                 start();
             }
             if (result.contains("all")) {
                 customerMethods.getAll();
-                model = "";
+                modelName = "";
                 start();
             }
             if (result.contains("get")) {
@@ -293,12 +293,12 @@ public class ControllerConsole<T extends BaseModel<ID>, ID> implements Controlle
         if (result.contains("developer")) {
             if (result.contains("id") | result.contains("byId")) {
                 developerMethods.getById();
-                model = "";
+                modelName = "";
                 start();
             }
             if (result.contains("all")) {
                 developerMethods.getAll();
-                model = "";
+                modelName = "";
                 start();
             }
             if (result.contains("get")) {
@@ -327,12 +327,12 @@ public class ControllerConsole<T extends BaseModel<ID>, ID> implements Controlle
         if (result.contains("skill")) {
             if (result.contains("id") | result.contains("byId")) {
                 skillMethods.getById();
-                model = "";
+                modelName = "";
                 start();
             }
             if (result.contains("all")) {
                 skillMethods.getAll();
-                model = "";
+                modelName = "";
                 start();
             }
             if (result.contains("get")) {
@@ -361,12 +361,12 @@ public class ControllerConsole<T extends BaseModel<ID>, ID> implements Controlle
         if (result.contains("project")) {
             if (result.contains("id") | result.contains("byId")) {
                 projectMethods.getById();
-                model = "";
+                modelName = "";
                 start();
             }
             if (result.contains("all")) {
                 projectMethods.getAll();
-                model = "";
+                modelName = "";
                 start();
             }
             if (result.contains("get")) {
@@ -393,10 +393,10 @@ public class ControllerConsole<T extends BaseModel<ID>, ID> implements Controlle
         }
     }
 
-    private String getCrud() {
-        if (crud.isEmpty()) {
+    private String getCrudName() {
+        if (crudName.isEmpty()) {
             System.out.println(" Choose query ");
-            String crudString = YELLOW + COLOUR3 +
+            String crudString = YELLOW + DARK_BLACK_BACK +
                                 "______________________________________________\n" +
                                 "| GET    -> G | CREATE -> C | MAIN LIST -> Q |\n" +
                                 "| UPDATE -> U | DELETE -> D | STOP      -> S |\n" +
@@ -430,16 +430,16 @@ public class ControllerConsole<T extends BaseModel<ID>, ID> implements Controlle
                 return crud;
             } else {
                 System.out.println(RED + "Please, try again ");
-                return getCrud();
+                return getCrudName();
             }
         }
-        return crud;
+        return crudName;
     }
 
-    private String getModel() {
-        if (model.isEmpty()) {
+    private String getModelName() {
+        if (modelName.isEmpty()) {
             System.out.println("Выбери модель");
-            String getModelList = YELLOW + COLOUR3 +
+            String getModelList = YELLOW + DARK_BLACK_BACK +
                                   "____________________________________________________\n" +
                                   "| COMPANY -> CM | CUSTOMER  -> CS | SKILL   -> SK |\n" +
                                   "| PROJECT -> PR | DEVELOPER -> DV |               |\n" +
@@ -468,8 +468,8 @@ public class ControllerConsole<T extends BaseModel<ID>, ID> implements Controlle
                 return model;
             }
             if (model.equalsIgnoreCase("special") | model.equalsIgnoreCase("sp")) {
-                crud = "";
-                return getSpecial();
+                crudName = "";
+                return getSpecialQueries();
             }
             if (model.equalsIgnoreCase("main") | model.equalsIgnoreCase("list") | model.equalsIgnoreCase("q")) {
                 start();
@@ -478,14 +478,14 @@ public class ControllerConsole<T extends BaseModel<ID>, ID> implements Controlle
                 close();
             } else {
                 System.out.println(RED + " Please, try again ");
-                return getModel();
+                return getModelName();
             }
         }
-        return model;
+        return modelName;
     }
 
     private String getBySmall() {
-        String getBySmall = YELLOW + COLOUR3 +
+        String getBySmall = YELLOW + DARK_BLACK_BACK +
                             "_______________________________\n" +
                             "| BY ID     -> ID | ALL  -> A |\n" +
                             "| MAIN LIST -> Q  | STOP -> S |\n" +
@@ -493,30 +493,30 @@ public class ControllerConsole<T extends BaseModel<ID>, ID> implements Controlle
         System.out.println(getBySmall);
         String next = scanner.next();
         if (next.equalsIgnoreCase("byId") | next.equalsIgnoreCase("id")) {
-            if (model.equalsIgnoreCase("company")) {
+            if (modelName.equalsIgnoreCase("company")) {
                 companyMethods.getById();
                 return getBySmall();
             }
-            if (model.equalsIgnoreCase("customer")) {
+            if (modelName.equalsIgnoreCase("customer")) {
                 customerMethods.getById();
                 return getBySmall();
             }
-            if (model.equalsIgnoreCase("skill")) {
+            if (modelName.equalsIgnoreCase("skill")) {
                 skillMethods.getById();
                 return getBySmall();
             }
 
         }
         if (next.equalsIgnoreCase("all") | next.equalsIgnoreCase("a")) {
-            if (model.equalsIgnoreCase("company")) {
+            if (modelName.equalsIgnoreCase("company")) {
                 companyMethods.getAll();
                 return getBySmall();
             }
-            if (model.equalsIgnoreCase("customer")) {
+            if (modelName.equalsIgnoreCase("customer")) {
                 customerMethods.getAll();
                 return getBySmall();
             }
-            if (model.equalsIgnoreCase("skill")) {
+            if (modelName.equalsIgnoreCase("skill")) {
                 skillMethods.getAll();
                 return getBySmall();
             }
@@ -537,7 +537,7 @@ public class ControllerConsole<T extends BaseModel<ID>, ID> implements Controlle
     }
 
     private void getByProject() {
-        String getBy = YELLOW + COLOUR3 +
+        String getBy = YELLOW + DARK_BLACK_BACK +
                        "_______________________________________________\n" +
                        "| BY ID       -> ID    | All         -> A     |\n" +
                        "| WithDATE    -> PWD   | MAIN LIST   -> Q     |\n" +
@@ -567,7 +567,7 @@ public class ControllerConsole<T extends BaseModel<ID>, ID> implements Controlle
     }
 
     private String getByDeveloper() {
-        String getByDev = YELLOW + COLOUR3 +
+        String getByDev = YELLOW + DARK_BLACK_BACK +
                           "_______________________________________________\n" +
                           "| BY ID       -> ID    | All         -> A     |\n" +
                           "| SumSALARIES -> SS    | ByProjectID -> DBD   |\n" +
@@ -609,38 +609,38 @@ public class ControllerConsole<T extends BaseModel<ID>, ID> implements Controlle
     }
 
     private String byProjectId() {
-        special = "byProjectId";
-        model = "";
-        crud = "";
-        return getSpecial();
+        specialQuery = "byProjectId";
+        modelName = "";
+        crudName = "";
+        return getSpecialQueries();
     }
 
     private String byActivity() {
-        special = "byActivity";
-        model = "";
-        crud = "";
-        return getSpecial();
+        specialQuery = "byActivity";
+        modelName = "";
+        crudName = "";
+        return getSpecialQueries();
     }
 
     private String byLevel() {
-        special = "byLevel";
-        model = "";
-        crud = "";
-        return getSpecial();
+        specialQuery = "byLevel";
+        modelName = "";
+        crudName = "";
+        return getSpecialQueries();
     }
 
     private String getSumSalaries() {
-        special = "sumSalaries";
-        model = "";
-        crud = "";
-        return getSpecial();
+        specialQuery = "sumSalaries";
+        modelName = "";
+        crudName = "";
+        return getSpecialQueries();
     }
 
     private void projectsWithDate() {
-        special = "withDate";
-        model = "";
-        crud = "";
-        getSpecial();
+        specialQuery = "withDate";
+        modelName = "";
+        crudName = "";
+        getSpecialQueries();
     }
 
     @Override

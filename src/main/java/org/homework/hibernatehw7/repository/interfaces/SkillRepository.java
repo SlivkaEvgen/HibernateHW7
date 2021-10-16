@@ -2,7 +2,7 @@ package org.homework.hibernatehw7.repository.interfaces;
 
 import org.homework.hibernatehw7.model.Skill;
 
-public interface SkillCrudRepository extends CrudRepositoryJDBC<Skill, Long> {
+public interface SkillRepository extends CrudRepositoryJDBC<Skill, Long> {
 
     Skill createNewSkill(String activity, String level);
 

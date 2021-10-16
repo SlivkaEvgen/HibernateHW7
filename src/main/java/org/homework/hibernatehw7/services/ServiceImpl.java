@@ -6,11 +6,13 @@ import org.homework.hibernatehw7.repository.interfaces.CrudRepositoryJDBC;
 import org.homework.hibernatehw7.services.interfaces.Service;
 
 import java.io.Closeable;
+import java.io.Serializable;
 import java.util.List;
 import java.util.Optional;
 
-public class ServiceImpl<T extends BaseModel<ID>, ID> implements Closeable, Service<T, ID> {
+public class ServiceImpl<T extends BaseModel<ID>, ID> implements Closeable, Service<T, ID>, Serializable {
 
+    private static final long serialVersionUID = 3334744651928374654L;
     private final CrudRepositoryJDBC<T, ID> CRUD_REPOSITORY_JDBC;
 
     public ServiceImpl(Class<T> modelClass) {

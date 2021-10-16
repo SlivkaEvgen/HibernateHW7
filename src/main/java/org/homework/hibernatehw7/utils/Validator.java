@@ -1,6 +1,10 @@
 package org.homework.hibernatehw7.utils;
 
-public class Validator {
+import java.io.Serializable;
+
+public class Validator implements Serializable {
+
+    private static final long serialVersionUID = 3335044651928374654L;
 
     public static boolean validNumber(String hasNumbers) {
         return hasNumbers.matches("\\d+");

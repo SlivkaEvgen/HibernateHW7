@@ -5,18 +5,22 @@ import org.homework.hibernatehw7.model.*;
 import org.homework.hibernatehw7.services.*;
 import org.homework.hibernatehw7.services.interfaces.*;
 
-public class CreateUpdateCommands implements Controller {
+import java.io.Serializable;
+
+public class CreateUpdateCommands implements Controller, Serializable {
+
+    private static final long serialVersionUID = 3335244651928374654L;
 
     private final GetDeleteCommands<Skill, Long> generalSkillMethods = new GetDeleteCommands<>(Skill.class);
     private final GetDeleteCommands<Project, Long> generalProjectMethods = new GetDeleteCommands<>(Project.class);
     private final GetDeleteCommands<Developer, Long> generalDeveloperMethods = new GetDeleteCommands<>(Developer.class);
     private final GetDeleteCommands<Customer, Long> generalCustomerMethods = new GetDeleteCommands<>(Customer.class);
     private final GetDeleteCommands<Company, Long> generalCompanyMethods = new GetDeleteCommands<>(Company.class);
-    private final SkillService SKILL_SERVICE = SkillServiceImpl.getInstance();
-    private final ProjectService PROJECT_SERVICE = ProjectServiceImpl.getInstance();
-    private final DeveloperService DEVELOPER_SERVICE = DeveloperServiceImpl.getInstance();
-    private final CustomerService CUSTOMER_SERVICE = new CustomerServiceImpl();
-    private final CompanyService COMPANY_SERVICE = CompanyServiceImpl.getInstance();
+    private final SkillService SKILL_SERVICE = new SkillServiceImpl(Skill.class);
+    private final ProjectService PROJECT_SERVICE = new ProjectServiceImpl(Project.class);
+    private final DeveloperService DEVELOPER_SERVICE = new DeveloperServiceImpl(Developer.class);
+    private final CustomerService CUSTOMER_SERVICE = new CustomerServiceImpl(Customer.class);
+    private final CompanyService COMPANY_SERVICE = new CompanyServiceImpl(Company.class);
     private static CreateUpdateCommands createUpdateCommands;
 
     public static CreateUpdateCommands getInstance() {

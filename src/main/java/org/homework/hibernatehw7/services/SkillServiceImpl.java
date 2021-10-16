@@ -1,56 +1,17 @@
 package org.homework.hibernatehw7.services;
 
 import org.homework.hibernatehw7.model.Skill;
-import org.homework.hibernatehw7.repository.SkillCrudRepositoryImpl;
+import org.homework.hibernatehw7.repository.SkillRepositoryImpl;
+import org.homework.hibernatehw7.repository.interfaces.SkillRepository;
 import org.homework.hibernatehw7.services.interfaces.SkillService;
 
-import java.util.List;
-import java.util.Optional;
+public class SkillServiceImpl extends ModelService<Skill, Long> implements SkillService {
 
-public class SkillServiceImpl implements SkillService {
+    private static final long serialVersionUID = 3334844651928374654L;
+    private final SkillRepository CRUD_REPOSITORY = new SkillRepositoryImpl(Skill.class);
 
-    private final SkillCrudRepositoryImpl CRUD_REPOSITORY = SkillCrudRepositoryImpl.getInstance();
-    private static SkillServiceImpl skillService;
-
-    public static SkillServiceImpl getInstance() {
-        if (skillService == null) {
-            synchronized (SkillServiceImpl.class) {
-                if (skillService == null) {
-                    skillService = new SkillServiceImpl();
-                }
-            }
-        }
-        return skillService;
-    }
-
-    @Override
-    public Optional<Skill> findById(Long id) {
-        return CRUD_REPOSITORY.findById(id);
-    }
-
-    @Override
-    public List<Skill> findAll() {
-        return CRUD_REPOSITORY.findAll();
-    }
-
-    @Override
-    public Skill create(Skill skill) {
-        return CRUD_REPOSITORY.create(skill);
-    }
-
-    @Override
-    public Skill update(Long id, Skill skill) {
-        return CRUD_REPOSITORY.update(id, skill);
-    }
-
-    @Override
-    public void delete(Long id) {
-        CRUD_REPOSITORY.delete(id);
-    }
-
-    @Override
-    public void close() {
-        CRUD_REPOSITORY.close();
+    public SkillServiceImpl(Class<Skill> classModel) {
+        super(classModel);
     }
 
     @Override

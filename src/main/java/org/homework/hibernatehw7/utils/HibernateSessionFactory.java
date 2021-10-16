@@ -5,8 +5,11 @@ import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 
-public class HibernateSessionFactory {
+import java.io.Serializable;
 
+public class HibernateSessionFactory implements Serializable {
+
+    private static final long serialVersionUID = 3334944651928374654L;
     private static SessionFactory sessionFactory = buildSessionFactory();
 
     protected static SessionFactory buildSessionFactory() {

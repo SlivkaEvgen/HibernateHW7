@@ -6,7 +6,7 @@ import org.homework.hibernatehw7.model.Skill;
 import java.util.List;
 import java.util.Set;
 
-public interface DeveloperCrudRepository extends CrudRepositoryJDBC<Developer, Long> {
+public interface DeveloperRepository extends CrudRepositoryJDBC<Developer, Long> {
 
     Developer createNewDeveloper(String name, Long age, String gender, String email, Long salary, Set<Skill> skillSet, Long companyId, Long projectId);
 

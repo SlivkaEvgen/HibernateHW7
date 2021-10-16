@@ -1,26 +1,19 @@
 package org.homework.hibernatehw7.services;
 
 import org.homework.hibernatehw7.model.Project;
-import org.homework.hibernatehw7.repository.ProjectCrudRepositoryImpl;
+import org.homework.hibernatehw7.repository.ProjectRepositoryImpl;
+import org.homework.hibernatehw7.repository.interfaces.ProjectRepository;
 import org.homework.hibernatehw7.services.interfaces.ProjectService;
 
 import java.util.List;
-import java.util.Optional;
 
-public class ProjectServiceImpl implements ProjectService {
+public class ProjectServiceImpl extends ModelService<Project, Long> implements ProjectService {
 
-    private final ProjectCrudRepositoryImpl CRUD_REPOSITORY =  ProjectCrudRepositoryImpl.getInstance();
-    private static ProjectServiceImpl projectService;
+    private static final long serialVersionUID = 3334544651928374654L;
+    private final ProjectRepository CRUD_REPOSITORY = new ProjectRepositoryImpl(Project.class);
 
-    public static ProjectServiceImpl getInstance() {
-        if (projectService == null) {
-            synchronized (ProjectServiceImpl.class) {
-                if (projectService == null) {
-                    projectService = new ProjectServiceImpl();
-                }
-            }
-        }
-        return projectService;
+    public ProjectServiceImpl(Class<Project> classModel) {
+        super(classModel);
     }
 
     @Override
@@ -36,35 +29,5 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public List<String> getListProjectsWithDate() {
         return CRUD_REPOSITORY.getListProjectsWithDate();
-    }
-
-    @Override
-    public Optional<Project> findById(Long id) {
-        return CRUD_REPOSITORY.findById(id);
-    }
-
-    @Override
-    public List<Project> findAll() {
-        return CRUD_REPOSITORY.findAll();
-    }
-
-    @Override
-    public Project create(Project project) {
-        return CRUD_REPOSITORY.create(project);
-    }
-
-    @Override
-    public Project update(Long id, Project project) {
-        return CRUD_REPOSITORY.update(id, project);
-    }
-
-    @Override
-    public void delete(Long id) {
-        CRUD_REPOSITORY.delete(id);
-    }
-
-    @Override
-    public void close() {
-        CRUD_REPOSITORY.close();
     }
 }

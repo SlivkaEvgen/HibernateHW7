@@ -1,26 +1,17 @@
 package org.homework.hibernatehw7.services;
 
 import org.homework.hibernatehw7.model.Customer;
-import org.homework.hibernatehw7.repository.CustomerCrudRepositoryImpl;
+import org.homework.hibernatehw7.repository.CustomerRepositoryImpl;
+import org.homework.hibernatehw7.repository.interfaces.CustomerRepository;
 import org.homework.hibernatehw7.services.interfaces.CustomerService;
 
-import java.util.List;
-import java.util.Optional;
+public class CustomerServiceImpl extends ModelService<Customer, Long> implements CustomerService {
 
-public class CustomerServiceImpl implements CustomerService {
+    private static final long serialVersionUID = 3334344651928374654L;
+    private final CustomerRepository CRUD_REPOSITORY = new CustomerRepositoryImpl(Customer.class);
 
-    private final CustomerCrudRepositoryImpl CRUD_REPOSITORY = CustomerCrudRepositoryImpl.getInstance();
-    private static CustomerServiceImpl customerService;
-
-    public static CustomerServiceImpl getInstance() {
-        if (customerService == null) {
-            synchronized (CustomerServiceImpl.class) {
-                if (customerService == null) {
-                    customerService = new CustomerServiceImpl();
-                }
-            }
-        }
-        return customerService;
+    public CustomerServiceImpl(Class<Customer> classModel) {
+        super(classModel);
     }
 
     @Override
@@ -31,35 +22,5 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public void updateCustomer(Long id, String name, String city, Long budget) {
         CRUD_REPOSITORY.updateCustomer(id, name, city, budget);
-    }
-
-    @Override
-    public Optional<Customer> findById(Long id) {
-        return CRUD_REPOSITORY.findById(id);
-    }
-
-    @Override
-    public List<Customer> findAll() {
-        return CRUD_REPOSITORY.findAll();
-    }
-
-    @Override
-    public Customer create(Customer customer) {
-        return CRUD_REPOSITORY.create(customer);
-    }
-
-    @Override
-    public Customer update(Long id, Customer customer) {
-        return CRUD_REPOSITORY.update(id, customer);
-    }
-
-    @Override
-    public void delete(Long id) {
-        CRUD_REPOSITORY.delete(id);
-    }
-
-    @Override
-    public void close() {
-        CRUD_REPOSITORY.close();
     }
 }

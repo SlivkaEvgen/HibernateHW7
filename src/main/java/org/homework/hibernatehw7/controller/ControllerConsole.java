@@ -4,9 +4,12 @@ import org.homework.hibernatehw7.config.ScannerConsole;
 import org.homework.hibernatehw7.controller.interfaces.Controller;
 import org.homework.hibernatehw7.model.*;
 
+import java.io.Serializable;
 import java.util.Scanner;
 
-public class ControllerConsole implements Controller {
+public class ControllerConsole implements Controller, Serializable {
+
+    private static final long serialVersionUID = 3335144651928374654L;
 
     private final GetDeleteCommands<Developer, Long> developerMethods = new GetDeleteCommands<>(Developer.class);
     private final GetDeleteCommands<Project, Long> projectMethods = new GetDeleteCommands<>(Project.class);

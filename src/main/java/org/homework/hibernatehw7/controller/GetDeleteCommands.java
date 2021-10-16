@@ -2,21 +2,22 @@ package org.homework.hibernatehw7.controller;
 
 import org.homework.hibernatehw7.config.ScannerConsole;
 import org.homework.hibernatehw7.controller.interfaces.Controller;
-import org.homework.hibernatehw7.model.BaseModel;
-import org.homework.hibernatehw7.model.Developer;
-import org.homework.hibernatehw7.model.Skill;
+import org.homework.hibernatehw7.model.*;
 import org.homework.hibernatehw7.services.*;
 import org.homework.hibernatehw7.services.interfaces.Service;
 import org.homework.hibernatehw7.utils.Validator;
 
+import java.io.Serializable;
 import java.util.*;
 
-public class GetDeleteCommands<T extends BaseModel<ID>, ID> implements Controller {
+public class GetDeleteCommands<T extends BaseModel<ID>, ID> implements Controller, Serializable {
+
+    private static final long serialVersionUID = 3335344651928374654L;
 
     private final Class<T> modelClass;
     private final Scanner scanner = ScannerConsole.getInstance();
     private final Service<T, ID> service;
-    private final DeveloperServiceImpl developerService = DeveloperServiceImpl.getInstance();
+    private final DeveloperServiceImpl developerService = new DeveloperServiceImpl(Developer.class);
     private final Set<Skill> skillSet = new HashSet<>();
 
     public GetDeleteCommands(Class<T> modelClass) {
@@ -44,7 +45,7 @@ public class GetDeleteCommands<T extends BaseModel<ID>, ID> implements Controlle
         System.out.print(" ENTER COMPANY-ID \n\uD83D\uDC49 ");
         String companyId = scanner.next();
         try {
-            if (!Validator.validNumber(companyId) | !CompanyServiceImpl.getInstance().findById(Long.valueOf(companyId)).isPresent()) {
+            if (!Validator.validNumber(companyId) | !new CompanyServiceImpl(Company.class).findById(Long.valueOf(companyId)).isPresent()) {
                 System.out.println("Try again");
                 return enterCompanyId();
             }
@@ -59,7 +60,7 @@ public class GetDeleteCommands<T extends BaseModel<ID>, ID> implements Controlle
         System.out.print(" ENTER CUSTOMER-ID \n\uD83D\uDC49 ");
         String customerId = scanner.next();
         try {
-            if (!Validator.validNumber(customerId) | !CustomerServiceImpl.getInstance().findById(Long.valueOf(customerId)).isPresent()) {
+            if (!Validator.validNumber(customerId) | !new CustomerServiceImpl(Customer.class).findById(Long.valueOf(customerId)).isPresent()) {
                 System.out.println("Try again");
                 return enterCustomerId();
             }
@@ -74,7 +75,7 @@ public class GetDeleteCommands<T extends BaseModel<ID>, ID> implements Controlle
         System.out.print(" ENTER PROJECT-ID \n\uD83D\uDC49 ");
         String projectId = scanner.next();
         try {
-            if (!Validator.validNumber(projectId) | !ProjectServiceImpl.getInstance().findById(Long.valueOf(projectId)).isPresent()) {
+            if (!Validator.validNumber(projectId) | !new ProjectServiceImpl(Project.class).findById(Long.valueOf(projectId)).isPresent()) {
                 System.out.println("Try again");
                 return enterProjectId();
             }
@@ -340,7 +341,7 @@ public class GetDeleteCommands<T extends BaseModel<ID>, ID> implements Controlle
     }
 
     public void getListProjectsWithDate() {
-        System.out.println(ProjectServiceImpl.getInstance().getListProjectsWithDate() + "\n");
+        System.out.println(new ProjectServiceImpl(Project.class).getListProjectsWithDate() + "\n");
     }
 
     @Override

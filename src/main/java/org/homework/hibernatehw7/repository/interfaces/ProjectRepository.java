@@ -4,7 +4,7 @@ import org.homework.hibernatehw7.model.Project;
 
 import java.util.List;
 
-public interface ProjectCrudRepository extends CrudRepositoryJDBC<Project, Long> {
+public interface ProjectRepository extends CrudRepositoryJDBC<Project, Long> {
 
     List<String> getListProjectsWithDate();
 

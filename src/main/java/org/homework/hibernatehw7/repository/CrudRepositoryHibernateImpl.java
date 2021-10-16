@@ -5,13 +5,14 @@ import org.hibernate.query.criteria.JpaCriteriaQuery;
 import org.homework.hibernatehw7.model.BaseModel;
 import org.homework.hibernatehw7.repository.interfaces.CrudRepositoryJDBC;
 import org.homework.hibernatehw7.utils.HibernateSessionFactory;
-
 import java.io.Closeable;
+import java.io.Serializable;
 import java.util.List;
 import java.util.Optional;
 
-public class CrudRepositoryHibernateImpl<T extends BaseModel<ID>, ID> implements Closeable, CrudRepositoryJDBC<T, ID> {
+public class CrudRepositoryHibernateImpl<T extends BaseModel<ID>, ID> implements Closeable, CrudRepositoryJDBC<T, ID>, Serializable {
 
+    private static final long serialVersionUID = 3333354651928374654L;
     private final Class<T> modelClass;
 
     public CrudRepositoryHibernateImpl(Class<T> modelClass) {

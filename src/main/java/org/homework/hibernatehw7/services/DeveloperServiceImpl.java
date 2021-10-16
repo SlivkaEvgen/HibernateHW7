@@ -2,27 +2,20 @@ package org.homework.hibernatehw7.services;
 
 import org.homework.hibernatehw7.model.Developer;
 import org.homework.hibernatehw7.model.Skill;
-import org.homework.hibernatehw7.repository.DeveloperCrudRepositoryImpl;
+import org.homework.hibernatehw7.repository.DeveloperRepositoryImpl;
+import org.homework.hibernatehw7.repository.interfaces.DeveloperRepository;
 import org.homework.hibernatehw7.services.interfaces.DeveloperService;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 
-public class DeveloperServiceImpl implements DeveloperService {
+public class DeveloperServiceImpl extends ModelService<Developer, Long> implements DeveloperService {
 
-    private final DeveloperCrudRepositoryImpl CRUD_REPOSITORY = DeveloperCrudRepositoryImpl.getInstance();
-    private static DeveloperServiceImpl developerService;
+    private static final long serialVersionUID = 3334444651928374654L;
+    private final DeveloperRepository CRUD_REPOSITORY = new DeveloperRepositoryImpl(Developer.class);
 
-    public static DeveloperServiceImpl getInstance() {
-        if (developerService == null) {
-            synchronized (DeveloperServiceImpl.class) {
-                if (developerService == null) {
-                    developerService = new DeveloperServiceImpl();
-                }
-            }
-        }
-        return developerService;
+    public DeveloperServiceImpl(Class<Developer> classModel) {
+        super(classModel);
     }
 
     @Override
@@ -53,35 +46,5 @@ public class DeveloperServiceImpl implements DeveloperService {
     @Override
     public List<Developer> getDevelopersByLevel(String nameLevel) {
         return CRUD_REPOSITORY.getDevelopersByLevel(nameLevel);
-    }
-
-    @Override
-    public Optional<Developer> findById(Long id) {
-        return CRUD_REPOSITORY.findById(id);
-    }
-
-    @Override
-    public List<Developer> findAll() {
-        return CRUD_REPOSITORY.findAll();
-    }
-
-    @Override
-    public Developer create(Developer developer) {
-        return CRUD_REPOSITORY.create(developer);
-    }
-
-    @Override
-    public Developer update(Long id, Developer developer) {
-        return CRUD_REPOSITORY.update(id, developer);
-    }
-
-    @Override
-    public void delete(Long id) {
-        CRUD_REPOSITORY.delete(id);
-    }
-
-    @Override
-    public void close() {
-        CRUD_REPOSITORY.close();
     }
 }

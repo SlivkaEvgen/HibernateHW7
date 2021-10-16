@@ -2,7 +2,7 @@ package org.homework.hibernatehw7.repository.interfaces;
 
 import org.homework.hibernatehw7.model.Customer;
 
-public interface CustomerCrudRepository extends CrudRepositoryJDBC<Customer, Long> {
+public interface CustomerRepository extends CrudRepositoryJDBC<Customer, Long> {
 
     Customer createNewCustomer(String name, String city, Long budget);
 

@@ -40,6 +40,6 @@ public class Project implements BaseModel<Long> {
     @JoinColumn(name = "customer_id", updatable = false)
     private Customer customer;
 
-    @ManyToMany(mappedBy = "projects") //cascade = CascadeType.REFRESH, fetch = FetchType.LAZY)
+    @ManyToMany(mappedBy = "projects")
     private Set<Developer> developers;
 }

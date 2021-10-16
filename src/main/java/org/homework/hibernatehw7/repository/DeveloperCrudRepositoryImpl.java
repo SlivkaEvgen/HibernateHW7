@@ -1,5 +1,7 @@
 package org.homework.hibernatehw7.repository;
 
+import lombok.SneakyThrows;
+import org.hibernate.Session;
 import org.homework.hibernatehw7.model.Developer;
 import org.homework.hibernatehw7.model.Project;
 import org.homework.hibernatehw7.model.Skill;
@@ -7,6 +9,7 @@ import org.homework.hibernatehw7.repository.interfaces.CrudRepositoryJDBC;
 import org.homework.hibernatehw7.repository.interfaces.DeveloperCrudRepository;
 import org.homework.hibernatehw7.services.CompanyServiceImpl;
 import org.homework.hibernatehw7.services.ProjectServiceImpl;
+import org.homework.hibernatehw7.utils.HibernateSessionFactory;
 
 import java.util.*;
 
@@ -95,8 +98,23 @@ public class DeveloperCrudRepositoryImpl implements DeveloperCrudRepository {
         return skills;
     }
 
+    @SneakyThrows
+    public List<Developer> getByActivitySkill(String skillParameter){
+        Session session = HibernateSessionFactory.getSessionFactory().openSession();
+            String criteria = "select d from Developer d join d.skills s where s.activity =: activity group by d.id";
+            return session.createQuery(criteria,Developer.class).setParameter("activity",skillParameter).list();
+    }
+
+    @SneakyThrows
+    public List<Developer> getByLevelSkill(String skillParameter){
+        Session session = HibernateSessionFactory.getSessionFactory().openSession();
+        String criteria = "select d from Developer d join d.skills s where s.level =: level group by d.id";
+        return session.createQuery(criteria,Developer.class).setParameter("level",skillParameter).list();
+    }
+
     @Override
     public List<Developer> getDevelopersByLevel(String nameLevel) {
+//        return getByLevelSkill(nameLevel);
         return getBySkill(nameLevel);
     }
 

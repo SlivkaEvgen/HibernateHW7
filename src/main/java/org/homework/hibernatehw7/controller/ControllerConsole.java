@@ -22,12 +22,12 @@ public class ControllerConsole implements Controller {
     private String specialQuery = "";
     private String result = "";
     private final String startList = YELLOW + DARK_BLACK_BACK +
-                                     "_________________________________________________________________________________________________________________________\n" +
-                                     "| DEVELOPER    -> DV  | PROJECT     -> PR   | SKILL          -> SK  | CUSTOMER        -> CS    | COMPANY         -> CM  |\n" +
-                                     "| GET          -> G   | CREATE      -> C    | UPDATE         -> U   | DELETE          -> D     |                        |\n" +
-                                     "| PRO withDate -> PWD | DEV byLevel -> DBL  | DEV byActivity -> DBA | DEV byProjectId -> DBD   | DEV SumSalaries -> SS  |\n" +
-                                     "| SPECIAL      -> SPR | GET ByID    -> ByID | GET ALL        -> A   | THIS LIST       -> Q     | STOP            -> S   |\n" +
-                                     "-------------------------------------------------------------------------------------------------------------------------\n";
+            "_________________________________________________________________________________________________________________________\n" +
+            "| DEVELOPER    -> DV  | PROJECT     -> PR   | SKILL          -> SK  | CUSTOMER        -> CS    | COMPANY         -> CM  |\n" +
+            "| GET          -> G   | CREATE      -> C    | UPDATE         -> U   | DELETE          -> D     |                        |\n" +
+            "| PRO withDate -> PWD | DEV byLevel -> DBL  | DEV byActivity -> DBA | DEV byProjectId -> DBD   | DEV SumSalaries -> SS  |\n" +
+            "| SPECIAL      -> SPR | GET ByID    -> ByID | GET ALL        -> A   | THIS LIST       -> Q     | STOP            -> S   |\n" +
+            "-------------------------------------------------------------------------------------------------------------------------\n";
 
 
     @Override
@@ -162,10 +162,10 @@ public class ControllerConsole implements Controller {
     private String getSpecialQueries() {
         if (modelName.isEmpty() & crudName.isEmpty()) {
             String specials = YELLOW + DARK_BLACK_BACK +
-                              "--------------------------------------------------------------------------------------------------\n" +
-                              "| PROJECTS   withDATE    -> PWD   | DEVELOPERS ByLEVEL     -> DBL | DEVELOPERS ByACTIVITY -> DBA |\n" +
-                              "| DEVELOPERS ByProjectID -> DBD   | DEVELOPERS SumSALARIES -> SS  | MAIN LIST             -> Q   |\n" +
-                              "---------------------------------------------------------------------------------------------------\n";
+                    "--------------------------------------------------------------------------------------------------\n" +
+                    "| PROJECTS   withDATE    -> PWD   | DEVELOPERS ByLEVEL     -> DBL | DEVELOPERS ByACTIVITY -> DBA |\n" +
+                    "| DEVELOPERS ByProjectID -> DBD   | DEVELOPERS SumSALARIES -> SS  | MAIN LIST             -> Q   |\n" +
+                    "---------------------------------------------------------------------------------------------------\n";
             if (specialQuery.equalsIgnoreCase("withDate") | specialQuery.equalsIgnoreCase("PWD")) {
                 specialQuery = "withDate";
                 System.out.print("\n  ✅RESULT \uD83D\uDC47");
@@ -397,10 +397,10 @@ public class ControllerConsole implements Controller {
         if (crudName.isEmpty()) {
             System.out.println(" Choose query ");
             String crudString = YELLOW + DARK_BLACK_BACK +
-                                "______________________________________________\n" +
-                                "| GET    -> G | CREATE -> C | MAIN LIST -> Q |\n" +
-                                "| UPDATE -> U | DELETE -> D | STOP      -> S |\n" +
-                                "----------------------------------------------\n";
+                    "______________________________________________\n" +
+                    "| GET    -> G | CREATE -> C | MAIN LIST -> Q |\n" +
+                    "| UPDATE -> U | DELETE -> D | STOP      -> S |\n" +
+                    "----------------------------------------------\n";
             System.out.println(crudString);
             String crud = scanner.next();
             if (crud.equalsIgnoreCase("get") | crud.equalsIgnoreCase("g")) {
@@ -440,11 +440,11 @@ public class ControllerConsole implements Controller {
         if (modelName.isEmpty()) {
             System.out.println("Выбери модель");
             String getModelList = YELLOW + DARK_BLACK_BACK +
-                                  "____________________________________________________\n" +
-                                  "| COMPANY -> CM | CUSTOMER  -> CS | SKILL   -> SK |\n" +
-                                  "| PROJECT -> PR | DEVELOPER -> DV |               |\n" +
-                                  "| SPECIAL -> SP | MAIN LIST -> Q  | STOP     -> S |\n" +
-                                  "----------------------------------------------------\n";
+                    "____________________________________________________\n" +
+                    "| COMPANY -> CM | CUSTOMER  -> CS | SKILL   -> SK |\n" +
+                    "| PROJECT -> PR | DEVELOPER -> DV |               |\n" +
+                    "| SPECIAL -> SP | MAIN LIST -> Q  | STOP     -> S |\n" +
+                    "----------------------------------------------------\n";
             System.out.println(getModelList);
             String model = scanner.next();
             if (model.equalsIgnoreCase("skill") | model.equalsIgnoreCase("skl") | model.equalsIgnoreCase("sk")) {
@@ -486,10 +486,10 @@ public class ControllerConsole implements Controller {
 
     private String getBySmall() {
         String getBySmall = YELLOW + DARK_BLACK_BACK +
-                            "_______________________________\n" +
-                            "| BY ID     -> ID | ALL  -> A |\n" +
-                            "| MAIN LIST -> Q  | STOP -> S |\n" +
-                            "-------------------------------";
+                "_______________________________\n" +
+                "| BY ID     -> ID | ALL  -> A |\n" +
+                "| MAIN LIST -> Q  | STOP -> S |\n" +
+                "-------------------------------";
         System.out.println(getBySmall);
         String next = scanner.next();
         if (next.equalsIgnoreCase("byId") | next.equalsIgnoreCase("id")) {
@@ -538,11 +538,11 @@ public class ControllerConsole implements Controller {
 
     private void getByProject() {
         String getBy = YELLOW + DARK_BLACK_BACK +
-                       "_______________________________________________\n" +
-                       "| BY ID       -> ID    | All         -> A     |\n" +
-                       "| WithDATE    -> PWD   | MAIN LIST   -> Q     |\n" +
-                       "|                      | STOP        -> S     |\n" +
-                       "-----------------------------------------------\n";
+                "_______________________________________________\n" +
+                "| BY ID       -> ID    | All         -> A     |\n" +
+                "| WithDATE    -> PWD   | MAIN LIST   -> Q     |\n" +
+                "|                      | STOP        -> S     |\n" +
+                "-----------------------------------------------\n";
         System.out.println(getBy);
         String next = scanner.next();
         if (next.equalsIgnoreCase("byId") | next.equalsIgnoreCase("id")) {
@@ -568,12 +568,12 @@ public class ControllerConsole implements Controller {
 
     private String getByDeveloper() {
         String getByDev = YELLOW + DARK_BLACK_BACK +
-                          "_______________________________________________\n" +
-                          "| BY ID       -> ID    | All         -> A     |\n" +
-                          "| SumSALARIES -> SS    | ByProjectID -> DBD   |\n" +
-                          "| ByACTIVITY  -> DBA   | ByLEVEL     -> DBL   |\n" +
-                          "| MAIN LIST   -> Q     | STOP        -> S     |\n" +
-                          "-----------------------------------------------\n";
+                "_______________________________________________\n" +
+                "| BY ID       -> ID    | All         -> A     |\n" +
+                "| SumSALARIES -> SS    | ByProjectID -> DBD   |\n" +
+                "| ByACTIVITY  -> DBA   | ByLEVEL     -> DBL   |\n" +
+                "| MAIN LIST   -> Q     | STOP        -> S     |\n" +
+                "-----------------------------------------------\n";
         System.out.println(getByDev);
         String next = scanner.next();
         if (next.equalsIgnoreCase("byId") | next.equalsIgnoreCase("id")) {

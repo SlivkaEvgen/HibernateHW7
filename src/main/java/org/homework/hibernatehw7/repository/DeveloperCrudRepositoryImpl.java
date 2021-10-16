@@ -2,6 +2,7 @@ package org.homework.hibernatehw7.repository;
 
 import lombok.SneakyThrows;
 import org.hibernate.Session;
+import org.hibernate.query.Query;
 import org.homework.hibernatehw7.model.Developer;
 import org.homework.hibernatehw7.model.Project;
 import org.homework.hibernatehw7.model.Skill;
@@ -61,61 +62,65 @@ public class DeveloperCrudRepositoryImpl implements DeveloperCrudRepository {
         update(id, developer);
     }
 
+//    @Override
+//    public Long getSumSalariesDevelopersOfOneProject(Long projectId) {
+//        Long sumSalaries = 0L;
+//        for (Developer developer : getDevelopersFromOneProject(projectId)) {
+//            sumSalaries += developer.getSalary();
+//        }
+//        return sumSalaries;
+//    }
+
     @Override
     public Long getSumSalariesDevelopersOfOneProject(Long projectId) {
-        Long sumSalaries = 0L;
-        for (Developer developer : getDevelopersFromOneProject(projectId)) {
-            sumSalaries += developer.getSalary();
-        }
-        return sumSalaries;
+        Session session = HibernateSessionFactory.getSessionFactory().openSession();
+        String criteria = "select d.salary from Developer d join d.projects p where p.id =: id group by d.id";
+        List<Long> longs = session.createQuery(criteria, Long.class).setParameter("id", projectId).list();
+        return longs.stream().mapToLong(aLong -> aLong).sum();
     }
+
+    //    @Override
+//    public List<Developer> getDevelopersFromOneProject(Long projectId) {
+//        List<Developer> developersOfOneProject = new ArrayList<>();
+//        findAll().forEach(developer -> new ArrayList<>(developer.getProjects())
+//                .stream()
+//                .filter(project -> project.getId().equals(projectId))
+//                .map(project -> developer)
+//                .forEach(developersOfOneProject::add));
+//        return developersOfOneProject;
+//    }
 
     @Override
     public List<Developer> getDevelopersFromOneProject(Long projectId) {
-        List<Developer> developersOfOneProject = new ArrayList<>();
-        findAll().forEach(developer -> new ArrayList<>(developer.getProjects())
-                .stream()
-                .filter(project -> project.getId().equals(projectId))
-                .map(project -> developer)
-                .forEach(developersOfOneProject::add));
-        return developersOfOneProject;
+        Session session = HibernateSessionFactory.getSessionFactory().openSession();
+        String criteria = "select d from Developer d join d.projects p where p.id =: id group by d.id";
+        return session.createQuery(criteria, Developer.class).setParameter("id", projectId).list();
     }
+
+//    private List<Developer> getBySkillParameter(String skillParameter) {
+//        List<Developer> skills = new ArrayList<>();
+//        findAll().forEach(developer -> new ArrayList<>(developer.getSkills()).forEach(skill -> {
+//            String activity = skill.getActivity();
+//            String skillLevel = skill.getLevel();
+//            if (activity.equalsIgnoreCase(skillParameter) | skillLevel.equalsIgnoreCase(skillParameter)) {
+//                skills.add(developer);
+//            }
+//        }));
+//        return skills;
+//    }
 
     @Override
     public List<Developer> getDevelopersByActivity(String nameActivity) {
-        return getBySkill(nameActivity);
-    }
-
-    private List<Developer> getBySkill(String skillParameter) {
-        List<Developer> skills = new ArrayList<>();
-        findAll().forEach(developer -> new ArrayList<>(developer.getSkills()).forEach(skill -> {
-            String activity = skill.getActivity();
-            String skillLevel = skill.getLevel();
-            if (activity.equalsIgnoreCase(skillParameter) | skillLevel.equalsIgnoreCase(skillParameter)) {
-                skills.add(developer);
-            }
-        }));
-        return skills;
-    }
-
-    @SneakyThrows
-    public List<Developer> getByActivitySkill(String skillParameter){
         Session session = HibernateSessionFactory.getSessionFactory().openSession();
-            String criteria = "select d from Developer d join d.skills s where s.activity =: activity group by d.id";
-            return session.createQuery(criteria,Developer.class).setParameter("activity",skillParameter).list();
-    }
-
-    @SneakyThrows
-    public List<Developer> getByLevelSkill(String skillParameter){
-        Session session = HibernateSessionFactory.getSessionFactory().openSession();
-        String criteria = "select d from Developer d join d.skills s where s.level =: level group by d.id";
-        return session.createQuery(criteria,Developer.class).setParameter("level",skillParameter).list();
+        String criteria = "select d from Developer d join d.skills s where s.activity =: activity group by d.id";
+        return session.createQuery(criteria, Developer.class).setParameter("activity", nameActivity).list();
     }
 
     @Override
     public List<Developer> getDevelopersByLevel(String nameLevel) {
-//        return getByLevelSkill(nameLevel);
-        return getBySkill(nameLevel);
+        Session session = HibernateSessionFactory.getSessionFactory().openSession();
+        String criteria = "select d from Developer d join d.skills s where s.level =: level group by d.id";
+        return session.createQuery(criteria, Developer.class).setParameter("level", nameLevel).list();
     }
 
     @Override

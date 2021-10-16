@@ -13,12 +13,14 @@ public class SkillRepositoryImpl extends ModelCrudRepositoryImpl<Skill, Long> im
 
     @Override
     public Skill createNewSkill(String activity, String level) {
-//        for (Skill skill:findAll()) {
-//            if (skill.getLevel().equalsIgnoreCase(level)&&skill.getActivity().equalsIgnoreCase(activity)){
-//                System.out.println(" Already have such a skill "+ skill);
-//                return skill;
-//            }
-//        }
+        // ( ! )if only the declared skills ->
+        
+        //        for (Skill skill:findAll()) {
+        //            if (skill.getLevel().equalsIgnoreCase(level)&&skill.getActivity().equalsIgnoreCase(activity)){
+        //                System.out.println(" Already have such a skill "+ skill);
+        //                return skill;
+        //            }
+        //        }
         return create(Skill.builder().activity(activity).level(level).build());
     }
 

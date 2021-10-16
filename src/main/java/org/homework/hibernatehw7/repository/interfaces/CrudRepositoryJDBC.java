@@ -19,5 +19,4 @@ public interface CrudRepositoryJDBC<T extends BaseModel<ID>, ID> {
 
     void close();
 
-    //    List<T> createAll(Iterable<T> itbl);
 }

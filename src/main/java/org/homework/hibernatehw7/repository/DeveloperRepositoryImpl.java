@@ -84,7 +84,7 @@ public class DeveloperRepositoryImpl extends ModelCrudRepositoryImpl<Developer, 
     }
 }
 
-/// variants
+/// Other variants
 
 //    @Override
 //    public Long getSumSalariesDevelopersOfOneProject(Long projectId) {

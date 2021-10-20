@@ -13,9 +13,9 @@ public class Main {
 
          new ControllerConsole().start();
 
-        CompanyService serviceFactory = new CompanyServiceImpl(Company.class);
-        Service<Company, Long> service = ServiceFactory.of(Company.class);
-        CompanyService  longService = (CompanyService) ServiceFactory.of(Company.class);
+//        CompanyService serviceFactory = new CompanyServiceImpl(Company.class);
+//        Service<Company, Long> service = ServiceFactory.of(Company.class);
+//        CompanyService  longService = (CompanyService) ServiceFactory.of(Company.class);
 
     }
 }
